@@ -70,6 +70,9 @@ local function read(cursor)
     if type(batch) ~= "table" or batch.apiVersion ~= 1 or type(batch.cursor) ~= "string" then
         return nil, "invalid"
     end
+    if A.NormalizeCombatBatch then
+        batch = A.NormalizeCombatBatch(batch)
+    end
     return batch
 end
 local function enabled(run)
@@ -144,6 +147,9 @@ function A.V2CombatTick(run)
     while batch and pages < 8 do
         pages = pages + 1
         summary.batches = summary.batches + 1
+        if batch.gap then
+            summary.gaps = summary.gaps + 1
+        end
         local dropped = number(batch.droppedCount)
         if batch.droppedCount ~= nil and not dropped then
             summary.invalid = summary.invalid + 1
@@ -198,6 +204,8 @@ function A.V2CombatTick(run)
                     else
                         summary.invalid = summary.invalid + 1
                     end
+                elseif e.kind == "heal" then
+                    -- Performed healing is read from the native healing meter.
                 elseif e.kind == "miss" then
                     summary.misses = summary.misses + 1
                 else

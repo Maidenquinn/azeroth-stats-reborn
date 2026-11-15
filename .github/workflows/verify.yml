@@ -25,7 +25,7 @@ jobs:
           curl --fail --location --output /tmp/stylua.zip https://github.com/JohnnyMorganz/StyLua/releases/download/v2.6.0/stylua-linux-x86_64.zip
           echo 'a485f72bbfa22e4642e77a84b5edc2611a5cab7477b34e2e709dd8f78e919895  /tmp/stylua.zip' | sha256sum --check
           unzip /tmp/stylua.zip -d /tmp/azerothstats-stylua
-          /tmp/azerothstats-stylua/stylua --check AzerothStats
+          /tmp/azerothstats-stylua/stylua --check AzerothStats reborn
       - run: python tools/build_catalogs.py --check
       - run: python tools/build_theme_assets.py --check
       - run: python tools/build_grimoire_assets.py --check
@@ -53,3 +53,22 @@ jobs:
       - run: python -m pip install -r requirements-dev.txt
       - name: Run all offline Lua model tests, manifest and LOT 1 assertions
         run: python tools/checks.py
+
+  reborn-port:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r requirements-dev.txt
+      - run: python tools/verify_reborn.py
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: AzerothStatsReborn-development-candidate
+          path: |
+            build/AzerothStatsReborn-*.zip
+            build/AzerothStatsReborn-*.zip.sha256
+            build/reborn-validation.json
+          retention-days: 7
+          if-no-files-found: error

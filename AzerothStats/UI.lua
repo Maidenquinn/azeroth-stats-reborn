@@ -253,6 +253,9 @@ end
 
 --- Resolve a fixed class atlas or a validated Interface icon path, with a known fallback.
 local function icon(tex, name, cls)
+    if A.RebornClassIcon and cls and not coords[cls] then
+        name = A.RebornClassIcon(cls)
+    end
     tex.themeGlyph = nil
     tex:SetVertexColor(1, 1, 1)
     if cls and coords[cls] then
