@@ -32,7 +32,16 @@ The initial client test exposed missing dialog controls, generic spell/encounter
 
 All five recent windows are retained at bounded sampling points for new observations. Older histories retain only evidence actually recorded by their candidate; missing windows have an explicit unavailable state. Segment actions require selection of the active run, so browsing an old run cannot silently create a checkpoint in the live run.
 
-The corrective actual-client recipe is pending reload of the second candidate while the user's game remains paused. Offline mocks are not evidence for pixels, asset loading, native UI input, all three new-class gameplay scenarios or real multiplayer. Backup restoration is exercised on synthetic saves; the live recipe must not overwrite or delete the user's history.
+Corrective live-client recipe completed on 2026-11-15 at 1920×1080, window scale 0.80, with candidate `.2-dev` visibly loaded. The user's Arathi Basin run stayed paused at 00:54 throughout the controls:
+
+- All five theme previews rendered with visible, clickable child controls; Cancel restored the original Chroniques theme and English preference was preserved.
+- Backup-manager controls rendered. Creating a backup correctly refused during the active run with the between-runs restriction. Actual creation/listing still needs a between-runs check.
+- Local-data preview rendered its scope controls, candidate history, protected-run count, report preview and Cancel/Review actions. Cancel exited without deletion.
+- The active Paladin loadout displayed distinct actual spell icons. The historical Un'Goro encounter list displayed the five distinct bundled NPC portraits rather than a common sword.
+- The live 5-second report correctly showed insufficient native history after reload; 120 seconds returned 502/s total and source rates. The old run explicitly reported its 120-second window as unrecorded.
+- Start segment on the old run opened the segment page with a current-run-selection notice, without creating a live checkpoint. The active start/end measurement path remains covered offline and needs a gameplay check with elapsed combat time.
+
+These observations do not establish all three new-class gameplay scenarios or real multiplayer. Backup restoration is exercised on synthetic saves; the live recipe must not overwrite or delete the user's history. The overview's compact highlights also showed literal newline separators in existing journal text; this cosmetic issue remains open before stable release.
 
 Required live checks: discovery/enabling after a new folder install; clean launch; automatic FR and manual EN; all five themes; character/equipment rows and tooltips; selection/pause overlays; window sizing and resolution; actual damage/healing changes; reload continuity; portal transitions; victory/death/abandon; campaign/endless; native/FieldKit coexistence; coop; long-run memory behaviour.
 
