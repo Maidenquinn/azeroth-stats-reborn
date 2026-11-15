@@ -1,0 +1,85 @@
+{
+  "scope": "Actual installed Lua in Lua 5.1 with mocked host/UI and synthetic packets. Not a live client or server validation. No saves read. PASS confirms audit observations, not port readiness.",
+  "checks": [
+    {
+      "name": "native difficulty",
+      "observed": 3,
+      "meaning": "Reborn exports dt"
+    },
+    {
+      "name": "native class catalogue",
+      "observed": 12,
+      "meaning": "Reborn has twelve class records"
+    },
+    {
+      "name": "native zone catalogue",
+      "observed": 48,
+      "meaning": "Reborn has forty-eight zone records"
+    },
+    {
+      "name": "old difficulty adapter",
+      "observed": null,
+      "meaning": "Missing heroic field remains unknown"
+    },
+    {
+      "name": "old monk identity",
+      "observed": "unknown",
+      "meaning": "Monk rejected by nine-class allowlist"
+    },
+    {
+      "name": "legacy damage",
+      "observed": 200,
+      "meaning": "Existing reader accepts native meter rows"
+    },
+    {
+      "name": "legacy healing",
+      "observed": 50,
+      "meaning": "Existing reader accepts performed healing rows"
+    },
+    {
+      "name": "native stable ID",
+      "observed": "azs:r12345678",
+      "meaning": "Native stable run identity available"
+    },
+    {
+      "name": "combat batch version",
+      "observed": 1,
+      "meaning": "Native exported batch is valid"
+    },
+    {
+      "name": "combat streamId",
+      "observed": null,
+      "meaning": "Native contract lacks required original streamId"
+    },
+    {
+      "name": "old observer rejection",
+      "observed": 1,
+      "meaning": "Existing observer rejects native batch before collecting events"
+    },
+    {
+      "name": "missing combat capability endpoint",
+      "observed": "nil",
+      "meaning": "Capability endpoint absent although feed exists"
+    },
+    {
+      "name": "native snapshots",
+      "observed": "function",
+      "meaning": "Structured meter extension exists"
+    },
+    {
+      "name": "native checkpoints",
+      "observed": "function",
+      "meaning": "Atomic checkpoints available"
+    },
+    {
+      "name": "computed meter freshness stamp",
+      "observed": "number",
+      "meaning": "Computed export is present despite static not-found"
+    },
+    {
+      "name": "terminal reader",
+      "observed": "victory",
+      "meaning": "Reader accepts compatible terminal payload; server scenarios still require live recipe"
+    }
+  ]
+}

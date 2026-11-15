@@ -1,0 +1,7 @@
+{
+  "url": "https://azreborn.com/guides/addon-api/",
+  "checkedUTC": "2026-11-15T16:08:32.930635+00:00",
+  "httpStatus": 200,
+  "sha256": "7edd73dd2cf8c65a26ac4a79d57ea5f7d8a3b56fefa4887c71f8f28133240fcf",
+  "note": "Public guide checked for documented exports; local installed implementation and hashes in API-INVENTORY are the target contract. No guide contents redistributed."
+}
