@@ -144,6 +144,7 @@ local overlayRoots = {
     AzerothStatsWindow = true,
     AzerothStatsMenu = true,
     AzerothStatsThemePicker = true,
+    AzerothStatsBackupManager = true,
     AzerothStatsRetentionConfirmation = true,
     AzerothStatsDataManagement = true,
     AzerothStatsEntryReview = true,

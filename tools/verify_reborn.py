@@ -13,6 +13,15 @@ lua = LuaRuntime(unpack_returned_tuples=True)
 lua.execute((ROOT / "AzerothStats/tests/mock.lua").read_text(encoding="utf8"))
 lua.execute(
     """
+-- Reproduce Reborn's non-inheriting child levels/strata instead of the old lazy mock.
+local frameMethods=getmetatable(UIParent).__index
+function frameMethods:GetChildren()
+ local children={};for _,v in ipairs(self.children or {}) do if v.kind~='Texture' and v.kind~='FontString' then table.insert(children,v) end end;return unpack(children)
+end
+function frameMethods:GetFrameStrata() return self.strata or 'MEDIUM' end
+function frameMethods:SetFrameStrata(value) self.strata=value end
+local makeFrame=CreateFrame
+function CreateFrame(...) local f=makeFrame(...);f.frameLevel=0;f.strata='MEDIUM';return f end
 ORIGINAL={sentinel=true};AzerothStatsDB=ORIGINAL
 AzerothStatsBackup={untouched=true};AzerothStatsAutoBackup={untouched=true}
 UnitClass=function() return 'Moine','MONK' end
@@ -20,6 +29,7 @@ UnitName=function() return 'Tester' end
 GetLocale=function() return 'frFR' end
 AZS_LOCALE='frFR'
 time=function() return 1000 end
+date=function() return '2026-01-01 00:00' end
 IsLoggedIn=function() return true end
 GetCVar=function() return '' end
 GetSpellInfo=function(id) return 'Test Spell',nil,'Interface\\\\Icons\\\\Spell_Frost_FrostBolt02' end
@@ -52,7 +62,7 @@ AZS_GetPhase=function() return AZS_ZONE.hub~=1 and AZS_RUN.ph or nil end
 AZS_GetMeterContext=function(...) assert(select('#',...)==0);return {runId='azs:'..AZS_ZONE.run,uiSessionId='u1',asOfRunSeconds=AZS_RUN.t,languageCode='fr'} end
 AZS_GetMeterCapabilities=function(...) assert(select('#',...)==0);return {apiVersion=1,uiSessionId='u1'} end
 AZS_GetMeterSnapshot=function(q) assert(type(q)=='table' and q.windowSeconds<=120 and q.runId=='azs:'..AZS_ZONE.run);return {apiVersion=1,totals={recentRate={status='ready',value=100,approximate=true},displayAmount=1000},rows={}} end
-AZS_GetMeterLoadout=function(q) return {complete=true,sources={a={abilityKey='auto_shot',name='Auto Shot',spellIds={75}},j={itemKey='test_jewel',name='Test Jewel',rank=4}},abilities={{sourceKey='a',rank=2}},runJewelry={{sourceKey='j',slotId=13}}} end
+AZS_GetMeterLoadout=function(q) return {complete=true,sources={a={abilityKey='auto_shot',name='Auto Shot',spellIds={75},icon={status='ready',path='Interface\\\\Icons\\\\Ability_Whirlwind'}},j={itemKey='test_jewel',name='Test Jewel',rank=4}},abilities={{sourceKey='a',rank=2}},runJewelry={{sourceKey='j',slotId=13}}} end
 AZS_GetCombatTextEvents=function() return {apiVersion=1,cursor='ct:1',events={},gap=false} end
 AZS_CreateMeterCheckpoint=function(id) assert(type(id)=='string');return {checkpointId='cp:1',runId=id} end
 AZS_ReleaseMeterCheckpoint=function(id) assert(type(id)=='string');return true end
@@ -113,6 +123,17 @@ AZS_RUN.endless=1;A.Sample();check(A.run.reborn.endless and table.getn(A.run.reb
 AZS_ZONE.hub=1;local n=table.getn(A.db.runs);A.Sample();check(table.getn(A.db.runs)==n,'hub does not create run')
 AZS_ZONE.hub=nil
 
+
+local selected=A.view.selected
+A.view.selected=A.db.runs[1].id
+check(A.RebornSection('Reborn:start')=='RebornSegments' and not A.RebornSegmentState(),'historical report cannot start a hidden live segment')
+A.view.selected=selected
+local oldQuery=AZS_GetMeterSnapshot
+AZS_GetMeterSnapshot=function(q) return {totals={recentRate={status='ready',value=q.windowSeconds},windowAmount=q.windowSeconds*10},rows={}} end
+A.view.reportSection=A.RebornSection('Reborn:5');local m5={rows={}};A.ReportModel(m5,A.run)
+A.view.reportSection=A.RebornSection('Reborn:120');local m120={rows={}};A.ReportModel(m120,A.run)
+check(m5.title~=m120.title and m5.rows[1].value~=m120.rows[1].value,'selected windows render distinct titles and native data')
+AZS_GetMeterSnapshot=oldQuery
 local savedFeed=AZS_GetCombatTextEvents
 local feedN=0
 AZS_GetCombatTextEvents=function(cursor) feedN=feedN+1;return {apiVersion=1,cursor='probe:'..feedN,gap=true,events={{kind='damage',amount=125,school=4,critical=true,periodic=true,meterSource='Auto Shot'},{kind='heal',amount=25}}} end
@@ -122,7 +143,7 @@ check(sum.hits==1 and sum.damageObserved==125 and sum.critical==1 and sum.period
 check(sum.invalid==0 and sum.gaps==1,'heals are not malformed damage and gaps are retained')
 check(sum.schools['4'].damage==125,'native school retained')
 AZS_GetCombatTextEvents=savedFeed
-check(A.RebornSection('Reborn:60')=='Reborn' and A.rebornWindow==60,'window UI choice wired')
+check(A.RebornSection('Reborn:60')=='RebornWindow' and A.rebornWindow==60,'window UI choice wired')
 
 UnitGUID=function() return 'player:1' end
 local deathFrame=getglobal('AzerothStatsRebornDeathLog')
@@ -166,6 +187,7 @@ if not args.game:
     lua.execute(
         """
 check(A.run.reborn.loadout.jewelry[1].rank==4,'jewelry rank retained')
+check(type(A.run.reborn.loadout.abilities[1].icon)=='string','structured native icon descriptor decoded')
 check(table.getn(A.run.reborn.guardians)==1,'no empty guardian observations')
 for _,theme in ipairs(A.themeOrder) do
  A.UseTheme(theme);local model={rows={}};A.view.reportSection='Reborn';A.ReportModel(model,A.run)
@@ -179,6 +201,48 @@ lua.execute(
 )
 lua.execute(
     "A.BuildUI();for _,theme in ipairs(A.themeOrder) do A.UseTheme(theme);A.ApplyUI();A.RefreshUI();check(A.window~=nil,'all five themes build actual UI widgets') end"
+)
+lua.execute(
+    """
+
+local backups=A.ListDataBackups(false);local backup=backups[table.getn(backups)]
+A.db.settings.rebornWindow=117
+check(A.RestoreDataBackup(backup.id,false),'real Reborn backup restores validated snapshot')
+check(A.db.settings.rebornWindow~=117 and A.db.game==A.game,'backup restores saved preferences and game identity')
+local count=table.getn(A.db.runs)
+local plan=A.DataPlan('history')
+check(plan~=nil and table.getn(A.db.runs)==count,'data preview is read-only')
+A.ToggleUI(true)
+A.OpenThemePicker();A.RebornRepairLayers()
+local dialog=A.ui.themeDialog
+check(table.getn(dialog.options)==5,'theme choices exist')
+for _,option in ipairs(dialog.options) do
+ check(option:GetFrameLevel()>dialog:GetFrameLevel() and option:GetFrameStrata()==dialog:GetFrameStrata(),'theme choice stays above its panel')
+end
+A.window:SetFrameLevel(10000);A.RebornRepairLayers()
+check(dialog:GetFrameLevel()>A.ui.themeBlocker:GetFrameLevel(),'dialog above blocker after native raise')
+check(dialog.apply:GetFrameLevel()>dialog:GetFrameLevel(),'Apply button survives raised window')
+A.window:SetFrameLevel(100);A.RebornRepairLayers()
+for _,id in ipairs(A.themeOrder) do A.PreviewTheme(id);A.CloseThemePicker(true);check(A.db.settings.theme==id,'theme apply persists selected style');A.OpenThemePicker() end
+A.CloseThemePicker(false)
+A.OpenDataManagement();A.RebornRepairLayers()
+check(A.ui.dataDialog.actions[1]:GetFrameLevel()>A.ui.dataDialog:GetFrameLevel(),'local data actions above dialog surface')
+A.ui.dataDialog:Hide();A.ui.dataBlocker:Hide()
+A.view.tab=8;A.RefreshUI()
+for _,control in ipairs(A.ui.controls) do
+ if control.label and control.label:GetText()=='Gérer les sauvegardes' then control.callback(control);break end
+end
+A.RebornRepairLayers()
+local manager=getglobal('AzerothStatsRebornBackupManager')
+check(manager~=nil,'backup manager opens')
+local managerButtons=0
+for _,child in ipairs({manager:GetChildren()}) do
+ if child.kind=='Button' then managerButtons=managerButtons+1;check(child:GetFrameLevel()>manager:GetFrameLevel(),'backup controls above surface') end
+end
+check(managerButtons>4,'backup manager exposes history and actions')
+check(A.RebornNpcIcon('Matriarche ravasaure'):find('Nemesis%-d11319'), 'actual ravasaur portrait')
+check(A.RebornNpcIcon("Uhk'loc")~=A.RebornNpcIcon('Roi Mosh'),'different bosses keep different actual portraits')
+"""
 )
 for path in target.glob("*.lua"):
 

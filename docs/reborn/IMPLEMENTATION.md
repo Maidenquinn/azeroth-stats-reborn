@@ -1,6 +1,6 @@
 # Reborn implementation and acceptance status
 
-Development candidate: `0.1.0-reborn.1-dev`. No stable release is authorized by this document.
+Development candidate: `0.1.0-reborn.2-dev`. No stable release is authorized by this document.
 
 ## Runtime and storage
 
@@ -28,7 +28,11 @@ A game marker is required in the Reborn database and backups. Original-game hist
 
 ## Remaining acceptance work
 
-The actual-client visual recipe remains pending while the user's current run finishes. Offline mocks are not evidence for pixels, asset loading, native UI input, all three new-class gameplay scenarios or real multiplayer.
+The initial client test exposed missing dialog controls, generic spell/encounter icons and recent-window actions routed to the generic Reborn report. The second candidate explicitly orders Stats child frames above their parent surfaces, decodes structured native icon descriptors, resolves bundled NPC portraits/native creature icons, and separates recent-window and segment reports. Offline regression tests now simulate non-inherited child frame levels, including a native raise and restore of the main window.
+
+All five recent windows are retained at bounded sampling points for new observations. Older histories retain only evidence actually recorded by their candidate; missing windows have an explicit unavailable state. Segment actions require selection of the active run, so browsing an old run cannot silently create a checkpoint in the live run.
+
+The corrective actual-client recipe is pending reload of the second candidate while the user's game remains paused. Offline mocks are not evidence for pixels, asset loading, native UI input, all three new-class gameplay scenarios or real multiplayer. Backup restoration is exercised on synthetic saves; the live recipe must not overwrite or delete the user's history.
 
 Required live checks: discovery/enabling after a new folder install; clean launch; automatic FR and manual EN; all five themes; character/equipment rows and tooltips; selection/pause overlays; window sizing and resolution; actual damage/healing changes; reload continuity; portal transitions; victory/death/abandon; campaign/endless; native/FieldKit coexistence; coop; long-run memory behaviour.
 

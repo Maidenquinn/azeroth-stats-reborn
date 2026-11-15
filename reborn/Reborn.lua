@@ -283,6 +283,9 @@ function A.RebornSnapshot(metric, seconds, scope, checkpoint)
     return native(AZS_GetMeterSnapshot, q)
 end
 local segment
+function A.RebornSegmentState()
+    return segment and { runId = segment.runId, start = segment.start } or nil
+end
 function A.RebornStartSegment()
     if not A.run or A.run.status ~= "active" then
         return nil, { code = "NO_LIVE_RUN" }
@@ -324,6 +327,8 @@ function A.RebornEndSegment()
         healing = healing and healing.totals,
         partial = not healing,
         runId = active.runId,
+        stop = damage.context and damage.context.asOfRunSeconds
+            or (A.run and A.run.values.duration),
     }
     if A.run and A.run.nativeRunId == active.runId then
         local r = A.run.reborn
@@ -369,7 +374,8 @@ function A.ObserveBuild(run)
                 name = text(s.name),
                 rank = A.Number(item.rank),
                 spell = s.spellIds and s.spellIds[1],
-                icon = A.TexturePath(s.icon),
+                icon = A.TexturePath(type(s.icon) == "table" and s.icon.path or s.icon)
+                    or A.SpellIcon(s.name),
                 description = AZS_SPELLTIPS and text(AZS_SPELLTIPS[s.abilityKey]),
             })
         end
@@ -386,7 +392,8 @@ function A.ObserveBuild(run)
                 name = text(s.name),
                 rank = A.Number(s.rank),
                 slot = item.slotId,
-                icon = A.TexturePath(s.icon),
+                icon = A.TexturePath(type(s.icon) == "table" and s.icon.path or s.icon)
+                    or A.SpellIcon(s.name),
             }
             local gear = AZS_GEAR and AZS_GEAR[index]
             if gear and gear.name == s.name then

@@ -6,7 +6,7 @@ from package_policy import public_files
 from security_review import tokens, FORBIDDEN
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.1.0-reborn.1-dev"
+VERSION = "0.1.0-reborn.2-dev"
 NAME = "AzerothStatsReborn"
 
 
@@ -60,11 +60,13 @@ def build(output=ROOT / "build"):
                 text = text.replace(
                     "## Author:", "## Dependencies: AzerothSurvivorsAPI\n## Author:"
                 )
-                text = text.replace("Core.lua", "RebornNames.lua\nReborn.lua\nCore.lua")
+                text = text.replace(
+                    "Core.lua", "RebornNames.lua\nReborn.lua\nRebornFixes.lua\nCore.lua"
+                )
             if name == "Core.lua":
                 text = text.replace(
                     '"Combat Intelligence",',
-                    '"Combat Intelligence",\n                    "Reborn",',
+                    '"Combat Intelligence",\n "Reborn", "RebornWindow", "RebornSegments",',
                 )
             if name in {"Core.lua", "V2UI.lua"}:
                 text = text.replace(
@@ -79,16 +81,25 @@ def build(output=ROOT / "build"):
                         '{ "Reborn:%d", "Reborn · %d s" },' % (n, n)
                         for n in (5, 15, 30, 60, 120)
                     )
-                    + '\n{ "Reborn:start", "Start segment" },\n{ "Reborn:end", "End segment" },',
+                    + '\n{ "Reborn:segments", "Segments" },\n{ "Reborn:start", "Start segment" },\n{ "Reborn:end", "End segment" },',
                 )
             data = text.encode("utf8")
         files[dest] = data
     files["Reborn.lua"] = (
         (ROOT / "reborn/Reborn.lua").read_text(encoding="utf8").encode("utf8")
     )
+    files["RebornFixes.lua"] = (
+        (ROOT / "reborn/RebornFixes.lua").read_text(encoding="utf8").encode("utf8")
+    )
     names = json.loads((ROOT / "data/reborn-names.json").read_text(encoding="utf8"))
     files["RebornNames.lua"] = (
         NAME + ".rebornNames = " + lua_literal(names["languages"]) + "\n"
+    ).encode("utf8")
+    creatures = json.loads(
+        (ROOT / "data/reborn-creature-icons.json").read_text(encoding="utf8")
+    )
+    files["RebornNames.lua"] += (
+        NAME + ".rebornCreatureIcons = " + lua_literal(creatures["names"]) + "\n"
     ).encode("utf8")
     files["README.md"] = (
         (ROOT / "reborn/PLAYER-README.md").read_text(encoding="utf8").encode("utf8")
