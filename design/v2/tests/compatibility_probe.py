@@ -15,9 +15,17 @@ from lupa.lua51 import LuaRuntime, lua_type
 
 ROOT = Path(__file__).resolve().parents[3]
 TAGS = ["v1.6.2-beta.1", "v1.7.0-beta.1", "0a3b414"]
+# Keep historical fixtures available in the dedicated Reborn repository without
+# importing the original game's release tags. These commits are ancestors of main.
+HISTORICAL_COMMITS = {
+    "v1.6.2-beta.1": "4aea3fc79875967a379276eaa20cb222e98fc2d4",
+    "v1.7.0-beta.1": "6d551e73ea4b4bee94716c7fdab3617f811875e4",
+    "v1.7.1-beta.1": "32d1db27ada628197a8665e200d24c047464b753",
+}
 
 
 def source(ref, name):
+    ref = HISTORICAL_COMMITS.get(ref, ref)
     return subprocess.check_output(
         ["git", "show", f"{ref}:AzerothStats/{name}"], cwd=ROOT
     ).decode("utf-8-sig")
