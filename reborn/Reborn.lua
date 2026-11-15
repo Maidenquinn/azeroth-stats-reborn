@@ -61,6 +61,7 @@ local fr = {
     ["Observed only"] = "Observations uniquement",
     ["Recent DPS"] = "DPS récent",
     ["Recent HPS"] = "HPS récent",
+    ["Sampled"] = "Échantillonné",
     ["Timers observed"] = "Minuteries observées",
     ["Totems observed"] = "Totems observés",
     ["Fatal hit observed"] = "Coup fatal observé",
@@ -552,10 +553,12 @@ function A.ReportModel(model, run)
                     .. " s · "
                     .. (
                         rate
-                            and (rate.reason or (rate.approximate and A.T("Partial native history")) or A.T(
+                            and (rate.reason and A.T("Partial native history") or (rate.status == "warming_up" and A.T(
+                                "Waiting"
+                            )) or (rate.approximate and A.T("Sampled")) or A.T(
                                 "Observed only"
                             ))
-                        or (err and err.code)
+                        or (err and A.T("Native API unavailable"))
                         or ""
                     )
             )
