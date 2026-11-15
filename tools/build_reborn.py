@@ -42,6 +42,7 @@ def build(output=ROOT / "build"):
         if Path(name).suffix in {".lua", ".toc", ".md"}:
             text = (
                 data.decode("utf8")
+                .replace("\r\n", "\n")
                 .replace("AzerothStats", NAME)
                 .replace("Azeroth Stats", "Azeroth Stats Reborn")
                 .replace("/azstats", "/azstatsr")
@@ -82,12 +83,16 @@ def build(output=ROOT / "build"):
                 )
             data = text.encode("utf8")
         files[dest] = data
-    files["Reborn.lua"] = (ROOT / "reborn/Reborn.lua").read_bytes()
+    files["Reborn.lua"] = (
+        (ROOT / "reborn/Reborn.lua").read_text(encoding="utf8").encode("utf8")
+    )
     names = json.loads((ROOT / "data/reborn-names.json").read_text(encoding="utf8"))
     files["RebornNames.lua"] = (
         NAME + ".rebornNames = " + lua_literal(names["languages"]) + "\n"
     ).encode("utf8")
-    files["README.md"] = (ROOT / "reborn/PLAYER-README.md").read_bytes()
+    files["README.md"] = (
+        (ROOT / "reborn/PLAYER-README.md").read_text(encoding="utf8").encode("utf8")
+    )
     for name, data in files.items():
         if name.endswith(".lua"):
             for token in tokens(data.decode("utf8")):
