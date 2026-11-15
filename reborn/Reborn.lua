@@ -1014,3 +1014,52 @@ function A.Metric(key)
     end
     return metricLabel(key)
 end
+function A.NormalizeRunSummary(source)
+    if type(source) ~= "table" or getmetatable(source) then
+        return source
+    end
+    for _, key in ipairs({ "hero", "zone", "class", "race" }) do
+        if source[key] ~= nil and type(source[key]) ~= "string" then
+            return source
+        end
+    end
+    local copy = A.ReadFields(source)
+    if copy.result == "dead" then
+        copy.nativeResult = copy.result
+        copy.result = copy.quit == 1 and "left" or "defeat"
+    end
+    return copy
+end
+-- Explicit native cumulative counters. A cache price is never a chest count.
+local tallySample = A.Sample
+function A.Sample()
+    if A.Call(AZS_GetPhase) == nil then
+        return
+    end
+    tallySample()
+    local run = A.run
+    if not run or not run.reborn or not AZS_RUN then
+        return
+    end
+    run.reborn.nativeTally = {}
+    for _, key in ipairs({ "ge", "bk", "gk", "ek", "ck", "gold", "rrc" }) do
+        run.reborn.nativeTally[key] = A.Number(AZS_RUN[key])
+    end
+    if run.status == "active" or run.status == "terminal" then
+        local changed = false
+        for metric, key in pairs({ bosses = "bk", guardians = "gk", elites = "ek", chests = "ck" }) do
+            local n = A.Number(AZS_RUN[key])
+            if n ~= nil and run.values[metric] and n < run.values[metric] then
+                run.reborn.counterReset = true
+            elseif n ~= nil and run.values[metric] ~= n then
+                run.values[metric] = n
+                run.provenance = run.provenance or {}
+                run.provenance[metric] = "AZS_RUN." .. key
+                changed = true
+            end
+        end
+        if changed then
+            A.Account(run)
+        end
+    end
+end

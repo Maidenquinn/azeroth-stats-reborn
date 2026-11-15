@@ -241,6 +241,9 @@ function A.ReadSummary()
     if type(source) ~= "table" then
         source = AZS_END
     end
+    if A.NormalizeRunSummary then
+        source = A.NormalizeRunSummary(source)
+    end
     if type(source) == "table" then
         for _, key in ipairs({ "hero", "zone", "class", "race" }) do
             if source[key] ~= nil and type(source[key]) ~= "string" then

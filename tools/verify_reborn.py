@@ -80,10 +80,12 @@ check(A.knownClasses.deathknight and A.knownClasses.demonhunter,'all twelve clas
 A.DetectLocale();check(A.Locale()=='fr','native locale')
 check(A.SourceName('Auto Shot')=='Tir automatique','localized combat sources')
 A.Sample();check(not A.run and table.getn(A.db.runs)==0,'ready is not a run')
-AZS_RUN.ph='playing';AZS_RUN.t=1;NOW=101
+AZS_RUN.ph='playing';AZS_RUN.t=1;NOW=101;AZS_RUN.ck=2;AZS_RUN.chest=64;AZS_RUN.bk=1;AZS_RUN.gk=3;AZS_RUN.ek=4;AZS_RUN.ge=500
 ROUTE('AZSZONE','');ROUTE('AZSRUN','ph=playing;t=1');A.Sample()
 check(A.run and A.run.nativeRunId=='azs:r12345678','native identity captured')
 check(A.run.game==A.game,'game provenance captured')
+check(A.run.values.chests==2 and A.run.values.guardians==3 and A.run.values.bosses==1 and A.run.values.elites==4,'native cumulative counters and cache-price distinction')
+check(A.run.reborn.nativeTally.ge==500,'earned gold distinct from spendable balance')
 local first=A.run
 AZS_RUN.t=10;NOW=110;ROUTE('AZSRUN','ph=playing;t=10');A.Sample()
 A.run=nil;A.Sample()
@@ -128,7 +130,13 @@ deathFrame.scripts.OnEvent(deathFrame,'COMBAT_LOG_EVENT_UNFILTERED',NOW,'SPELL_D
 A.MarkDeath()
 check(A.run.reborn.fatal and A.run.reborn.fatal.overkill==25,'native fatal hit recorded')
 check(A.run.deaths[1].confidence=='confirmed','structured fatal evidence confirms attribution')
+
+AZS_END={result='dead',quit=0,t=20}
+check(A.ReadSummary().result=='defeat' and AZS_END.result=='dead','native death summary normalized without modifying native data')
+AZS_END.quit=1;check(A.ReadSummary().result=='left','native quit normalized as abandonment')
+AZS_END.hero={};check(A.ReadSummary()==nil,'normalization never launders malformed identity fields')
 local before=A.db.totals.runs
+
 
 AZS_END={result='victory',t=20,dmg=1000,hero='Tester',zone='hellfire',class='monk'}
 A.Packet('AZSEND','result=victory');A.Sample()
