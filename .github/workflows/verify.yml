@@ -1,9 +1,8 @@
-name: Checks
+name: Verify Stats Reborn baseline
 on:
   push:
-    branches:
-      - main
   pull_request:
+  workflow_dispatch:
 concurrency:
   group: checks-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -43,14 +42,6 @@ jobs:
         run: python tools/benchmark_storage_candidates.py --manual 1 --automatic 2
       - run: python design/v2/tests/runtime_roundtrip.py
       - run: python tools/build_release.py --output release-assets/ci
-      - name: Upload installable ZIP for in-game review (no release)
-        if: github.event_name == 'pull_request'
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
-        with:
-          name: AzerothStats-2.0.4-rc3-pr-review
-          path: release-assets/ci/*.zip
-          retention-days: 7
-          if-no-files-found: error
 
   lot1-regression:
     runs-on: ubuntu-latest
