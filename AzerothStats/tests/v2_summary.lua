@@ -97,8 +97,10 @@ for i = 1, 11 do
     }
 end
 local original = A.Sign(run)
-local _, firstPage, pages, count = A.V2Highlights(run, 1)
+local firstText, firstPage, pages, count = A.V2Highlights(run, 1)
 check(firstPage == 1 and pages == 3 and count == 11, "highlights count every journal change")
+check(string.find(firstText, "\n", 1, true), "highlight entries use real line breaks")
+check(not string.find(firstText, "\\n", 1, true), "highlights never display escaped newline text")
 local _, lastPage = A.V2Highlights(run, 99)
 check(lastPage == 3, "highlights clamp out-of-range page requests")
 A.view.v2HighlightsPage = 1

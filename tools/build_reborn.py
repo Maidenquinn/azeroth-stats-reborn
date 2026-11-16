@@ -6,7 +6,7 @@ from package_policy import public_files
 from security_review import tokens, FORBIDDEN
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.1.0-reborn.2-dev"
+VERSION = "0.1.0-reborn.3-dev"
 NAME = "AzerothStatsReborn"
 
 
