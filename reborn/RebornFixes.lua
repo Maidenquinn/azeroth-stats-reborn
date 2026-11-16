@@ -95,6 +95,7 @@ local function plain(v)
     return A.Text(v, 500)
 end
 local labels = {
+    ["Deleted run contributions are removed from totals"] = "Les statistiques de cette partie sont retirées des totaux",
     ["Damage / healing"] = "Dégâts / soins",
     ["Segments"] = "Segments",
     ["Window not recorded for this run"] = "Cette fenêtre n’a pas été enregistrée pour cette partie",

@@ -4392,6 +4392,7 @@ function A.BuildUI()
         local ok, message = A.ConfirmEntryAction()
         if ok then
             entry:Hide()
+            UI.entryBlocker:Hide()
             A.RefreshUI()
             A.Say(A.T(message))
         else
@@ -4447,7 +4448,7 @@ function A.BuildUI()
             A.T(verbs[plan.kind])
                 .. "\n\n"
                 .. A.T(
-                    plan.kind == "run" and "History only; totals stay unchanged"
+                    plan.kind == "run" and "Deleted run contributions are removed from totals"
                         or plan.kind == "total" and "Lifetime totals are cleared; retained runs stay"
                         or "Only this entry is reset; other entries are kept"
                 )

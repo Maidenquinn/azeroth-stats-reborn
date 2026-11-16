@@ -222,7 +222,12 @@ end
 -- Historical backups are kept outside the main database so restoring a snapshot
 -- never overwrites the catalogue. Legacy single-slot snapshots remain readable.
 local function backupStore(automatic)
-    local name = automatic and AzerothStatsAutoBackup or AzerothStatsBackup
+    local name
+    if automatic then
+        name = AzerothStatsAutoBackup
+    else
+        name = AzerothStatsBackup
+    end
     if type(name) == "table" and name.schema == 2 and type(name.entries) == "table" then
         return name
     end
@@ -301,11 +306,26 @@ local function sameSnapshot(left, right, state)
     return equal
 end
 
-function A.CreateDataBackup(automatic)
+-- A reviewed history deletion may take its mandatory safety snapshot during
+-- another run. Ordinary backup/restore/reset actions keep their boundary guard.
+local function reviewedHistoryBackup(plan)
+    if
+        type(plan) ~= "table"
+        or plan ~= A.pendingDataPlan
+        or (plan.kind ~= "run" and plan.kind ~= "history")
+    then
+        return false
+    end
+    local fresh = A.DataPlan(plan.kind, plan.class, plan.id)
+    return fresh and fresh.allowed and fresh.count > 0 and fresh.signature == plan.signature
+end
+
+function A.CreateDataBackup(automatic, historyPlan)
     if not A.db then
         return false, "No database loaded"
     end
-    if A.run and A.run.status == "active" then
+    local liveHistory = A.run and A.run.status == "active"
+    if liveHistory and not (automatic and reviewedHistoryBackup(historyPlan)) then
         return false, "Backups are available between runs"
     end
     -- Read the existing catalogue without converting legacy roots first:
@@ -333,6 +353,15 @@ function A.CreateDataBackup(automatic)
     local data, err = snapshot(A.db, { count = 0, visiting = {} }, 0)
     if err then
         return false, err
+    end
+    if liveHistory then
+        -- Freeze only the detached snapshot. Restoring it later must not create
+        -- a phantom active run or mutate/resume the live native tracker.
+        for _, run in ipairs(data.runs or {}) do
+            if run.status == "active" then
+                run.status, run.partial = "interrupted", true
+            end
+        end
     end
     if not A.ValidateDatabase(data) then
         return false, "Backup failed validation"
@@ -590,7 +619,7 @@ function A.ConfirmDataAction(token)
     if fresh.kind == "reset" and token ~= "RESET" then
         return false, "Type RESET to confirm"
     end
-    local backupOK, backupMessage = A.CreateDataBackup(true)
+    local backupOK, backupMessage = A.CreateDataBackup(true, fresh)
     if not backupOK then
         return false, backupMessage
     end

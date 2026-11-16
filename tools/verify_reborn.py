@@ -271,6 +271,60 @@ end
 A.UseTheme('chroniques')
 """
 )
+lua.execute(
+    """
+-- Reproduce a historical deletion while another native run is active.
+local A=AzerothStatsReborn
+local source=assert(A.db.runs[1])
+local live=A.Copy(source);live.id='delete-test-live';live.status='active'
+local old=A.Copy(source);old.id='delete-test-history';old.status='ended'
+A.db.runs={old,live};A.run=live;A.db.sequence=A.db.sequence+1
+A.view.selected=old.id
+AzerothStatsRebornAutoBackup=nil
+local manualBefore=A.Sign(AzerothStatsRebornBackup)
+local liveBefore=A.Sign(live)
+local action={kind='run',key=old.id,label='Historical test'}
+A.OpenEntryReview(action);A.RebornRepairLayers()
+check(A.pendingEntryPlan.allowed,'historical deletion allowed during another run')
+check(A.ui.entryDialog.confirm:GetFrameLevel()>A.ui.entryDialog:GetFrameLevel(),'deletion control is clickable above dialog')
+check(not A.CreateDataBackup(true),'ordinary automatic backup still blocked in a run')
+check(not A.CreateDataBackup(false,A.pendingEntryPlan.history),'manual backup cannot bypass run boundary')
+local plan=A.pendingEntryPlan.history
+check(not A.CreateDataBackup(true,plan),'unreviewed backup context rejected')
+A.pendingDataPlan=plan
+local stale=A.Copy(plan);stale.signature='stale';A.pendingDataPlan=stale
+check(not A.CreateDataBackup(true,stale),'stale history snapshot rejected')
+A.pendingDataPlan=nil
+-- Snapshot failure leaves the live database and history untouched.
+A.db.badCycle=A.db
+local ok,reason=A.ConfirmEntryAction()
+check(not ok and A.FindRun(old.id)==old,'failed safety snapshot prevents deletion')
+check(AzerothStatsRebornAutoBackup==nil,'failed snapshot leaves backup root unchanged')
+A.db.badCycle=nil
+A.OpenEntryReview(action)
+A.ui.entryDialog.confirm.callback()
+check(not A.FindRun(old.id),'confirmation button deletes historical run during play')
+check(A.run==live and A.FindRun(live.id)==live and A.Sign(live)==liveBefore,'live run and tracker unchanged')
+check(not A.ui.entryDialog:IsShown() and not A.ui.entryBlocker:IsShown(),'successful deletion closes modal and blocker')
+local backups=A.ListDataBackups(true)
+check(table.getn(backups)==1,'automatic safety backup created before deletion')
+check(A.Sign(AzerothStatsRebornBackup)==manualBefore,'first automatic backup never borrows or prunes manual catalogue')
+local saved=AzerothStatsRebornAutoBackup.entries[1].data
+check(saved.runs[1].id==old.id and saved.runs[2].id==live.id,'snapshot includes removed history and current observation')
+check(saved.runs[2].status=='interrupted' and saved.runs[2].partial and live.status=='active','only snapshot freezes live observation')
+check(A.ValidateDatabase(saved),'mid-run safety snapshot passes persistence validation')
+check(not A.EntryPlan({kind='run',key=live.id,label='Live'}).allowed,'active run cannot be deleted')
+check(not A.RestoreDataBackup(backups[1].id,true),'restoration still blocked during play')
+A.run=nil
+check(A.RestoreDataBackup(backups[1].id,true),'safety snapshot restores between runs')
+check(A.FindRun(old.id) and A.FindRun(live.id).status=='interrupted','restoration recovers deleted history without phantom live run')
+local recovered=A.FindRun(old.id)
+A.ToggleFavorite(A.RunFavorite(recovered))
+A.run=A.FindRun(live.id);A.run.status='active'
+check(not A.EntryPlan({kind='run',key=old.id,label='Favorite'}).allowed,'favorite protection remains during play')
+check(AzerothStatsDB==ORIGINAL,'deletion never affects original addon database')
+"""
+)
 for path in target.glob("*.lua"):
 
     raw = path.read_text(encoding="utf8")

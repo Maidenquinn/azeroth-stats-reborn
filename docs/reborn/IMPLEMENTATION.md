@@ -1,6 +1,14 @@
 # Reborn implementation and acceptance status
 
-Development candidate: `0.1.0-reborn.4-dev`. No stable release is authorized by this document.
+Development candidate: `0.1.0-reborn.5-dev`. No stable release is authorized by this document.
+
+## Historical deletion during play (.5-dev)
+
+Historical deletion passed its impact review during play, but the required safety backup rejected every active run, leaving confirmation blocked. A current reviewed run/history removal plan may now create its mandatory automatic snapshot while another run is active. Normal manual/automatic backup requests, restore, resets, favorite protection and active-run deletion keep their existing restrictions. The detached backup freezes active observations as interrupted/partial; the live tracker and current run are not changed. Snapshot failure or stale review still prevents deletion. Successful confirmation explicitly closes the modal blocker. The confirmation now correctly states that removed contributions are deducted from totals.
+
+This regression also exposed a catalogue-selection defect: an absent automatic root could fall through to an existing manual catalogue. Explicit root selection now keeps both catalogues independent, including first automatic backup creation and retention.
+
+Generated-runtime tests exercise the actual confirmation button during play, automatic backup and restore, unchanged live run, active/favorite protection, invalid/stale backup context, snapshot failure, manual catalogue preservation and original-addon namespace isolation. All destructive testing uses isolated synthetic data; no player history is deleted or restored by this recipe.
 
 ## Expansion zone illustrations (.4-dev)
 
@@ -8,7 +16,7 @@ All 36 expansion zone IDs now have reviewed, locally bundled thumbnails: 12 Burn
 
 The Reborn-only adapter extends the common `ZoneIllustration` renderer used by history, analysis, selectors and comparisons. Classic framing and unknown-zone fallback remain intact. Textures are 256×256 RGBA with the same aspect-correct 178×66 cover recipe as Classic, across all five themes. Builds verify the complete zone catalogue, source hashes and exact encoded bytes without downloading assets.
 
-Validation: 36 cropped banners inspected on a contact sheet; native dimensions, nonblank pixels and geometry verified offline. Generated Lua tests exercise every new zone across all five themes, stale tint/glyph/UV reset, Classic and unknown-zone fallbacks. These checks do not claim a live-client visual acceptance of all maps.
+Validation: 36 cropped banners inspected on a contact sheet; native dimensions, nonblank pixels and geometry verified offline. Generated Lua tests exercise every new zone across all five themes, stale tint/glyph/UV reset, Classic and unknown-zone fallbacks. The owner subsequently accepted the expansion rendering after a client recipe on 2026-11-16.
 
 ## Runtime and storage
 
