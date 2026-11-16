@@ -43,7 +43,17 @@ Corrective live-client recipe completed on 2026-11-15 at 1920×1080, window scal
 
 These observations do not establish all three new-class gameplay scenarios or real multiplayer. Backup restoration is exercised on synthetic saves; the live recipe must not overwrite or delete the user's history.
 
-Candidate `.3-dev` replaces the escaped separators in compact journal highlights with actual line breaks. Two regression assertions verify multiline output without literal escape text (8,185 shared assertions in total). Its between-runs backup and elapsed-combat segment recipe is in progress on 2026-11-16.
+Candidate `.3-dev` replaces the escaped separators in compact journal highlights with actual line breaks. Two regression assertions verify multiline output without literal escape text (8,185 shared assertions in total).
+
+Follow-up client recipe completed on 2026-11-16 with Reborn 0.6.7:
+
+- The retained Zangarmarsh history rendered four journal highlights on separate lines, with no literal escape separators.
+- A checkpoint started on the current Hunter run at approximately 00:02. After a short real combat interval and a level-choice transition, the run was paused at 00:14; End segment recorded approximately 14.5k damage and zero performed healing, matching the difference from the meter before the checkpoint. The row retained its start/stop clocks and elapsed duration.
+- After the owner authorized ending the test attempt, the segment remained visible in the interrupted historical run. It also survived the later UI reload and was present in the persisted manual backup.
+- The hero-selection screen hides Lua addon windows. The between-runs backup recipe therefore used the terminal result screen, where Stats is accessible without an active combat run. Creating Manual No. 1 succeeded and triggered the expected UI reload. Reopening the manager showed Manual No. 1 and Automatic No. 1, both containing eight retained runs; manual selection displayed its metadata.
+- Production restore logic was exercised against that actual persisted manual snapshot in an isolated local Lua process. After changing only the isolated database's preferences and emptying its run list, restore recovered all eight runs byte-for-byte at the model-signature level, including the elapsed combat segment, and the saved preference. The source save's checksum was unchanged. No live player history was restored or deleted and no private save data was committed or uploaded.
+
+The client was left at hero selection after the recipe. The backup/segment/newline corrective acceptance is complete; the broader gameplay and multiplayer coverage listed below remains separate.
 
 Required live checks: discovery/enabling after a new folder install; clean launch; automatic FR and manual EN; all five themes; character/equipment rows and tooltips; selection/pause overlays; window sizing and resolution; actual damage/healing changes; reload continuity; portal transitions; victory/death/abandon; campaign/endless; native/FieldKit coexistence; coop; long-run memory behaviour.
 
