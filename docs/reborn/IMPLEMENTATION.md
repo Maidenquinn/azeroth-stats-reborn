@@ -1,12 +1,12 @@
 # Reborn implementation and acceptance status
 
-Development candidate: `0.1.0-reborn.11-dev`. The owner authorized publication after the new default-storage and in-addon migration workflow passes its automated and native recipe. Publication is not yet completed.
+Public release: `0.1.0-reborn.1`. Automated storage suites and the native single-player migration/recovery recipe passed. See `IN-ADDON-STORAGE.md` for the tested scope.
 
 ## Default shared storage and in-addon migration (.11-dev)
 
 New installations initialize shared format 2 automatically. Existing profiles remain unchanged until an explicit, themed migration from Settings → Manage backups → Backup storage or `/azstatsr storage`. A fourth local SavedVariables root holds the internal safety journal in the same addon file. The native client must persist/reload that journal before conversion is allowed, then persist/reload the result before backup writes resume. The active statistics database and native run are never replaced by a format change.
 
-Both directions retain all current checkpoints, including newer ones. Safety-copy recovery is a separate confirmed action; removal validates the current catalogues first. Classic format follows native numeric precision while the exact safety payload remains available. Tests use fresh Lua VMs, native 16-digit save projection, actual dialog callbacks and FR/EN across all five themes. See `IN-ADDON-STORAGE.md` for the state machine, guarantees and remaining native recipe. CLI migration is no longer required for players.
+Both directions retain all current checkpoints, including newer ones. Safety-copy recovery is a separate confirmed action; removal validates the current catalogues first. Classic format follows native numeric precision while the exact safety payload remains available. Tests use fresh Lua VMs, native 16-digit save projection, actual dialog callbacks and FR/EN across all five themes. See `IN-ADDON-STORAGE.md` for the state machine, guarantees and native acceptance. CLI migration is no longer required for players.
 
 ## Opt-in production shared format (.10-dev)
 
