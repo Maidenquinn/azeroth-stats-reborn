@@ -133,10 +133,15 @@ local frenchErrors = {
 function A.PrintSharedStorageAudit()
     local result = A.SharedStorageReadOnlyAudit()
     A.Say(
-        tr(
-            "Read-only storage audit: no migration or compression.",
-            "Audit du stockage en lecture seule : aucune migration ni compression."
-        )
+        result.shared
+                and tr(
+                    "Read-only audit: shared backup format active.",
+                    "Audit en lecture seule : sauvegardes partagées actives."
+                )
+            or tr(
+                "Read-only storage audit: no migration or compression.",
+                "Audit du stockage en lecture seule : aucune migration ni compression."
+            )
     )
     if result.activeInvalid then
         A.Say(tr("Live history: audit incomplete", "Historique actuel : audit incomplet"))
@@ -160,7 +165,10 @@ function A.PrintSharedStorageAudit()
                     .. source.snapshots
                     .. tr(" backups; ", " sauvegardes ; ")
                     .. source.storedRuns
-                    .. tr(" stored run copies; ", " copies de parties ; ")
+                    .. (result.shared and tr(" run references; ", " références de parties ; ") or tr(
+                        " stored run copies; ",
+                        " copies de parties ; "
+                    ))
                     .. source.distinctRunIDs
                     .. tr(" distinct IDs; ", " identifiants distincts ; ")
                     .. source.repeatedRunIDs
@@ -169,6 +177,12 @@ function A.PrintSharedStorageAudit()
                     .. tr(" missing IDs.", " identifiants manquants.")
             )
         end
+    end
+    if result.shared and result.pooledVersions then
+        A.Say(
+            tr("Stored immutable run versions: ", "Versions immuables stockées : ")
+                .. result.pooledVersions
+        )
     end
     A.Say(
         tr(

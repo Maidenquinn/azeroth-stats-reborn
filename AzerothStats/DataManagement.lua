@@ -245,6 +245,9 @@ local function backupStore(automatic)
 end
 
 function A.ListDataBackups(automatic)
+    if A.SharedBackupsEnabled and A.SharedBackupsEnabled() then
+        return A.SharedListBackups(automatic)
+    end
     local store = backupStore(automatic)
     local result = {}
     for index = table.getn(store.entries), 1, -1 do
@@ -345,6 +348,9 @@ function A.CreateDataBackup(automatic, removalPlan)
     then
         return false, "Backups are available between runs"
     end
+    if A.SharedBackupsEnabled and A.SharedBackupsEnabled() then
+        return A.SharedCreateBackup(automatic, liveSnapshot)
+    end
     -- Read the existing catalogue without converting legacy roots first:
     -- a rejected live snapshot must not mutate *any* SavedVariables root.
     -- Identical automatic backups need no full clone or new catalogue entry.
@@ -440,16 +446,24 @@ function A.RestoreDataBackup(id, automatic)
     if not A.liveDataManagement and A.run and A.run.status == "active" then
         return false, "Restore is available between runs"
     end
-    local store = backupStore(automatic)
     local entry
-    for _, candidate in ipairs(store.entries) do
-        if type(candidate) == "table" and candidate.id == id then
-            entry = candidate
-            break
+    if A.SharedBackupsEnabled and A.SharedBackupsEnabled() then
+        local reason
+        entry, reason = A.SharedReadBackup(id, automatic)
+        if not entry then
+            return false, reason
         end
-    end
-    if not entry and id == nil then
-        entry = store.entries[table.getn(store.entries)]
+    else
+        local store = backupStore(automatic)
+        for _, candidate in ipairs(store.entries) do
+            if type(candidate) == "table" and candidate.id == id then
+                entry = candidate
+                break
+            end
+        end
+        if not entry and id == nil then
+            entry = store.entries[table.getn(store.entries)]
+        end
     end
     if not entry then
         return false, "Selected backup not found"
@@ -496,6 +510,9 @@ function A.DeleteDataBackup(id, automatic)
     if not A.liveDataManagement and A.run and A.run.status == "active" then
         return false, "Backup deletion is available between runs"
     end
+    if A.SharedBackupsEnabled and A.SharedBackupsEnabled() then
+        return A.SharedDeleteBackup(id, automatic)
+    end
     local store = backupStore(automatic)
     for index, entry in ipairs(store.entries) do
         if type(entry) == "table" and entry.id == id then
@@ -511,6 +528,9 @@ end
 function A.PreviewManualBackupCleanup(keep)
     if not A.liveDataManagement and A.run and A.run.status == "active" then
         return nil, "Backup cleanup is available between runs"
+    end
+    if A.SharedBackupsEnabled and A.SharedBackupsEnabled() then
+        return A.SharedPreviewCleanup(keep)
     end
     keep = A.Number(keep)
     if not keep or keep ~= math.floor(keep) or keep < 1 or keep > 50 then
@@ -528,6 +548,9 @@ function A.PreviewManualBackupCleanup(keep)
 end
 
 function A.CleanupManualBackups(keep, token)
+    if A.SharedBackupsEnabled and A.SharedBackupsEnabled() then
+        return A.SharedCleanup(keep, token)
+    end
     if type(token) ~= "string" then
         return false, "Preview cleanup and confirm the current selection first"
     end

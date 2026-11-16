@@ -137,7 +137,7 @@ end
         "upstreamCommit": provenance["commit"],
         "luaChecks": lua.globals().TEST_COUNT,
         "pythonTests": result.testsRun,
-        "runtime": "read-only audit only",
+        "runtime": "legacy by default; shared engine requires explicit migration",
         "researchShipped": False,
         "realDiskSavingsMeasured": False,
         "syntheticLuaSerializationProxy": [

@@ -11,6 +11,6 @@ Stats can run with FieldKit. Its compact HUD and minimap button are optional. St
 
 Local cleanup and backup creation/restoration/deletion are available during runs. Restoration requires confirmation and keeps a safety backup of the current database. After a full reset or restoration, recording resumes at the next run so current game counters cannot refill or overwrite the cleared/restored history. The game itself is not reset.
 
-`/azstatsr shared audit` prints a read-only storage inventory in French/English. Repeated run IDs are potential sharing candidates, not proof of identical contents. This diagnostic does not migrate, compress, delete or restore anything; the shared-backup engine is research-only and is not installed in the game.
+`/azstatsr shared audit` prints a read-only storage inventory in French/English. Repeated run IDs are not proof of identical contents. The shared backup engine is experimental and used only by explicitly migrated profiles; existing profiles keep the legacy format. Both formats use the same backup manager. A closed-client migration keeps an independent safety copy and supports exporting all checkpoints back to the older format. Never downgrade the addon against shared-format saves without converting them back first.
 
 Reports are local observations, not leaderboard-verified results. Reloads lose the game's short recent-event/history buffers. Actual-client acceptance testing is required before release.
