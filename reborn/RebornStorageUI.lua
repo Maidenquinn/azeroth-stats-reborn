@@ -7,6 +7,7 @@ function A.OpenStorageSettings()
     if not A.window or not widgets then
         return false
     end
+    A.ToggleUI(true)
     local w = widgets
     local dialog = A.storageDialog
     if not dialog then
@@ -223,6 +224,11 @@ function A.OpenStorageSettings()
                     )
             )
             w.put(close.label, tr("Close", "Fermer"))
+            if dialog.intent or s.phase == "prepared" then
+                cancel:Show()
+            else
+                cancel:Hide()
+            end
             if
                 not s.error
                 or dialog.intent == "recover"
@@ -256,7 +262,11 @@ function A.OpenStorageSettings()
     dialog.message = nil
     dialog:Show()
     dialog.blocker:Show()
+    A.ApplyUI()
     dialog.refresh()
+    if A.SyncScreenOverlays then
+        A.SyncScreenOverlays()
+    end
     return true
 end
 local command = A.RebornCommand

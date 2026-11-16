@@ -196,6 +196,10 @@ def main():
     )
     test(
         ui,
+        "A.window:Hide();assert(A.RebornCommand('storage'));assert(A.window:IsShown() and A.storageDialog:IsShown())",
+    )
+    test(
+        ui,
         "for _,language in ipairs({'fr','en'}) do A.locale=language; for _,theme in ipairs(A.themeOrder) do A.UseTheme(theme);A.ApplyUI();assert(A.OpenStorageSettings());local d=A.storageDialog;assert(d.primary.label:GetText():find(language=='fr' and 'Passer' or 'Migrate',1,true));assert(d.primary:GetWidth()+44<=d:GetWidth()) end end",
     )
     test(
