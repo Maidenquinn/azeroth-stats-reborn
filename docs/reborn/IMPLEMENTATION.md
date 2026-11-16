@@ -1,6 +1,12 @@
 # Reborn implementation and acceptance status
 
-Development candidate: `0.1.0-reborn.10-dev`. No stable release is authorized by this document.
+Development candidate: `0.1.0-reborn.11-dev`. The owner authorized publication after the new default-storage and in-addon migration workflow passes its automated and native recipe. Publication is not yet completed.
+
+## Default shared storage and in-addon migration (.11-dev)
+
+New installations initialize shared format 2 automatically. Existing profiles remain unchanged until an explicit, themed migration from Settings → Manage backups → Backup storage or `/azstatsr storage`. A fourth local SavedVariables root holds the internal safety journal in the same addon file. The native client must persist/reload that journal before conversion is allowed, then persist/reload the result before backup writes resume. The active statistics database and native run are never replaced by a format change.
+
+Both directions retain all current checkpoints, including newer ones. Safety-copy recovery is a separate confirmed action; removal validates the current catalogues first. Classic format follows native numeric precision while the exact safety payload remains available. Tests use fresh Lua VMs, native 16-digit save projection, actual dialog callbacks and FR/EN across all five themes. See `IN-ADDON-STORAGE.md` for the state machine, guarantees and remaining native recipe. CLI migration is no longer required for players.
 
 ## Opt-in production shared format (.10-dev)
 
@@ -109,7 +115,7 @@ The client was left at hero selection after the recipe. The backup/segment/newli
 
 Required live checks: discovery/enabling after a new folder install; clean launch; automatic FR and manual EN; all five themes; character/equipment rows and tooltips; selection/pause overlays; window sizing and resolution; actual damage/healing changes; reload continuity; portal transitions; victory/death/abandon; campaign/endless; native/FieldKit coexistence; coop; long-run memory behaviour.
 
-No player release or registry update until this acceptance is completed. Candidate CI artifacts are for review, not a stability claim.
+The earlier checklist records the full intended coverage, not evidence that every scenario passed. The owner has authorized the first public release after the current storage workflow's automated and native checks. Multiplayer, very large profiles and every class/resolution permutation remain explicitly uncertified; player notes must preserve those limits. Candidate artifacts are not themselves published releases.
 
 ## Contract limits
 

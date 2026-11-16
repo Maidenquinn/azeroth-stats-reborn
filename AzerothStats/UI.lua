@@ -145,6 +145,7 @@ local overlayRoots = {
     AzerothStatsMenu = true,
     AzerothStatsThemePicker = true,
     AzerothStatsBackupManager = true,
+    AzerothStatsStorageSettings = true,
     AzerothStatsRetentionConfirmation = true,
     AzerothStatsDataManagement = true,
     AzerothStatsEntryReview = true,
@@ -2616,7 +2617,7 @@ local function buildSettings(frame)
             manager,
             20,
             522,
-            610,
+            A.OpenStorageSettings and 298 or 610,
             24,
             tr("Create new manual backup", "Créer une sauvegarde manuelle"),
             function()
@@ -2630,6 +2631,20 @@ local function buildSettings(frame)
             end
         )
         backupNow.key = nil
+        if A.OpenStorageSettings then
+            local storage = button(
+                manager,
+                330,
+                522,
+                300,
+                24,
+                tr("Backup storage", "Stockage des sauvegardes"),
+                function()
+                    A.OpenStorageSettings()
+                end
+            )
+            storage.key = nil
+        end
         manager.refresh = refresh
         refresh()
     end
@@ -2659,6 +2674,9 @@ function A.BuildUI()
     drag(frame, "windowPos")
     place(frame, "windowPos", "CENTER", 0, 0)
     frame:SetScript("OnHide", function()
+        if A.storageDialog then
+            A.storageDialog:Hide()
+        end
         if UI.themeDialog then
             UI.themeDialog:Hide()
         end

@@ -8,10 +8,11 @@ ROOTS = (
     "AzerothStatsRebornDB",
     "AzerothStatsRebornBackup",
     "AzerothStatsRebornAutoBackup",
+    "AzerothStatsRebornStorageSafety",
 )
 
 
-def runtime(target=None):
+def runtime(target=None, saved=None):
     target = target or ROOT / "build/AzerothStatsReborn"
     lua = LuaRuntime(
         unpack_returned_tuples=True,
@@ -20,11 +21,6 @@ def runtime(target=None):
         max_memory=768 * 1024 * 1024,
     )
     lua.execute((ROOT / "AzerothStats/tests/mock.lua").read_text(encoding="utf8"))
-    for name in (
-        (target / "AzerothStatsReborn.toc").read_text(encoding="utf8").splitlines()
-    ):
-        if name.endswith(".lua"):
-            lua.execute((target / name).read_text(encoding="utf8"))
     lua.execute(
         """
 function LOAD_STORAGE_DATA(text)
@@ -34,7 +30,7 @@ function LOAD_STORAGE_DATA(text)
  local ok,reason=pcall(f);debug.sethook()
  assert(ok,reason)
  for key in pairs(env) do
-  assert(key=='AzerothStatsRebornDB' or key=='AzerothStatsRebornBackup' or key=='AzerothStatsRebornAutoBackup','unexpected save root')
+  assert(key=='AzerothStatsRebornDB' or key=='AzerothStatsRebornBackup' or key=='AzerothStatsRebornAutoBackup' or key=='AzerothStatsRebornStorageSafety','unexpected save root')
  end
  return env
 end
@@ -57,13 +53,22 @@ function DUMP_STORAGE_DATA(env)
    table.insert(output,'}');visiting[value]=nil
   end
  end
- for _,name in ipairs({'AzerothStatsRebornDB','AzerothStatsRebornBackup','AzerothStatsRebornAutoBackup'}) do
+ for _,name in ipairs({'AzerothStatsRebornDB','AzerothStatsRebornBackup','AzerothStatsRebornAutoBackup','AzerothStatsRebornStorageSafety'}) do
   table.insert(output,name..' = ');emit(env[name],0);table.insert(output,'\\n')
  end
  return table.concat(output)
 end
 """
     )
+    if saved is not None:
+        env = load(lua, saved)
+        for name in ROOTS:
+            lua.globals()[name] = env[name]
+    for name in (
+        (target / "AzerothStatsReborn.toc").read_text(encoding="utf8").splitlines()
+    ):
+        if name.endswith(".lua"):
+            lua.execute((target / name).read_text(encoding="utf8"))
     return lua
 
 
@@ -106,7 +111,7 @@ else
  manual,automatic=A.BuildSharedBackupRoots(env.AzerothStatsRebornDB,env.AzerothStatsRebornBackup,env.AzerothStatsRebornAutoBackup)
  assert(manual,automatic)
 end
-STORAGE_RESULT={AzerothStatsRebornDB=env.AzerothStatsRebornDB,AzerothStatsRebornBackup=manual,AzerothStatsRebornAutoBackup=automatic}
+STORAGE_RESULT={AzerothStatsRebornDB=env.AzerothStatsRebornDB,AzerothStatsRebornBackup=manual,AzerothStatsRebornAutoBackup=automatic,AzerothStatsRebornStorageSafety=env.AzerothStatsRebornStorageSafety}
 """
     )
     result = lua.globals().STORAGE_RESULT

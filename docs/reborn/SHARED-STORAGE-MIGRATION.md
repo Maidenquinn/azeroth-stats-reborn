@@ -1,4 +1,6 @@
-# Shared backup migration — experimental opt-in
+# Shared backup migration — historical maintenance tooling
+
+**Current player workflow:** `.11-dev` makes shared storage the first-install default and provides migration, safety-copy recovery and classic-format rollback inside the addon. See [in-addon storage lifecycle](IN-ADDON-STORAGE.md). The sections below describe the earlier `.10-dev` offline maintenance recipe, not a tool requirement for players. Current saves additionally declare the internal `AzerothStatsRebornStorageSafety` root in the same physical file.
 
 Candidate `.10-dev` can read/write explicit shared backup references. Existing profiles remain on the legacy format until a closed-client migration is explicitly applied. This is not a stable release or automatic upgrade. The `.9-dev` format-1 candidate is withdrawn after a failed native-client recipe.
 

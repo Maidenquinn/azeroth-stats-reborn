@@ -7,7 +7,7 @@ from build_reborn_run_images import build as zone_images, recipe as zone_image_r
 from security_review import tokens, FORBIDDEN
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.1.0-reborn.10-dev"
+VERSION = "0.1.0-reborn.11-dev"
 NAME = "AzerothStatsReborn"
 
 
@@ -62,8 +62,12 @@ def build(output=ROOT / "build"):
                     "## Author:", "## Dependencies: AzerothSurvivorsAPI\n## Author:"
                 )
                 text = text.replace(
+                    "## SavedVariables: AzerothStatsRebornDB, AzerothStatsRebornBackup, AzerothStatsRebornAutoBackup",
+                    "## SavedVariables: AzerothStatsRebornDB, AzerothStatsRebornBackup, AzerothStatsRebornAutoBackup, AzerothStatsRebornStorageSafety",
+                )
+                text = text.replace(
                     "Core.lua",
-                    "RebornNames.lua\nReborn.lua\nRebornFixes.lua\nRebornStorageAudit.lua\nRebornSharedCodec.lua\nRebornSharedWire.lua\nRebornSharedStorage.lua\nCore.lua",
+                    "RebornNames.lua\nReborn.lua\nRebornFixes.lua\nRebornStorageAudit.lua\nRebornSharedCodec.lua\nRebornSharedWire.lua\nRebornSharedStorage.lua\nRebornStorageLifecycle.lua\nRebornStorageUI.lua\nCore.lua",
                 )
             if name == "Core.lua":
                 text = text.replace(
@@ -102,6 +106,8 @@ def build(output=ROOT / "build"):
         "RebornSharedCodec.lua",
         "RebornSharedWire.lua",
         "RebornSharedStorage.lua",
+        "RebornStorageLifecycle.lua",
+        "RebornStorageUI.lua",
     ):
         files[module] = (
             (ROOT / "reborn" / module).read_text(encoding="utf8").encode("utf8")
@@ -144,7 +150,10 @@ def build(output=ROOT / "build"):
                 assert (
                     token.kind != "identifier"
                     or token.text not in FORBIDDEN
-                    or (name == "UI.lua" and token.text == "ReloadUI")
+                    or (
+                        name in {"UI.lua", "RebornStorageUI.lua"}
+                        and token.text == "ReloadUI"
+                    )
                 ), (name, token.line, token.text)
     files["SHA256SUMS.txt"] = "".join(
         hashlib.sha256(v).hexdigest() + "  " + k + "\n"

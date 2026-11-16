@@ -79,6 +79,8 @@ A=AzerothStatsReborn
 TESTS=0
 function check(v,msg) TESTS=TESTS+1;assert(v,msg) end
 check(AzerothStats==nil,'original namespace untouched')
+-- Exercise upgraded legacy profiles here; fresh shared defaults have their own suite.
+AzerothStatsRebornDB={game=A.game,schema=A.schema,sequence=0,runs={},totals={},classes={},settings={},migrations={}}
 check(A.InitDB(),'isolated DB initializes')
 check(AzerothStatsDB==ORIGINAL and A.db~=ORIGINAL,'original DB unchanged')
 check(AzerothStatsBackup.untouched and AzerothStatsAutoBackup.untouched,'original backups unchanged')

@@ -28,6 +28,7 @@ local function check(ok,msg) SHARED_TESTS=SHARED_TESTS+1;assert(ok,msg) end
 local function clone(value) return assert(loadstring('return '..SNAPSHOT(value)))() end
 AzerothStatsRebornDB=nil;AzerothStatsRebornBackup=nil;AzerothStatsRebornAutoBackup=nil
 A.db=nil;A.run=nil;assert(A.InitDB())
+AzerothStatsRebornBackup=nil;AzerothStatsRebornAutoBackup=nil
 local db=A.db
 db.runs={{id='shared-fixture-1',class='monk',status='ended',values={damage=10},accounted={},meters={},events={},note='old'},
  {id='shared-fixture-2',class='mage',status='ended',values={damage=20},accounted={},meters={},events={}}}

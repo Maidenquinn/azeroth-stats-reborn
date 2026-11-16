@@ -45,6 +45,7 @@ def main():
         "AzerothStatsRebornDB",
         "AzerothStatsRebornBackup",
         "AzerothStatsRebornAutoBackup",
+        "AzerothStatsRebornStorageSafety",
     }
     assert not any("research" in path.name.lower() for path in target.rglob("*"))
     lua.execute(
