@@ -7,7 +7,7 @@ from build_reborn_run_images import build as zone_images, recipe as zone_image_r
 from security_review import tokens, FORBIDDEN
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.1.0-reborn.9-dev"
+VERSION = "0.1.0-reborn.10-dev"
 NAME = "AzerothStatsReborn"
 
 
@@ -63,7 +63,7 @@ def build(output=ROOT / "build"):
                 )
                 text = text.replace(
                     "Core.lua",
-                    "RebornNames.lua\nReborn.lua\nRebornFixes.lua\nRebornStorageAudit.lua\nRebornSharedCodec.lua\nRebornSharedStorage.lua\nCore.lua",
+                    "RebornNames.lua\nReborn.lua\nRebornFixes.lua\nRebornStorageAudit.lua\nRebornSharedCodec.lua\nRebornSharedWire.lua\nRebornSharedStorage.lua\nCore.lua",
                 )
             if name == "Core.lua":
                 text = text.replace(
@@ -98,7 +98,11 @@ def build(output=ROOT / "build"):
         .read_text(encoding="utf8")
         .encode("utf8")
     )
-    for module in ("RebornSharedCodec.lua", "RebornSharedStorage.lua"):
+    for module in (
+        "RebornSharedCodec.lua",
+        "RebornSharedWire.lua",
+        "RebornSharedStorage.lua",
+    ):
         files[module] = (
             (ROOT / "reborn" / module).read_text(encoding="utf8").encode("utf8")
         )

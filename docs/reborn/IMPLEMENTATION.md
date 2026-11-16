@@ -1,14 +1,16 @@
 # Reborn implementation and acceptance status
 
-Development candidate: `0.1.0-reborn.9-dev`. No stable release is authorized by this document.
+Development candidate: `0.1.0-reborn.10-dev`. No stable release is authorized by this document.
 
-## Opt-in production shared format (.9-dev)
+## Opt-in production shared format (.10-dev)
 
 The owner subsequently requested real shared storage with independent safety copies and migration/restore/rollback verification. The production codec derives from the pinned research model, with a namespaced shared backend and copy-on-write transactions. Legacy profiles are not automatically converted. The active database stays independent; both backup catalogues and the pool are stored under one schema-3 manual root, with a schema-3 automatic ownership marker in the same physical file.
 
 Closed-client tooling defaults to preview, validates all original checkpoints, serialization and reverse export, preserves the active DB, creates verified external safety copies before application and atomically replaces only an unchanged source. Export includes backups created after migration. Actual native serialization and larger-profile performance require a separate client roundtrip; no stable rollout is implied.
 
 Production regressions cover immutable sharing, full-state restoration, automatic retention versus manual references, garbage collection, active-run backups, stale cleanup, transactional restore, malformed/corrupt/partial roots and old-version rollback. Both the pinned `.8-dev` legacy decoder and, when locally present, the complete `.8-dev` package restore exported backups. CI uses synthetic data exclusively. See `docs/reborn/SHARED-STORAGE-MIGRATION.md` for the conversion and recovery procedure.
+
+The `.9-dev` native recipe failed after checkpoint creation: numeric literals were rounded by the native writer, invalidating checksums and hiding the retained catalogue. That candidate is withdrawn. `.10-dev` uses a bounded, data-only wire format with exact integer/dyadic numbers inside a string payload and portable numeric fingerprints. A regression explicitly simulates 16-significant-digit persistence and verifies exact checkpoint recovery. Failed-format files remain external diagnostic copies; only individually authenticated originals may be recovered, while preserving the current active database. The corrected candidate still requires native create/save/restart acceptance.
 
 ## Read-only shared-storage research port (.8-dev)
 

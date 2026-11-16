@@ -17,31 +17,40 @@ local function shallow(t)
     return out
 end
 local function marker()
-    return { schema = 3, format = 1, game = A.game, owner = owner }
+    return { schema = 3, format = 2, game = A.game, owner = owner }
 end
 local function envelope(store)
-    local digest = M.fingerprint(store)
+    local payload, reason = M.encodeStore(store)
+    if not payload then
+        return nil, reason
+    end
+    local digest = M.fingerprint(payload)
     if not digest then
         return nil, "Shared backup size or integrity limit exceeded"
     end
-    return { schema = 3, format = 1, game = A.game, store = store, digest = digest }
+    return { schema = 3, format = 2, game = A.game, payload = payload, digest = digest }
 end
 function A.SharedBackupsEnabled()
     local m, a = AzerothStatsRebornBackup, AzerothStatsRebornAutoBackup
     return (
         type(m) == "table"
-        and (rawget(m, "schema") == 3 or rawget(m, "store") ~= nil or rawget(m, "digest") ~= nil)
+        and (
+            rawget(m, "schema") == 3
+            or rawget(m, "payload") ~= nil
+            or rawget(m, "store") ~= nil
+            or rawget(m, "digest") ~= nil
+        )
     ) or (type(a) == "table" and (rawget(a, "schema") == 3 or rawget(a, "owner") ~= nil))
 end
 function A.ValidateSharedBackups(root, automatic)
     if
         not plain(root)
         or root.schema ~= 3
-        or root.format ~= 1
+        or root.format ~= 2
         or root.game ~= A.game
         or not plain(automatic)
         or automatic.schema ~= 3
-        or automatic.format ~= 1
+        or automatic.format ~= 2
         or automatic.game ~= A.game
         or automatic.owner ~= owner
     then
@@ -52,7 +61,7 @@ function A.ValidateSharedBackups(root, automatic)
             key ~= "schema"
             and key ~= "format"
             and key ~= "game"
-            and key ~= "store"
+            and key ~= "payload"
             and key ~= "digest"
         then
             return nil, "Unknown shared backup metadata"
@@ -63,7 +72,17 @@ function A.ValidateSharedBackups(root, automatic)
             return nil, "Unknown shared backup metadata"
         end
     end
-    local store = root.store
+    if
+        type(root.digest) ~= "string"
+        or type(root.payload) ~= "string"
+        or M.fingerprint(root.payload) ~= root.digest
+    then
+        return nil, "Shared backup integrity check failed"
+    end
+    local store, decodeError = M.decodeStore(root.payload)
+    if not store then
+        return nil, decodeError
+    end
     if
         not plain(store)
         or store.schema ~= 1
@@ -77,9 +96,6 @@ function A.ValidateSharedBackups(root, automatic)
         or not integer(store.sourceNextIds.auto)
     then
         return nil, "Invalid shared backup catalogue"
-    end
-    if type(root.digest) ~= "string" or M.fingerprint(store) ~= root.digest then
-        return nil, "Shared backup integrity check failed"
     end
     local fields = {
         schema = true,

@@ -52,7 +52,7 @@ check(M.sameData(exportedManual,manual) and M.sameData(exportedAuto,auto),'initi
 AzerothStatsRebornBackup,AzerothStatsRebornAutoBackup=root,marker
 check(A.SharedBackupsEnabled(),'shared marker selects backend')
 check(table.getn(A.ListDataBackups(false))==2 and table.getn(A.ListDataBackups(true))==2,'both catalogue IDs retained')
-local versions=0;for _ in pairs(root.store.pool) do versions=versions+1 end
+local versions=0;for _ in pairs(assert(A.ValidateSharedBackups(root,marker)).pool) do versions=versions+1 end
 check(versions==3,'eight run copies share three distinct immutable versions')
 for _,kind in ipairs({'manual','auto'}) do
  local source=kind=='manual' and manual or auto
@@ -94,15 +94,18 @@ A.Sample();check(table.getn(A.db.runs)==count and M.fingerprint(A.db.totals)==to
 local state=clone({AzerothStatsRebornDB=A.db,AzerothStatsRebornBackup=AzerothStatsRebornBackup,AzerothStatsRebornAutoBackup=AzerothStatsRebornAutoBackup})
 SHARED_FIXTURE=state
 check(A.ValidateSharedBackups(state.AzerothStatsRebornBackup,state.AzerothStatsRebornAutoBackup),'shared root survives serializer roundtrip')
-local store=AzerothStatsRebornBackup.store
+local store=assert(A.ValidateSharedBackups(AzerothStatsRebornBackup,AzerothStatsRebornAutoBackup))
 local ref=next(store.pool);local value=store.pool[ref].values.damage
+local originalPayload=AzerothStatsRebornBackup.payload
 store.pool[ref].values.damage=value+1
+AzerothStatsRebornBackup.payload=assert(M.encodeStore(store))
 local dbPointer=A.db;local broken=AzerothStatsRebornBackup
 check(not A.CreateDataBackup(false) and AzerothStatsRebornBackup==broken,'corrupt root refuses writes without normalization')
 check(not A.RestoreDataBackup(selected.id,false) and A.db==dbPointer,'corrupt restore leaves DB unchanged')
 check(not A.DeleteDataBackup(selected.id,false),'corrupt root cannot be pruned')
 check(not A.ExportSharedBackupRoots(AzerothStatsRebornBackup,AzerothStatsRebornAutoBackup),'corrupt export fails closed')
 store.pool[ref].values.damage=value
+AzerothStatsRebornBackup.payload=originalPayload
 local marker=AzerothStatsRebornAutoBackup;AzerothStatsRebornAutoBackup=nil
 check(A.SharedBackupsEnabled() and not A.CreateDataBackup(false),'partial root pair refuses legacy fallback')
 check(AzerothStatsRebornBackup==broken and AzerothStatsRebornAutoBackup==nil,'partial roots preserved')
@@ -111,10 +114,11 @@ local legacyM,legacyA=A.ExportSharedBackupRoots(AzerothStatsRebornBackup,Azeroth
 check(legacyM and legacyA,'rollback exports newly created shared checkpoints too')
 local remigrated,ma=A.BuildSharedBackupRoots(A.db,legacyM,legacyA)
 check(remigrated and ma,'rollback export remains migration-compatible')
+local newStore=assert(A.ValidateSharedBackups(remigrated,ma))
 for _,isAuto in ipairs({false,true}) do
  for _,entry in ipairs(A.ListDataBackups(isAuto)) do
-  local internal=M.findOrigin(remigrated.store,isAuto and 'auto' or 'manual',entry.id)
-  check(M.sameData(A.SharedReadBackup(entry.id,isAuto).data,M.restore(remigrated.store,internal)),'post-migration checkpoints preserve rollback parity')
+  local internal=M.findOrigin(newStore,isAuto and 'auto' or 'manual',entry.id)
+  check(M.sameData(A.SharedReadBackup(entry.id,isAuto).data,M.restore(newStore,internal)),'post-migration checkpoints preserve rollback parity')
  end
 end
 check(AzerothStatsDB==ORIGINAL,'original addon namespace untouched')
@@ -122,6 +126,20 @@ local clock=time;time=nil
 check(A.CreateDataBackup(false),'missing native clock uses safe checkpoint timestamp')
 check(A.ListDataBackups(false)[1].at==0,'missing clock timestamp remains readable')
 time=clock
+local numbers={1/3, 1/7, 1e-90, -1e99, 2^-1074, 9007199254740991, 0, -0}
+local bytes=assert(M.encodeStore(numbers))
+check(M.sameData(M.decodeStore(bytes),numbers),'wire preserves exact double values including subnormals')
+check(not M.decodeStore(bytes..'x'),'wire rejects trailing content')
+check(not M.decodeStore('t1:s1:ab2'),'wire rejects malformed booleans')
+check(not M.decodeStore('t2:s1:an3:0:0s1:an3:0:0'),'wire rejects duplicate keys')
+local safe=assert(M.encodeStore({description='é\\n|cffff0000', values=numbers}))
+check(M.sameData(M.decodeStore(safe),{description='é\\n|cffff0000',values=numbers}),'wire strings preserve unicode and literal escape text')
+A.db.settings.exactWireProbe=1/3;A.db.runs[1].wireProbe=1/7
+check(A.CreateDataBackup(false),'backup with non-roundtrip native numeric literals')
+local selected=A.ListDataBackups(false)[1]
+local exact=A.SharedReadBackup(selected.id,false).data
+check(exact.settings.exactWireProbe==1/3 and exact.runs[1].wireProbe==1/7,'shared checkpoint retains all input precision')
+WIRE_NATIVE_FIXTURE={AzerothStatsRebornBackup=AzerothStatsRebornBackup,AzerothStatsRebornAutoBackup=AzerothStatsRebornAutoBackup}
 """
     )
     # Exercise the actual bounded serializer/tool transformation on synthetic roots.
@@ -130,6 +148,32 @@ time=clock
     from reborn_storage_io import runtime
 
     disk = runtime()
+    # Reproduce the native writer's numeric precision loss. The active DB is
+    # ordinary client data; immutable backup payloads must remain bit-exact.
+    wire = lua.globals().WIRE_NATIVE_FIXTURE
+    wire_raw = lua.eval(
+        "function(e) return 'AzerothStatsRebornBackup='..SNAPSHOT(e.AzerothStatsRebornBackup)..'\\nAzerothStatsRebornAutoBackup='..SNAPSHOT(e.AzerothStatsRebornAutoBackup) end"
+    )(wire).encode()
+    wire_env = load(disk, wire_raw)
+    disk.execute(
+        "local original=string.format; string.format=function(fmt,...) "
+        "if fmt=='%.17g' then fmt='%.16g' end;return original(fmt,...) end;"
+        "assert(tonumber(string.format('%.17g',1/7))~=1/7,'precision-loss fixture must actually round')"
+    )
+    native_env = load(disk, dump(disk, wire_env))
+    from reborn_storage_io import bind
+
+    bind(disk, native_env)
+    native_a = disk.globals().AzerothStatsReborn
+    native_store = native_a.ValidateSharedBackups(
+        native_env.AzerothStatsRebornBackup, native_env.AzerothStatsRebornAutoBackup
+    )
+    assert native_store is not None and not isinstance(native_store, tuple)
+    latest = native_a.SharedReadBackup(None, False).data
+    assert latest.settings.exactWireProbe == 1 / 3
+    assert latest.runs[1].wireProbe == 1 / 7
+    assert native_a.SharedCodec.sameData(wire_env, native_env)
+    disk.execute("SHARED_TESTS=5")
     # Existing serializer in the runtime harness returns valid data assignments.
     raw = lua.eval(
         "function(e) return 'AzerothStatsRebornDB='..SNAPSHOT(e.AzerothStatsRebornDB)..'\\nAzerothStatsRebornBackup='..SNAPSHOT(e.AzerothStatsRebornBackup)..'\\nAzerothStatsRebornAutoBackup='..SNAPSHOT(e.AzerothStatsRebornAutoBackup) end"
@@ -196,6 +240,7 @@ time=clock
         "olderDecoderRestore": True,
         "serializedSharedBytes": len(migrated),
         "serializedLegacyBytes": len(legacy),
+        "nativeNumericRoundingRegression": True,
     }
     (ROOT / "build/reborn-shared-storage-validation.json").write_text(
         json.dumps(report, indent=2) + "\n", encoding="utf8"

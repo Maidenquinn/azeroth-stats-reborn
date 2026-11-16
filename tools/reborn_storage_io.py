@@ -97,9 +97,10 @@ if STORAGE_ROLLBACK then
  local candidate,marker=A.BuildSharedBackupRoots(env.AzerothStatsRebornDB,manual,automatic)
  assert(candidate,marker)
  local old=assert(A.ValidateSharedBackups(env.AzerothStatsRebornBackup,env.AzerothStatsRebornAutoBackup))
+ local new=assert(A.ValidateSharedBackups(candidate,marker))
  for id,entry in pairs(old.entries) do
-  local other=M.findOrigin(candidate.store,entry.origin.kind,entry.origin.id)
-  assert(other and M.sameData(M.restore(old,id),M.restore(candidate.store,other)),'rollback checkpoint mismatch')
+  local other=M.findOrigin(new,entry.origin.kind,entry.origin.id)
+  assert(other and M.sameData(M.restore(old,id),M.restore(new,other)),'rollback checkpoint mismatch')
  end
 else
  manual,automatic=A.BuildSharedBackupRoots(env.AzerothStatsRebornDB,env.AzerothStatsRebornBackup,env.AzerothStatsRebornAutoBackup)
@@ -117,7 +118,12 @@ STORAGE_RESULT={AzerothStatsRebornDB=env.AzerothStatsRebornDB,AzerothStatsReborn
     if not rollback:
         codec = lua.globals().AzerothStatsReborn.SharedCodec
         valid = codec.verifyMigration(
-            reloaded[ROOTS[1]].store, env[ROOTS[0]], env[ROOTS[1]], env[ROOTS[2]]
+            lua.globals().AzerothStatsReborn.ValidateSharedBackups(
+                reloaded[ROOTS[1]], reloaded[ROOTS[2]]
+            ),
+            env[ROOTS[0]],
+            env[ROOTS[1]],
+            env[ROOTS[2]],
         )
         assert valid is True or (
             isinstance(valid, tuple) and valid[0] is True

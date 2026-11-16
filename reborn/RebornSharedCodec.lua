@@ -85,8 +85,19 @@ function M.sameData(left, right)
     return equal(left, right, { nodes = 0 }, 0)
 end
 
--- Deterministic, order-independent dual rolling checksum for accidental damage.
--- NOT cryptographic authentication; safe enough only for research diagnostics.
+-- Exact, locale/CRT-independent dyadic representation of a Lua double.
+function M.numberToken(value)
+    if value == math.floor(value) and math.abs(value) <= 9007199254740992 then
+        return "i" .. (value == 0 and "0" or string.format("%.0f", value))
+    end
+    if value == 0 then
+        return "0:0"
+    end
+    local fraction, exponent = math.frexp(value)
+    return tostring(exponent) .. ":" .. string.format("%.0f", fraction * 9007199254740992)
+end
+
+-- Deterministic dual rolling checksum for accidental damage, not authentication.
 local function fingerprint(value)
     local state = { left = 17, right = 71, nodes = 0, visiting = {} }
     local function feed(str)
@@ -134,7 +145,7 @@ local function fingerprint(value)
         if kind == "string" then
             payload = v
         elseif kind == "number" and v == v and math.abs(v) < 1e100 then
-            payload = v == 0 and "0" or string.format("%.17g", v)
+            payload = M.numberToken(v)
         elseif kind == "boolean" then
             payload = v and "1" or "0"
         elseif kind == "nil" then

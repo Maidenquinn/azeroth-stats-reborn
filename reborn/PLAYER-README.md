@@ -14,3 +14,5 @@ Local cleanup and backup creation/restoration/deletion are available during runs
 `/azstatsr shared audit` prints a read-only storage inventory in French/English. Repeated run IDs are not proof of identical contents. The shared backup engine is experimental and used only by explicitly migrated profiles; existing profiles keep the legacy format. Both formats use the same backup manager. A closed-client migration keeps an independent safety copy and supports exporting all checkpoints back to the older format. Never downgrade the addon against shared-format saves without converting them back first.
 
 Reports are local observations, not leaderboard-verified results. Reloads lose the game's short recent-event/history buffers. Actual-client acceptance testing is required before release.
+
+The experimental `.9-dev` shared format was withdrawn after the native save writer rounded checkpoint numbers and caused integrity rejection. `.10-dev` uses exact encoded backup numbers; native acceptance must be repeated. Keep the external safety copy. Do not bypass integrity checks or downgrade a shared save directly.
