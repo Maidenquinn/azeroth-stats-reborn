@@ -1,6 +1,33 @@
 local A = AzerothStatsReborn
 -- Reborn launches runs immediately: local cleanup cannot require a ready screen.
 A.liveDataManagement = true
+function A.PrepareBackupRestore(data)
+    for _, run in ipairs(data.runs or {}) do
+        if run.status == "active" then
+            run.status, run.partial = "interrupted", true
+        end
+    end
+    local phase = A.Call(AZS_GetPhase)
+    if phase and phase ~= "ready" then
+        data.settings.rebornResetRunId = A.NativeRunId()
+    end
+end
+function A.AfterBackupRestore()
+    A.RebornDiscardSegment()
+    if A.V2CombatReset then
+        A.V2CombatReset()
+    end
+    A.run, A.pendingReport, A.partySession, A.deathWatch = nil, nil, nil, nil
+    A.journalPhaseRun, A.journalPhase, A.journalStatsWindow = nil, nil, nil
+    A.packetSummary, A.packetReady, A.v2Packets = nil, nil, nil
+    A.pendingEntryPlan, A.pendingRetention = nil, nil
+    A.meterPackets = {}
+    A.boundaryGate, A.newBoundary = A.Gate(), true
+    A.inventoryBaseline = A.InventorySignature()
+    A.buildBaseline = { spells = A.Sign(A.Copy(AZS_SPELLS)), stats = A.Sign(A.Copy(AZS_STATS)) }
+    A.spellPacket, A.statsPacket = nil, nil
+    A.view = { tab = 3, page = 1, mode = "damage", historySection = "History" }
+end
 function A.BeforeFullDataReset()
     if A.run then
         A.db.settings.rebornResetRunId = A.NativeRunId() or A.run.nativeRunId
@@ -121,6 +148,7 @@ local function plain(v)
     return A.Text(v, 500)
 end
 local labels = {
+    ["A backup is created before deletion; restore at any time"] = "Une sauvegarde est créée avant la suppression ; restauration disponible à tout moment",
     ["Current run excluded after reset; recording resumes next run"] = "Après la remise à zéro, l’enregistrement reprendra à la prochaine partie",
     ["Deleted run contributions are removed from totals"] = "Les statistiques de cette partie sont retirées des totaux",
     ["Damage / healing"] = "Dégâts / soins",

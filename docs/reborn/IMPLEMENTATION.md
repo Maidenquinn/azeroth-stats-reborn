@@ -1,6 +1,14 @@
 # Reborn implementation and acceptance status
 
-Development candidate: `0.1.0-reborn.6-dev`. No stable release is authorized by this document.
+Development candidate: `0.1.0-reborn.7-dev`. No stable release is authorized by this document.
+
+## Backup management during Reborn runs (.7-dev)
+
+Reborn now also enables manual/automatic backup creation, restoration, backup deletion and reviewed manual cleanup during runs. Original-client guards remain unchanged. Restoration first clones and validates the selected snapshot, then creates a safety backup of the current usable database. This order preserves the selected target even if automatic retention prunes its original catalogue entry. Failed validation/initialization preserves the prior database and live tracker. A validated snapshot can still recover an unloaded database.
+
+On success, saved active observations are frozen as interrupted/partial in the detached replacement; the selected archive remains unchanged. Old tracker/report/party/death/checkpoint references and pending actions are detached only after successful initialization. The current native run is excluded until the next native ID (persisted across reload), avoiding double-accounting or immediate overwrite of restored data. The backup dialog explains next-run resumption in EN/FR. Native game counters and FieldKit are untouched.
+
+Synthetic regression tests cover live manual backup creation, backup deletion and manual cleanup including stale confirmation tokens; invalid targets; initializer rollback; live manual and automatic restore; pre-restore safety snapshot; retention eviction; source archive immutability; native-counter isolation; reload persistence and next-run idempotence. No user backup was restored/deleted and no user history was modified during verification.
 
 ## Reborn local cleanup without a ready screen (.6-dev)
 

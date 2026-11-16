@@ -287,7 +287,6 @@ local action={kind='run',key=old.id,label='Historical test'}
 A.OpenEntryReview(action);A.RebornRepairLayers()
 check(A.pendingEntryPlan.allowed,'historical deletion allowed during another run')
 check(A.ui.entryDialog.confirm:GetFrameLevel()>A.ui.entryDialog:GetFrameLevel(),'deletion control is clickable above dialog')
-check(not A.CreateDataBackup(true),'ordinary automatic backup still blocked in a run')
 check(not A.CreateDataBackup(false,A.pendingEntryPlan.history),'manual backup cannot bypass run boundary')
 local plan=A.pendingEntryPlan.history
 check(not A.CreateDataBackup(true,plan),'unreviewed backup context rejected')
@@ -314,7 +313,6 @@ check(saved.runs[1].id==old.id and saved.runs[2].id==live.id,'snapshot includes 
 check(saved.runs[2].status=='interrupted' and saved.runs[2].partial and live.status=='active','only snapshot freezes live observation')
 check(A.ValidateDatabase(saved),'mid-run safety snapshot passes persistence validation')
 check(not A.EntryPlan({kind='run',key=live.id,label='Live'}).allowed,'active run cannot be deleted')
-check(not A.RestoreDataBackup(backups[1].id,true),'restoration still blocked during play')
 A.run=nil
 check(A.RestoreDataBackup(backups[1].id,true),'safety snapshot restores between runs')
 check(A.FindRun(old.id) and A.FindRun(live.id).status=='interrupted','restoration recovers deleted history without phantom live run')
@@ -395,6 +393,71 @@ local damage=A.db.totals.sum.damage
 A.Sample()
 check(A.db.totals.runs==1 and A.db.totals.sum.damage==damage,'post-reset new run stays idempotent')
 check(AzerothStatsDB==ORIGINAL and A.ValidateDatabase(A.db),'live cleanup remains isolated and persistable')
+"""
+)
+lua.execute(
+    """
+local A=AzerothStatsReborn
+local live=assert(A.run)
+local nativeBefore=A.Sign(AZS_RUN)
+local liveBefore=A.Sign(live)
+for i=1,3 do check(A.CreateDataBackup(false),'manual backup available during play') end
+local manual=A.ListDataBackups(false)
+check(A.DeleteDataBackup(manual[1].id,false),'backup deletion available during play')
+local cleanup=A.PreviewManualBackupCleanup(2)
+check(cleanup and cleanup.remove>0,'manual cleanup preview available during play')
+check(A.CreateDataBackup(false),'catalogue can change after cleanup preview')
+check(not A.CleanupManualBackups(2,cleanup.token),'stale live cleanup preview rejected')
+cleanup=A.PreviewManualBackupCleanup(2)
+check(A.CleanupManualBackups(2,cleanup.token) and table.getn(A.ListDataBackups(false))==2,'reviewed manual cleanup works during play')
+check(A.run==live and A.Sign(live)==liveBefore,'backup management preserves current tracker')
+A.db.settings.restoreTest='before'
+check(A.CreateDataBackup(false),'selected manual snapshot created during play')
+manual=A.ListDataBackups(false)
+local selected=manual[1]
+local entry=AzerothStatsRebornBackup.entries[table.getn(AzerothStatsRebornBackup.entries)]
+local sourceBefore=SNAPSHOT(entry.data)
+check(entry.data.runs[table.getn(entry.data.runs)].status=='interrupted','manual snapshot freezes active observation only in copy')
+A.db.settings.restoreTest='after';live.values.damage=999;A.Account(live)
+local before=A.Sign(A.db)
+-- Invalid selected snapshots and initializer errors cannot change the tracker.
+table.insert(AzerothStatsRebornBackup.entries,{id=999999,data={invalid=true}})
+check(not A.RestoreDataBackup(999999,false) and A.Sign(A.db)==before and A.run==live,'invalid restore is atomic during play')
+table.remove(AzerothStatsRebornBackup.entries)
+local initialize=A.InitDB
+A.InitDB=function() A.db={broken=true};error('synthetic initializer failure') end
+check(not A.RestoreDataBackup(selected.id,false) and A.Sign(A.db)==before and A.run==live,'failed initialization restores database and live tracker')
+A.InitDB=initialize
+A.pendingReport={id=live.id};A.pendingEntryPlan={stale=true};A.partySession={run=live};A.deathWatch={run=live}
+check(A.RestoreDataBackup(selected.id,false),'manual backup restores during play')
+check(A.db.settings.restoreTest=='before' and not A.run,'restore uses saved preferences and detaches old run')
+check(not A.pendingReport and not A.pendingEntryPlan and not A.partySession and not A.deathWatch,'restore clears stale observer references')
+check(SNAPSHOT(entry.data)==sourceBefore,'restoration never mutates selected backup')
+local safety=AzerothStatsRebornAutoBackup.entries[table.getn(AzerothStatsRebornAutoBackup.entries)].data
+check(safety.settings.restoreTest=='after','pre-restore state remains in safety backup')
+local restoredCount=table.getn(A.db.runs)
+local restoredDamage=A.db.totals.sum.damage
+A.Packet('AZSRUN','ph=playing;t=40');A.Sample()
+check(not A.run and table.getn(A.db.runs)==restoredCount and A.db.totals.sum.damage==restoredDamage,'current native counters do not overwrite restored history')
+AzerothStatsRebornDB=assert(loadstring('return '..SNAPSHOT(A.db)))();A.db=nil
+check(A.InitDB(),'restored database reloads during play')
+A.Sample()
+check(not A.run and table.getn(A.db.runs)==restoredCount,'restore exclusion survives reload')
+check(A.Sign(AZS_RUN)==nativeBefore,'backup operations never change native counters')
+AZS_ZONE.run='r24681357';AZS_RUN={ph='playing',t=1,kills=1,lvl=1,dealt=5};AZS_END={}
+A.Sample()
+check(A.run and A.run.nativeRunId=='azs:r24681357' and table.getn(A.db.runs)==restoredCount+1,'next run resumes recording after restoration')
+local totals=A.Sign(A.db.totals);A.Sample()
+check(A.Sign(A.db.totals)==totals,'restored history plus next run remains idempotent')
+-- The selected automatic snapshot may be evicted by the pre-restore safety backup.
+check(A.CreateDataBackup(true),'automatic snapshot can be requested during play')
+local auto=A.ListDataBackups(true)[1]
+A.db.settings.autoBackupRetention=1;A.db.settings.restoreTest='second'
+check(A.RestoreDataBackup(auto.id,true),'selected automatic backup survives retention eviction during restoration')
+check(table.getn(A.ListDataBackups(true))==1 and A.db.settings.restoreTest~='second','automatic restore selects the copied target, not new safety snapshot')
+check(A.ValidateDatabase(A.db) and AzerothStatsDB==ORIGINAL,'live restore remains isolated and persistable')
+A.db=nil
+check(A.RestoreDataBackup(selected.id,false) and A.db.game==A.game,'validated backup can recover when no live database is loaded')
 """
 )
 for path in target.glob("*.lua"):

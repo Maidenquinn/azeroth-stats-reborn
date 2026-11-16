@@ -9,4 +9,6 @@ The Reborn report adds recent 5–120 second damage/healing windows, native load
 
 Stats can run with FieldKit. Its compact HUD and minimap button are optional. Stats does not hide or reposition native or FieldKit elements. Five inherited Stats themes are available.
 
+Local cleanup and backup creation/restoration/deletion are available during runs. Restoration requires confirmation and keeps a safety backup of the current database. After a full reset or restoration, recording resumes at the next run so current game counters cannot refill or overwrite the cleared/restored history. The game itself is not reset.
+
 Reports are local observations, not leaderboard-verified results. Reloads lose the game's short recent-event/history buffers. Actual-client acceptance testing is required before release.

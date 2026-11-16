@@ -2437,8 +2437,19 @@ local function buildSettings(frame)
             put(paging, tr("Page ", "Page ") .. page .. " / " .. pages)
             put(
                 selectedText,
-                selectedBackup and (tr("Selected: ", "Sélection : ") .. entryTitle(selectedBackup))
+                (
+                    selectedBackup
+                        and (tr("Selected: ", "Sélection : ") .. entryTitle(selectedBackup))
                     or tr("No backup selected", "Aucune sauvegarde sélectionnée")
+                )
+                    .. (
+                        A.liveDataManagement
+                            and ("\n" .. tr(
+                                "After restoration, recording resumes next run",
+                                "Après restauration, l’enregistrement reprend à la prochaine partie"
+                            ))
+                        or ""
+                    )
             )
         end
         for index = 1, 7 do
@@ -4317,6 +4328,7 @@ function A.BuildUI()
                 or A.T(
                     data.kind == "favorites"
                             and "Removing favorites unprotects runs from future history cleanup"
+                        or A.liveDataManagement and "A backup is created before deletion; restore at any time"
                         or "A backup is created before deletion; restore between runs"
                 )
         )

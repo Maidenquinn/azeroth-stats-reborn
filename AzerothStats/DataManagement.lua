@@ -336,7 +336,13 @@ function A.CreateDataBackup(automatic, removalPlan)
         return false, "No database loaded"
     end
     local liveSnapshot = A.run and A.run.status == "active"
-    if liveSnapshot and not (automatic and reviewedRemovalBackup(removalPlan)) then
+    if
+        liveSnapshot
+        and not (
+            (removalPlan == nil and A.liveDataManagement)
+            or (automatic and reviewedRemovalBackup(removalPlan))
+        )
+    then
         return false, "Backups are available between runs"
     end
     -- Read the existing catalogue without converting legacy roots first:
@@ -431,7 +437,7 @@ function A.RecordCompletedRunBackup(run)
 end
 
 function A.RestoreDataBackup(id, automatic)
-    if A.run and A.run.status == "active" then
+    if not A.liveDataManagement and A.run and A.run.status == "active" then
         return false, "Restore is available between runs"
     end
     local store = backupStore(automatic)
@@ -452,6 +458,20 @@ function A.RestoreDataBackup(id, automatic)
     if err or not A.ValidateDatabase(data) then
         return false, err or "Backup validation failed"
     end
+    if A.PrepareBackupRestore then
+        A.PrepareBackupRestore(data)
+        if not A.ValidateDatabase(data) then
+            return false, "Backup validation failed"
+        end
+    end
+    if A.liveDataManagement and A.db then
+        -- Clone/validate the selected entry first: creating this snapshot may
+        -- prune that entry under automatic retention, but must not lose it.
+        local ok, reason = A.CreateDataBackup(true)
+        if not ok then
+            return false, reason
+        end
+    end
     -- Keep the previous live database recoverable if initialization fails.
     -- Validation above is necessary but does not guarantee that migrations or
     -- native initialization will succeed. Do not clear pending actions until
@@ -466,11 +486,14 @@ function A.RestoreDataBackup(id, automatic)
         return false, "Backup could not be loaded; previous database preserved"
     end
     A.pendingDataPlan = nil
+    if A.AfterBackupRestore then
+        A.AfterBackupRestore()
+    end
     return true, "Backup No." .. entry.id .. " restored; reload recommended"
 end
 
 function A.DeleteDataBackup(id, automatic)
-    if A.run and A.run.status == "active" then
+    if not A.liveDataManagement and A.run and A.run.status == "active" then
         return false, "Backup deletion is available between runs"
     end
     local store = backupStore(automatic)
@@ -486,7 +509,7 @@ end
 -- Manual snapshots are never pruned automatically. A two-step preview token
 -- prevents stale confirmations from deleting a changed backup catalogue.
 function A.PreviewManualBackupCleanup(keep)
-    if A.run and A.run.status == "active" then
+    if not A.liveDataManagement and A.run and A.run.status == "active" then
         return nil, "Backup cleanup is available between runs"
     end
     keep = A.Number(keep)
