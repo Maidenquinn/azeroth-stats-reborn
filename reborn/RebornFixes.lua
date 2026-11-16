@@ -1,4 +1,16 @@
 local A = AzerothStatsReborn
+-- All history, analysis and comparison views share the theme's illustration path.
+local classicZoneIllustration = A.ZoneIllustration
+function A.ZoneIllustration(texture, zone)
+    local entry = A.rebornZoneImages and A.rebornZoneImages[zone]
+    if not entry then
+        return classicZoneIllustration(texture, zone)
+    end
+    texture.themeGlyph = nil
+    texture:SetVertexColor(1, 1, 1)
+    texture:SetTexture(A.theme.media .. entry.texture)
+    texture:SetTexCoord(entry.left, entry.right, entry.top, entry.bottom)
+end
 -- Reborn does not consistently inherit strata/levels when a parent is raised.
 -- Repair only Stats-owned descendants; preserve explicit modal ordering.
 local modalOffsets = {

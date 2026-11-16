@@ -3,10 +3,11 @@
 from pathlib import Path
 import argparse, hashlib, json, re, zipfile
 from package_policy import public_files
+from build_reborn_run_images import build as zone_images, recipe as zone_image_recipe
 from security_review import tokens, FORBIDDEN
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.1.0-reborn.3-dev"
+VERSION = "0.1.0-reborn.4-dev"
 NAME = "AzerothStatsReborn"
 
 
@@ -100,6 +101,25 @@ def build(output=ROOT / "build"):
     )
     files["RebornNames.lua"] += (
         NAME + ".rebornCreatureIcons = " + lua_literal(creatures["names"]) + "\n"
+    ).encode("utf8")
+    images = zone_images(check=True)
+    files["RebornNames.lua"] += (
+        NAME + ".rebornZoneImages = " + lua_literal(images) + "\n"
+    ).encode("utf8")
+    for entry in images.values():
+        name = entry["texture"]
+        files["media/" + name] = (ROOT / "reborn/media" / name).read_bytes()
+    files["IMAGE-CREDITS.md"] = (
+        "# Expansion zone illustrations\n\n"
+        "Artwork remains copyrighted by its respective owners. "
+        "Reborn campaign media and Blizzard press artwork are bundled locally; "
+        "no network access occurs in the addon. "
+        "Classic image credits are unchanged.\n\n"
+        + "\n".join(
+            f"- {zone}: {entry['credit']}. Source: {entry['page']}"
+            for zone, entry in sorted(zone_image_recipe()["zones"].items())
+        )
+        + "\n"
     ).encode("utf8")
     files["README.md"] = (
         (ROOT / "reborn/PLAYER-README.md").read_text(encoding="utf8").encode("utf8")

@@ -1,6 +1,14 @@
 # Reborn implementation and acceptance status
 
-Development candidate: `0.1.0-reborn.3-dev`. No stable release is authorized by this document.
+Development candidate: `0.1.0-reborn.4-dev`. No stable release is authorized by this document.
+
+## Expansion zone illustrations (.4-dev)
+
+All 36 expansion zone IDs now have reviewed, locally bundled thumbnails: 12 Burning Crusade, 12 Lich King and 12 Cataclysm, including the future Cataclysm catalogue. BC/LK use the official Reborn campaign artwork; Cataclysm uses Blizzard press screenshots and concept art (two archived press mirrors). Sources, credits, immutable SHA-256 hashes, original dimensions and focal points are recorded in `data/reborn-run-image-sources.json`; the package includes `IMAGE-CREDITS.md`.
+
+The Reborn-only adapter extends the common `ZoneIllustration` renderer used by history, analysis, selectors and comparisons. Classic framing and unknown-zone fallback remain intact. Textures are 256×256 RGBA with the same aspect-correct 178×66 cover recipe as Classic, across all five themes. Builds verify the complete zone catalogue, source hashes and exact encoded bytes without downloading assets.
+
+Validation: 36 cropped banners inspected on a contact sheet; native dimensions, nonblank pixels and geometry verified offline. Generated Lua tests exercise every new zone across all five themes, stale tint/glyph/UV reset, Classic and unknown-zone fallbacks. These checks do not claim a live-client visual acceptance of all maps.
 
 ## Runtime and storage
 

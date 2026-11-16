@@ -244,6 +244,33 @@ check(A.RebornNpcIcon('Matriarche ravasaure'):find('Nemesis%-d11319'), 'actual r
 check(A.RebornNpcIcon("Uhk'loc")~=A.RebornNpcIcon('Roi Mosh'),'different bosses keep different actual portraits')
 """
 )
+lua.execute(
+    """
+local A=AzerothStatsReborn
+local texture={}
+function texture:SetTexture(path) self.path=path end
+function texture:SetVertexColor(...) self.tint={...} end
+function texture:SetTexCoord(...) self.uv={...} end
+for _,theme in ipairs(A.themeOrder) do
+ A.UseTheme(theme)
+ local count=0
+ for zone,entry in pairs(A.rebornZoneImages) do
+  count=count+1
+  texture.themeGlyph='stale';texture.tint={0,0,0};texture.uv={0,0,0,0}
+  A.ZoneIllustration(texture,zone)
+  check(texture.path==A.theme.media..entry.texture,'expansion path across themes: '..zone)
+  check(texture.themeGlyph==nil and texture.tint[1]==1 and texture.tint[2]==1 and texture.tint[3]==1,'stale glyph and tint reset')
+  check(texture.uv[1]==entry.left and texture.uv[4]==entry.bottom,'reviewed native framing')
+ end
+ check(count==36,'all three expansion catalogues')
+ A.ZoneIllustration(texture,'ungoro')
+ check(texture.path==A.theme.media..'RunZone-ungoro.tga','Classic unchanged')
+ A.ZoneIllustration(texture,'unknown_future_zone')
+ check(texture.path==A.theme.media..'ChroniclePlate4.tga','unknown map fallback')
+end
+A.UseTheme('chroniques')
+"""
+)
 for path in target.glob("*.lua"):
 
     raw = path.read_text(encoding="utf8")
