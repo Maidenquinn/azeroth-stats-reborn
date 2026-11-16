@@ -148,6 +148,9 @@ driver:SetScript("OnEvent", function()
 end)
 local tick, languageTick, uiTick, overlayTick = 0, 0, 0, 0
 driver:SetScript("OnUpdate", function()
+    if A.RebornFrameTick then
+        A.RebornFrameTick(A.Number(arg1) or 0)
+    end
     tick = tick + (A.Number(arg1) or 0)
     languageTick = languageTick + (A.Number(arg1) or 0)
     if tick < 1 then
@@ -207,6 +210,9 @@ driver:SetScript("OnUpdate", function()
 end)
 SLASH_AZEROTHSTATS1 = "/azstats"
 SlashCmdList["AZEROTHSTATS"] = function(message)
+    if A.RebornCommand and A.RebornCommand(message) then
+        return
+    end
     if not A.db then
         A.Say(A.T("Unavailable"))
         return

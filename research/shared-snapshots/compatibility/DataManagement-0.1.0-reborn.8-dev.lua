@@ -1,0 +1,717 @@
+-- Explicit local data removal. No native writes, file I/O, arithmetic subtraction
+-- from cumulative ledgers, or implicit reset from slash-command arguments.
+local A = AzerothStats
+-- Original-client category resets require a boundary; Reborn opts into live actions.
+A.dataCategories =
+    { nemesis = "Nemesis", records = "Records", trends = "Trends", favorites = "Favorites" }
+local function size(value)
+    local count = 0
+    for _ in pairs(value or {}) do
+        count = count + 1
+    end
+    return count
+end
+
+--- Count visible aggregate entries and historical category details, never guess lost totals.
+local function categoryImpact(kind, plan)
+    local total = A.db.totals
+    if kind == "nemesis" then
+        plan.count = size(total.deathEvidence and total.deathEvidence.sources)
+        plan.observed = total.deathEvidence and total.deathEvidence.deaths or 0
+    elseif kind == "records" then
+        plan.count = size(total.records)
+    elseif kind == "trends" then
+        plan.count = size(total.usage and total.usage.spells)
+            + size(total.usage and total.usage.jewelry)
+            + size(total.companions)
+    else
+        plan.count = size(A.db.favorites.entries)
+    end
+    plan.details = 0
+    for _, run in ipairs(A.db.runs) do
+        local count = kind == "nemesis" and table.getn(run.deaths or {})
+            or kind == "records" and size(run.reportRecords)
+            or kind == "trends" and (size(run.usage and run.usage.spells) + size(
+                run.usage and run.usage.jewelry
+            ))
+            or 0
+        if count > 0 then
+            table.insert(plan.ids, run.id)
+            plan.details = plan.details + count
+        end
+    end
+    -- Class-only entries may outlive a global admission limit.
+    plan.classEntries = 0
+    for _, group in pairs(A.db.classes) do
+        if kind == "nemesis" then
+            plan.classEntries = plan.classEntries
+                + size(group.deathEvidence and group.deathEvidence.sources)
+        elseif kind == "records" then
+            plan.classEntries = plan.classEntries + size(group.records)
+        elseif kind == "trends" then
+            plan.classEntries = plan.classEntries
+                + size(group.usage and group.usage.spells)
+                + size(group.usage and group.usage.jewelry)
+                + size(group.companions)
+        end
+    end
+end
+
+--- Clear only the named category; historical numeric combat results remain intact.
+local function clearCategory(kind)
+    local groups = { A.db.totals }
+    for _, group in pairs(A.db.classes) do
+        table.insert(groups, group)
+    end
+    for _, group in ipairs(groups) do
+        if kind == "nemesis" then
+            group.deathEvidence = nil
+        elseif kind == "records" then
+            group.records = {}
+        elseif kind == "trends" then
+            group.usage, group.companions = nil, nil
+            group.usageTruncated, group.companionsTruncated = nil, nil
+            group.legacyJewelry14 = nil
+        end
+    end
+    for _, run in ipairs(A.db.runs) do
+        if kind == "nemesis" then
+            run.deaths, run.deathsTruncated, run.nemesisReset = nil, nil, true
+        elseif kind == "records" then
+            run.reportRecords, run.recordBaseline, run.recordsReset = nil, nil, true
+        elseif kind == "trends" then
+            run.usage, run.usageTruncated, run.trendsReset = nil, nil, true
+        end
+    end
+    if kind == "nemesis" then
+        A.deathWatch = nil
+    elseif kind == "trends" then
+        A.view.coopPartner = nil
+    elseif kind == "favorites" then
+        A.db.favorites = { version = 1, entries = {} }
+    end
+    A.view.page = 1
+end
+
+-- Remove only contributions proven by a retained run's accounting ledger.
+-- This deliberately does not reconstruct lifetime totals from incomplete history.
+local function unaccountRemovedRuns(remove)
+    local removed = {}
+    local missing = {}
+    for _, run in ipairs(A.db.runs) do
+        if remove[run.id] then
+            table.insert(removed, run)
+        end
+    end
+    for _, run in ipairs(removed) do
+        local ownGroups = { A.db.totals, A.db.classes[run.class] }
+        for _, group in ipairs(ownGroups) do
+            if group then
+                if run.counted and not (run.sumResets and run.sumResets.runs) then
+                    group.runs = math.max(0, (group.runs or 0) - 1)
+                end
+                if run.winCounted and not (run.sumResets and run.sumResets.wins) then
+                    group.wins = math.max(0, (group.wins or 0) - 1)
+                end
+                for _, key in ipairs(A.metrics) do
+                    if not (run.sumResets and run.sumResets[key]) then
+                        local value = run.accounted and A.Number(run.accounted[key])
+                        if value ~= nil then
+                            if
+                                key ~= "level"
+                                and key ~= "peakDps"
+                                and group.sum
+                                and group.sum[key]
+                            then
+                                group.sum[key] = math.max(0, group.sum[key] - value)
+                            end
+                            if group.coverage and group.coverage[key] then
+                                group.coverage[key] = math.max(0, group.coverage[key] - 1)
+                            end
+                        end
+                    end
+                end
+                for mode, entries in pairs(run.spellAccounted or {}) do
+                    local aggregate = group.spells and group.spells[mode]
+                    if aggregate then
+                        for name, amount in pairs(entries) do
+                            if type(amount) == "number" and aggregate[name] then
+                                aggregate[name] = math.max(0, aggregate[name] - amount)
+                            end
+                        end
+                    end
+                end
+                -- A record pointing at the deleted run is invalid. Retained runs can
+                -- supply a replacement, but older pruned runs may have had a higher one.
+                for _, key in ipairs(A.metrics) do
+                    local record = group.records and group.records[key]
+                    if record and record.id == run.id then
+                        group.records[key] = nil
+                        missing[group] = missing[group] or {}
+                        missing[group][key] = true
+                    end
+                end
+            end
+        end
+    end
+    -- Restore records only where the deleted run was the record holder.
+    for _, run in ipairs(A.db.runs) do
+        if not remove[run.id] and not run.recordsReset then
+            for _, group in ipairs({ A.db.totals, A.db.classes[run.class] or {} }) do
+                group.records = group.records or {}
+                for _, key in ipairs(A.metrics) do
+                    if
+                        missing[group]
+                        and missing[group][key]
+                        and not (run.recordResets and run.recordResets[key])
+                    then
+                        local value = run.values and A.Number(run.values[key])
+                        local rec = group.records[key]
+                        if value and (not rec or value > rec.value) then
+                            group.records[key] = { value = value, id = run.id, at = run.startedAt }
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
+-- A bounded, independent snapshot. Never use A.Copy here: it truncates large
+-- databases and would silently turn a backup into an incomplete copy.
+local function snapshot(value, state, depth)
+    if depth > A.limits.savedDepth then
+        return nil, "Backup exceeds nesting limit"
+    end
+    state.count = state.count + 1
+    if state.count > A.limits.savedNodes then
+        return nil, "Backup exceeds database validation limit; no data changed"
+    end
+    local kind = type(value)
+    if kind ~= "table" then
+        if kind == "nil" or kind == "string" or kind == "boolean" then
+            return value
+        end
+        if kind == "number" and value == value and math.abs(value) < 1e100 then
+            return value
+        end
+        return nil, "Unsupported backup value"
+    end
+    if getmetatable(value) or state.visiting[value] then
+        return nil, "Unsafe backup structure"
+    end
+    state.visiting[value] = true
+    local result = {}
+    for key, child in pairs(value) do
+        local copiedKey, keyError = snapshot(key, state, depth + 1)
+        if keyError then
+            state.visiting[value] = nil
+            return nil, keyError
+        end
+        local copied, err = snapshot(child, state, depth + 1)
+        if err then
+            state.visiting[value] = nil
+            return nil, err
+        end
+        result[copiedKey] = copied
+    end
+    state.visiting[value] = nil
+    return result
+end
+
+-- Historical backups are kept outside the main database so restoring a snapshot
+-- never overwrites the catalogue. Legacy single-slot snapshots remain readable.
+local function backupStore(automatic)
+    local name
+    if automatic then
+        name = AzerothStatsAutoBackup
+    else
+        name = AzerothStatsBackup
+    end
+    if type(name) == "table" and name.schema == 2 and type(name.entries) == "table" then
+        return name
+    end
+    local store = { schema = 2, nextId = 1, entries = {} }
+    if type(name) == "table" and name.schema == 1 and type(name.data) == "table" then
+        table.insert(store.entries, { id = 1, at = 0, data = name.data, legacy = true })
+        store.nextId = 2
+    end
+    if automatic then
+        AzerothStatsAutoBackup = store
+    else
+        AzerothStatsBackup = store
+    end
+    return store
+end
+
+function A.ListDataBackups(automatic)
+    local store = backupStore(automatic)
+    local result = {}
+    for index = table.getn(store.entries), 1, -1 do
+        local entry = store.entries[index]
+        if type(entry) == "table" and type(entry.id) == "number" then
+            local runs = type(entry.data) == "table" and entry.data.runs or nil
+            table.insert(result, {
+                id = entry.id,
+                at = entry.at,
+                runs = entry.runs or (type(runs) == "table" and table.getn(runs)) or 0,
+                automatic = automatic and true or false,
+                legacy = entry.legacy,
+            })
+        end
+    end
+    return result
+end
+
+-- Exact structural comparison of already validated snapshot trees. Unlike A.Sign,
+-- this never truncates strings or uses a bounded, collision-prone signature.
+-- Limit work: when uncertain, retain the additional safety snapshot.
+local function sameSnapshot(left, right, state)
+    state.nodes = state.nodes + 1
+    if state.nodes > A.limits.savedNodes then
+        return false
+    end
+    if type(left) ~= type(right) then
+        return false
+    end
+    if type(left) ~= "table" then
+        return left == right
+    end
+    -- Before copying the live DB, never recurse into metatable-backed or cyclic
+    -- data. A failed comparison falls back to the full validated snapshot path.
+    if getmetatable(left) or getmetatable(right) then
+        return false
+    end
+    state.visiting = state.visiting or {}
+    if state.visiting[left] or state.visiting[right] then
+        return false
+    end
+    state.visiting[left], state.visiting[right] = true, true
+    local equal = true
+    for key, value in pairs(left) do
+        if right[key] == nil or not sameSnapshot(value, right[key], state) then
+            equal = false
+            break
+        end
+    end
+    if equal then
+        for key in pairs(right) do
+            if left[key] == nil then
+                equal = false
+                break
+            end
+        end
+    end
+    state.visiting[left], state.visiting[right] = nil, nil
+    return equal
+end
+
+-- Only a current reviewed removal may take a safety snapshot during a run.
+-- Reborn also opts category/full/entry cleanup into this path.
+local function reviewedRemovalBackup(plan)
+    if type(plan) == "table" and A.liveDataManagement and plan == A.pendingEntryPlan then
+        local fresh = A.EntryPlan(plan)
+        return fresh and fresh.allowed and fresh.signature == plan.signature
+    end
+    if
+        type(plan) ~= "table"
+        or plan ~= A.pendingDataPlan
+        or not (
+            plan.kind == "run"
+            or plan.kind == "history"
+            or (A.liveDataManagement and (plan.kind == "reset" or A.dataCategories[plan.kind]))
+        )
+    then
+        return false
+    end
+    local fresh = A.DataPlan(plan.kind, plan.class, plan.id)
+    return fresh
+        and fresh.allowed
+        and (fresh.count > 0 or A.liveDataManagement)
+        and fresh.signature == plan.signature
+end
+
+function A.CreateDataBackup(automatic, removalPlan)
+    if not A.db then
+        return false, "No database loaded"
+    end
+    local liveSnapshot = A.run and A.run.status == "active"
+    if
+        liveSnapshot
+        and not (
+            (removalPlan == nil and A.liveDataManagement)
+            or (automatic and reviewedRemovalBackup(removalPlan))
+        )
+    then
+        return false, "Backups are available between runs"
+    end
+    -- Read the existing catalogue without converting legacy roots first:
+    -- a rejected live snapshot must not mutate *any* SavedVariables root.
+    -- Identical automatic backups need no full clone or new catalogue entry.
+    -- Manual requests still create independent copies.
+    if automatic then
+        local existing = AzerothStatsAutoBackup
+        if
+            type(existing) == "table"
+            and existing.schema == 2
+            and type(existing.entries) == "table"
+        then
+            local latest = existing.entries[table.getn(existing.entries)]
+            if
+                latest
+                and type(latest.data) == "table"
+                and sameSnapshot(latest.data, A.db, { nodes = 0 })
+                and A.ValidateDatabase(A.db)
+            then
+                return true, "Automatic backup already up to date (No." .. latest.id .. ")"
+            end
+        end
+    end
+    local data, err = snapshot(A.db, { count = 0, visiting = {} }, 0)
+    if err then
+        return false, err
+    end
+    if liveSnapshot then
+        -- Freeze only the detached snapshot. Restoring it later must not create
+        -- a phantom active run or mutate/resume the live native tracker.
+        for _, run in ipairs(data.runs or {}) do
+            if run.status == "active" then
+                run.status, run.partial = "interrupted", true
+            end
+        end
+    end
+    if not A.ValidateDatabase(data) then
+        return false, "Backup failed validation"
+    end
+    local store = backupStore(automatic)
+    local id = store.nextId
+    store.nextId = id + 1
+    table.insert(store.entries, {
+        id = id,
+        at = time and time() or 0,
+        runs = table.getn(data.runs or {}),
+        data = data,
+    })
+    if automatic then
+        -- Respect a bounded per-player retention setting; older saves keep the
+        -- historical default until the user explicitly changes this option.
+        local retention = A.db.settings and A.Number(A.db.settings.autoBackupRetention)
+        retention = math.max(1, math.min(15, math.floor(retention or 15)))
+        while table.getn(store.entries) > retention do
+            table.remove(store.entries, 1)
+        end
+        return true, "Automatic safety backup No." .. id .. " saved"
+    end
+    return true, "Manual backup No." .. id .. " saved; reload to write it to disk"
+end
+
+-- Periodic snapshots are opt-in. Count only runs that reached an official
+-- terminal state and have been detached from the live tracker. Never copy
+-- the database on each poll, nor on interrupted runs.
+function A.RecordCompletedRunBackup(run)
+    if not A.db or not run or run.status ~= "ended" then
+        return false
+    end
+    local settings = A.db.settings
+    local interval =
+        math.max(0, math.min(20, math.floor(A.Number(settings.autoBackupEveryRuns) or 0)))
+    if interval == 0 then
+        return false
+    end
+    settings.autoBackupRunCounter = math.max(
+        0,
+        math.min(20, math.floor(A.Number(settings.autoBackupRunCounter) or 0))
+    ) + 1
+    if settings.autoBackupRunCounter < interval then
+        return false
+    end
+    -- The snapshot must contain the reset counter as well, otherwise restoring
+    -- it would trigger an extra backup on the next completed run.
+    local pending = settings.autoBackupRunCounter
+    settings.autoBackupRunCounter = 0
+    local ok = A.CreateDataBackup(true)
+    if not ok then
+        settings.autoBackupRunCounter = pending
+    end
+    return ok
+end
+
+function A.RestoreDataBackup(id, automatic)
+    if not A.liveDataManagement and A.run and A.run.status == "active" then
+        return false, "Restore is available between runs"
+    end
+    local store = backupStore(automatic)
+    local entry
+    for _, candidate in ipairs(store.entries) do
+        if type(candidate) == "table" and candidate.id == id then
+            entry = candidate
+            break
+        end
+    end
+    if not entry and id == nil then
+        entry = store.entries[table.getn(store.entries)]
+    end
+    if not entry then
+        return false, "Selected backup not found"
+    end
+    local data, err = snapshot(entry.data, { count = 0, visiting = {} }, 0)
+    if err or not A.ValidateDatabase(data) then
+        return false, err or "Backup validation failed"
+    end
+    if A.PrepareBackupRestore then
+        A.PrepareBackupRestore(data)
+        if not A.ValidateDatabase(data) then
+            return false, "Backup validation failed"
+        end
+    end
+    if A.liveDataManagement and A.db then
+        -- Clone/validate the selected entry first: creating this snapshot may
+        -- prune that entry under automatic retention, but must not lose it.
+        local ok, reason = A.CreateDataBackup(true)
+        if not ok then
+            return false, reason
+        end
+    end
+    -- Keep the previous live database recoverable if initialization fails.
+    -- Validation above is necessary but does not guarantee that migrations or
+    -- native initialization will succeed. Do not clear pending actions until
+    -- the replacement has been accepted.
+    local previousSaved, previousDB = AzerothStatsDB, A.db
+    local previousPlan = A.pendingDataPlan
+    AzerothStatsDB = data
+    local initialized, result = pcall(A.InitDB)
+    if not initialized or not result then
+        AzerothStatsDB, A.db = previousSaved, previousDB
+        A.pendingDataPlan = previousPlan
+        return false, "Backup could not be loaded; previous database preserved"
+    end
+    A.pendingDataPlan = nil
+    if A.AfterBackupRestore then
+        A.AfterBackupRestore()
+    end
+    return true, "Backup No." .. entry.id .. " restored; reload recommended"
+end
+
+function A.DeleteDataBackup(id, automatic)
+    if not A.liveDataManagement and A.run and A.run.status == "active" then
+        return false, "Backup deletion is available between runs"
+    end
+    local store = backupStore(automatic)
+    for index, entry in ipairs(store.entries) do
+        if type(entry) == "table" and entry.id == id then
+            table.remove(store.entries, index)
+            return true, "Backup deleted"
+        end
+    end
+    return false, "Backup not found"
+end
+
+-- Manual snapshots are never pruned automatically. A two-step preview token
+-- prevents stale confirmations from deleting a changed backup catalogue.
+function A.PreviewManualBackupCleanup(keep)
+    if not A.liveDataManagement and A.run and A.run.status == "active" then
+        return nil, "Backup cleanup is available between runs"
+    end
+    keep = A.Number(keep)
+    if not keep or keep ~= math.floor(keep) or keep < 1 or keep > 50 then
+        return nil, "Keep count must be between 1 and 50"
+    end
+    local store = backupStore(false)
+    local count = table.getn(store.entries)
+    local remove = math.max(0, count - keep)
+    local ids = {}
+    for i = 1, remove do
+        ids[i] = store.entries[i].id
+    end
+    local token = table.concat(ids, ",") .. "|" .. tostring(store.nextId) .. "|" .. tostring(count)
+    return { keep = keep, remove = remove, ids = ids, token = token }
+end
+
+function A.CleanupManualBackups(keep, token)
+    if type(token) ~= "string" then
+        return false, "Preview cleanup and confirm the current selection first"
+    end
+    local plan, err = A.PreviewManualBackupCleanup(keep)
+    if not plan then
+        return false, err
+    end
+    if plan.token ~= token then
+        return false, "Backup list changed; review cleanup again"
+    end
+    if plan.remove == 0 then
+        return true, "No manual backups to remove"
+    end
+    local store = backupStore(false)
+    for i = plan.remove, 1, -1 do
+        table.remove(store.entries, i)
+    end
+    return true, tostring(plan.remove) .. " older manual backups deleted; reload to save changes"
+end
+
+--- Build a fresh impact summary. History removal deliberately keeps all lifetime ledgers.
+function A.DataPlan(kind, class, id)
+    if
+        not A.db
+        or (kind ~= "run" and kind ~= "history" and kind ~= "reset" and not A.dataCategories[kind])
+    then
+        return nil
+    end
+    if A.dataCategories[kind] and class ~= nil then
+        return nil
+    end
+    if class ~= nil and (type(class) ~= "string" or not A.knownClasses[class]) then
+        return nil
+    end
+    if kind == "run" and (type(id) ~= "string" or string.len(id) > 80) then
+        return nil
+    end
+    local plan = { kind = kind, class = class, id = id, ids = {}, protected = 0, favorites = 0 }
+    local pins = A.ProtectedRunIds()
+    for _, run in ipairs(A.db.runs) do
+        local matches = kind == "reset"
+            or (kind == "run" and run.id == id)
+            or (kind == "history" and (not class or class == run.class))
+        if matches then
+            if kind ~= "reset" and (run == A.run or run.status == "active" or pins[run.id]) then
+                plan.protected = plan.protected + 1
+                if kind == "run" then
+                    plan.reason = (run == A.run or run.status == "active")
+                            and "Active run cannot be deleted"
+                        or "Remove run bookmarks first"
+                end
+            else
+                table.insert(plan.ids, run.id)
+            end
+        end
+    end
+    for _ in pairs(A.db.favorites.entries) do
+        plan.favorites = plan.favorites + 1
+    end
+    plan.count = table.getn(plan.ids)
+    if A.dataCategories[kind] then
+        categoryImpact(kind, plan)
+    end
+    if kind == "reset" or A.dataCategories[kind] then
+        -- The original client requires an explicit ready phase; Reborn opts in above.
+        if
+            not A.liveDataManagement
+            and (A.ReadProgress().ph ~= "ready" or (A.run and A.run.status == "active"))
+        then
+            plan.reason = "Reset is available between runs only"
+        elseif
+            A.dataCategories[kind]
+            and plan.count == 0
+            and plan.details == 0
+            and plan.classEntries == 0
+            and (plan.observed or 0) == 0
+        then
+            plan.reason = "No data yet"
+        end
+    elseif plan.count == 0 then
+        plan.reason = plan.reason or "No matching run details"
+    end
+    plan.allowed = plan.reason == nil
+    plan.signature = A.Sign({
+        kind = kind,
+        class = class,
+        id = id,
+        ids = plan.ids,
+        protected = plan.protected,
+        favorites = plan.favorites,
+        sequence = A.db.sequence,
+        allowed = plan.allowed,
+        reason = plan.reason,
+        count = plan.count,
+        details = plan.details,
+        observed = plan.observed,
+        classEntries = plan.classEntries,
+    })
+    return plan
+end
+
+--- Opening/reviewing a plan never changes persisted data or retention settings.
+function A.PrepareDataAction(kind, class, id)
+    A.pendingDataPlan = A.DataPlan(kind, class, id)
+    return A.pendingDataPlan
+end
+
+--- Apply only the explicitly reviewed, still-current plan. Full reset also requires RESET.
+function A.ConfirmDataAction(token)
+    local pending = A.pendingDataPlan
+    if not pending then
+        return false, "Review data removal first"
+    end
+    local fresh = A.DataPlan(pending.kind, pending.class, pending.id)
+    if not fresh then
+        A.pendingDataPlan = nil
+        return false, "Review data removal first"
+    end
+    A.pendingDataPlan = fresh
+    if not fresh.allowed then
+        return false, fresh.reason
+    end
+    if fresh.signature ~= pending.signature then
+        return false, "Data changed; review again"
+    end
+    if fresh.kind == "reset" and token ~= "RESET" then
+        return false, "Type RESET to confirm"
+    end
+    local backupOK, backupMessage = A.CreateDataBackup(true, fresh)
+    if not backupOK then
+        return false, backupMessage
+    end
+    if A.dataCategories[fresh.kind] then
+        clearCategory(fresh.kind)
+    elseif fresh.kind == "reset" then
+        if A.BeforeFullDataReset then
+            A.BeforeFullDataReset()
+        end
+        A.V2Reset()
+        -- Keep schema/version, migrations, monotonic IDs and the exact settings object.
+        -- Do not rebuild totals from retained runs: their older history may be pruned.
+        A.db.runs, A.db.totals, A.db.classes = {}, {}, {}
+        A.db.favorites = { version = 1, entries = {} }
+        A.db.pruned = 0
+        A.run, A.pendingReport, A.partySession, A.deathWatch = nil, nil, nil, nil
+        A.journalPhaseRun, A.journalPhase, A.journalStatsWindow = nil, nil, nil
+        A.packetSummary, A.packetReady = nil, nil
+        A.meterPackets = {}
+        A.boundaryGate = A.Gate()
+        A.newBoundary = true
+        A.inventoryBaseline = A.InventorySignature()
+        A.buildBaseline = { spells = A.Sign(A.Copy(AZS_SPELLS)), stats = A.Sign(A.Copy(AZS_STATS)) }
+        A.spellPacket, A.statsPacket = nil, nil
+        A.inReady = true
+        A.view =
+            { tab = 8, page = 1, mode = "damage", characterTab = "Spells", combatTab = "Spells" }
+    else
+        local remove = {}
+        for _, id in ipairs(fresh.ids) do
+            remove[id] = true
+        end
+        unaccountRemovedRuns(remove)
+        for i = table.getn(A.db.runs), 1, -1 do
+            if remove[A.db.runs[i].id] then
+                table.remove(A.db.runs, i)
+                A.db.pruned = (A.db.pruned or 0) + 1
+            end
+        end
+        if remove[A.view.selected] then
+            A.view.selected = nil
+            A.view.tab, A.view.historySection, A.view.cumulative = 3, "History", false
+        end
+        if remove[A.view.compareA] then
+            A.view.compareA = nil
+        end
+        if remove[A.view.compareB] then
+            A.view.compareB = nil
+        end
+        if A.pendingReport and remove[A.pendingReport.id] then
+            A.pendingReport = nil
+        end
+        A.view.page = 1
+    end
+    A.pendingDataPlan = nil
+    A.V2Reconcile()
+    return true, "Local data cleared"
+end

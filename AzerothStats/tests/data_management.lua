@@ -95,6 +95,17 @@ check(
 local emptyPlan = A.PreviewManualBackupCleanup(2)
 check(emptyPlan and emptyPlan.remove == 0, "repeat cleanup is a no-op")
 check(A.CleanupManualBackups(2, emptyPlan.token), "confirmed no-op cleanup succeeds")
+-- An absent automatic root must never fall through into a valid manual store.
+local existingAutomatic, manualSignature = AzerothStatsAutoBackup, A.Sign(AzerothStatsBackup)
+AzerothStatsAutoBackup = nil
+check(A.CreateDataBackup(true), "first automatic backup after manual backups succeeds")
+check(
+    table.getn(A.ListDataBackups(true)) == 1
+        and AzerothStatsAutoBackup ~= AzerothStatsBackup
+        and A.Sign(AzerothStatsBackup) == manualSignature,
+    "first automatic backup has an independent catalogue and never prunes manual backups"
+)
+AzerothStatsAutoBackup = existingAutomatic
 A.run = { status = "active" }
 check(not A.PreviewManualBackupCleanup(1), "manual cleanup preview blocked during active run")
 check(not A.CleanupManualBackups(1, "invalid"), "manual cleanup blocked during active run")

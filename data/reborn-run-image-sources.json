@@ -1,0 +1,585 @@
+{
+  "viewport": [
+    178,
+    66
+  ],
+  "notes": "Official Reborn campaign media for BC/LK. Official Blizzard press screenshots/concept art for Cataclysm; two archived press mirrors are attributed. Sources are build inputs only, never fetched at runtime. Copyright remains with the respective owners.",
+  "zones": {
+    "azjolnerub": {
+      "source": "design/reborn-run-images/azjolnerub.webp",
+      "url": "https://azreborn.com/_nuxt/azjolnerub-800.D63cbhgZ.webp",
+      "page": "https://azreborn.com/",
+      "sha256": "e4cef65cb9524949e1e70262a09a4f0b22e76c797eca0dc1cbbdbbd2ac19b01a",
+      "size": [
+        800,
+        457
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "texture": "RunZone-Reborn-azjolnerub.tga",
+      "credit": "Azeroth Reborn official campaign media"
+    },
+    "blackwing_descent": {
+      "source": "design/reborn-run-images/blackwing_descent.jpg",
+      "url": "https://everglowforrest.wordpress.com/wp-content/uploads/2010/08/ss14131.jpg",
+      "page": "https://everglowforrest.wordpress.com/2010/08/13/cataclysmic-changes-friday-edition/",
+      "sha256": "54c43b0e1c3b2464ee61c3004a99b8f2728c5a71dd4d063f54dda59e767430a6",
+      "size": [
+        1200,
+        750
+      ],
+      "focus": [
+        0.5,
+        0.44
+      ],
+      "texture": "RunZone-Reborn-blackwing_descent.tga",
+      "credit": "Blizzard Entertainment"
+    },
+    "bladesedge": {
+      "source": "design/reborn-run-images/bladesedge.webp",
+      "url": "https://azreborn.com/_nuxt/bladesedge-800.CWKTHuhI.webp",
+      "page": "https://azreborn.com/",
+      "sha256": "ea5b061c6cd60272841eeaea9206f82fec446cea5d2267627ab1d1e5718bf9e4",
+      "size": [
+        800,
+        457
+      ],
+      "focus": [
+        0.5,
+        0.42
+      ],
+      "texture": "RunZone-Reborn-bladesedge.tga",
+      "credit": "Azeroth Reborn official campaign media"
+    },
+    "borean": {
+      "source": "design/reborn-run-images/borean.webp",
+      "url": "https://azreborn.com/_nuxt/borean-800.BiIYbP_Q.webp",
+      "page": "https://azreborn.com/",
+      "sha256": "768852e8113fc6236ff358f3096c4b892d4f8135adae2642458e01336caa50cc",
+      "size": [
+        800,
+        457
+      ],
+      "focus": [
+        0.5,
+        0.4
+      ],
+      "texture": "RunZone-Reborn-borean.tga",
+      "credit": "Azeroth Reborn official campaign media"
+    },
+    "coldarra": {
+      "source": "design/reborn-run-images/coldarra.webp",
+      "url": "https://azreborn.com/_nuxt/coldarra-800.5Ybq_YeA.webp",
+      "page": "https://azreborn.com/",
+      "sha256": "71873284657653e4b5c89802ef030ae046fab69eac44869c1523b3474706d7e4",
+      "size": [
+        800,
+        457
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "texture": "RunZone-Reborn-coldarra.tga",
+      "credit": "Azeroth Reborn official campaign media"
+    },
+    "deepholm": {
+      "source": "design/reborn-run-images/deepholm.jpg",
+      "url": "https://fservus20221227.blob.core.windows.net/files/BlizzardLive/2023/11/031355-fd79a2ea/WoW_CataclysmClassic_Zones_Deepholm_001_png_jpgcopy.jpg",
+      "page": "https://blizzard.gamespress.com/en/World-of-Warcraft-Cataclysm-Classic-Launch",
+      "sha256": "2d652d0c1098b5df323a3965746b7774538503eea5dcd1748e5a7cdd49cd17bd",
+      "size": [
+        3840,
+        2160
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "texture": "RunZone-Reborn-deepholm.tga",
+      "credit": "Blizzard Entertainment"
+    },
+    "dragon_soul": {
+      "source": "design/reborn-run-images/dragon_soul.jpg",
+      "url": "https://bnetcmsus-a.akamaihd.net/cms/blog_header/j1/J1TQGPWBF1VU1739907420548.png",
+      "page": "https://news.blizzard.com/en-us/article/24173042/cataclysm-classic-dragon-soul-raid-now-live",
+      "sha256": "d831eabe56114a9439a5edad27227824b21f9080769c17339348a59c39f94863",
+      "size": [
+        2400,
+        1350
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "texture": "RunZone-Reborn-dragon_soul.tga",
+      "credit": "Blizzard Entertainment"
+    },
+    "dragonblight": {
+      "source": "design/reborn-run-images/dragonblight.webp",
+      "url": "https://azreborn.com/_nuxt/dragonblight-800.DmV76sNL.webp",
+      "page": "https://azreborn.com/",
+      "sha256": "f6b1e60378f5cb5f359a0c1f0bb6fc7a886d75f733ba56b18875751cc8ced6e2",
+      "size": [
+        800,
+        457
+      ],
+      "focus": [
+        0.5,
+        0.4
+      ],
+      "texture": "RunZone-Reborn-dragonblight.tga",
+      "credit": "Azeroth Reborn official campaign media"
+    },
+    "eots": {
+      "source": "design/reborn-run-images/eots.webp",
+      "url": "https://azreborn.com/_nuxt/eots-800.Cp9ZKuSy.webp",
+      "page": "https://azreborn.com/",
+      "sha256": "7cb49e0a0c058375f9a352e0b19a6b3f6c07ea3ec60de11daa61eb5e7e4b397c",
+      "size": [
+        800,
+        457
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "texture": "RunZone-Reborn-eots.tga",
+      "credit": "Azeroth Reborn official campaign media"
+    },
+    "firelands": {
+      "source": "design/reborn-run-images/firelands.jpg",
+      "url": "https://bnetcmsus-a.akamaihd.net/cms/content_entry_media/ZG9ZMCLFHA401728501944219.png",
+      "page": "https://news.blizzard.com/en-us/article/24145859/cataclysm-classic-face-the-heat-in-the-firelands-raid",
+      "sha256": "2249c2671a26ccd46f6918aef6a892f681249935c724017a00b0d5a04e241f3a",
+      "size": [
+        1280,
+        800
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "texture": "RunZone-Reborn-firelands.tga",
+      "credit": "Blizzard Entertainment"
+    },
+    "fjord": {
+      "source": "design/reborn-run-images/fjord.webp",
+      "url": "https://azreborn.com/_nuxt/fjord-800.B0fFfGZb.webp",
+      "page": "https://azreborn.com/",
+      "sha256": "250132225434f6c846bbf57337a0e17513f49add8342705b4f9ec2c5d1dc0266",
+      "size": [
+        800,
+        457
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "texture": "RunZone-Reborn-fjord.tga",
+      "credit": "Azeroth Reborn official campaign media"
+    },
+    "gilneas": {
+      "source": "design/reborn-run-images/gilneas.jpg",
+      "url": "https://fservus20221227.blob.core.windows.net/files/BlizzardLive/2024/05/140201-8cd4c168/WoW_Cataclysm_Classic_Zones_Gilneas_001.png",
+      "page": "https://blizzard.gamespress.com/en/World-of-Warcraft-Cataclysm-Classic-Launch",
+      "sha256": "f094fd1e613785b84de38303df5af54ce33d958bbd0930fe8c86f0ae291feba3",
+      "size": [
+        3840,
+        2160
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "texture": "RunZone-Reborn-gilneas.tga",
+      "credit": "Blizzard Entertainment"
+    },
+    "grim_batol": {
+      "source": "design/reborn-run-images/grim_batol.jpg",
+      "url": "https://fservus20221227.blob.core.windows.net/files/BlizzardLive/2023/11/031355-fd79a2ea/WoW_CataclysmClassic_Dungeons_GrimBatol_001_png_jpgcopy.jpg",
+      "page": "https://blizzard.gamespress.com/en/World-of-Warcraft-Cataclysm-Classic-Launch",
+      "sha256": "1e3b99be7183e787d0505356d8ee4123c6414796524ab63fcc9e73e71deace8f",
+      "size": [
+        3840,
+        2160
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "texture": "RunZone-Reborn-grim_batol.tga",
+      "credit": "Blizzard Entertainment"
+    },
+    "grizzly": {
+      "source": "design/reborn-run-images/grizzly.webp",
+      "url": "https://azreborn.com/_nuxt/grizzly-800.48q-9_jP.webp",
+      "page": "https://azreborn.com/",
+      "sha256": "cedbc89111a891870b1e9f85f5c074132cb83fb4ee61027af0a1878512f09ea7",
+      "size": [
+        800,
+        457
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "texture": "RunZone-Reborn-grizzly.tga",
+      "credit": "Azeroth Reborn official campaign media"
+    },
+    "hellfire": {
+      "source": "design/reborn-run-images/hellfire.webp",
+      "url": "https://azreborn.com/_nuxt/hellfire-800.DT9Qmqra.webp",
+      "page": "https://azreborn.com/",
+      "sha256": "09129eb4a4ffdd06f38821549e241907aabe8f4edb1004051f5ebd9c1c509aa7",
+      "size": [
+        800,
+        457
+      ],
+      "focus": [
+        0.5,
+        0.43
+      ],
+      "texture": "RunZone-Reborn-hellfire.tga",
+      "credit": "Azeroth Reborn official campaign media"
+    },
+    "hyjal": {
+      "source": "design/reborn-run-images/hyjal.webp",
+      "url": "https://azreborn.com/_nuxt/hyjal-800.DhzZRSAD.webp",
+      "page": "https://azreborn.com/",
+      "sha256": "68f7512bf20b5ea7229eb8676e229abb40519a25c30da6c9609840ba35e2069b",
+      "size": [
+        800,
+        457
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "texture": "RunZone-Reborn-hyjal.tga",
+      "credit": "Azeroth Reborn official campaign media"
+    },
+    "icc": {
+      "source": "design/reborn-run-images/icc.webp",
+      "url": "https://azreborn.com/_nuxt/icc-800.Cr3vY7W8.webp",
+      "page": "https://azreborn.com/",
+      "sha256": "4f758b5c2b9a3c5baff121c8481473a82f2cf59db67acb2a43ebdc630ca7020c",
+      "size": [
+        800,
+        457
+      ],
+      "focus": [
+        0.5,
+        0.4
+      ],
+      "texture": "RunZone-Reborn-icc.tga",
+      "credit": "Azeroth Reborn official campaign media"
+    },
+    "icecrown": {
+      "source": "design/reborn-run-images/icecrown.webp",
+      "url": "https://azreborn.com/_nuxt/icecrown-800.C9e_5ISx.webp",
+      "page": "https://azreborn.com/",
+      "sha256": "a4a7a08d6b76194342b637ce87ec0fc53105969a5601819f834fe578c7c24ac0",
+      "size": [
+        800,
+        457
+      ],
+      "focus": [
+        0.5,
+        0.42
+      ],
+      "texture": "RunZone-Reborn-icecrown.tga",
+      "credit": "Azeroth Reborn official campaign media"
+    },
+    "karazhan": {
+      "source": "design/reborn-run-images/karazhan.webp",
+      "url": "https://azreborn.com/_nuxt/karazhan-800.BEew3Jjj.webp",
+      "page": "https://azreborn.com/",
+      "sha256": "347b95acf15fa530bafdae4d978721ed0c75f960f4199c89515390d6fa2ede0a",
+      "size": [
+        800,
+        457
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "texture": "RunZone-Reborn-karazhan.tga",
+      "credit": "Azeroth Reborn official campaign media"
+    },
+    "lost_isles": {
+      "source": "design/reborn-run-images/lost_isles.jpg",
+      "url": "https://cdn.staticneo.com/ca/world_of_warcraft_cataclysm_conceptart_yuirZ.jpg",
+      "page": "https://img.neoseeker.com/v_concept_art.php?caid=13321",
+      "credit": "Blizzard Entertainment, official Cataclysm concept art (press mirror)",
+      "sha256": "aeaf06878c72a29296929685b90a2f741db76698cf09394b474ea3fd8b945ee2",
+      "size": [
+        800,
+        400
+      ],
+      "focus": [
+        0.5,
+        0.42
+      ],
+      "texture": "RunZone-Reborn-lost_isles.tga"
+    },
+    "mount_hyjal": {
+      "source": "design/reborn-run-images/mount_hyjal.jpg",
+      "url": "http://media.wow-europe.com/community/wow/news/cataclysm-features/ss22.jpg",
+      "page": "https://worldofwarcraft.blizzard.com/en-gb/news/9997945",
+      "sha256": "442987cf7339bafcbcec4abeaa12e7331b875a9b6ef08706cf3b48bd25015b28",
+      "size": [
+        800,
+        600
+      ],
+      "focus": [
+        0.5,
+        0.36
+      ],
+      "texture": "RunZone-Reborn-mount_hyjal.tga",
+      "credit": "Blizzard Entertainment"
+    },
+    "nagrand": {
+      "source": "design/reborn-run-images/nagrand.webp",
+      "url": "https://azreborn.com/_nuxt/nagrand-800.CIJoZobV.webp",
+      "page": "https://azreborn.com/",
+      "sha256": "ee1bd619e047c06f5dbbb0d17ea94a6e6cdcfde7ba0a61ce76d3fc00bcb02656",
+      "size": [
+        800,
+        457
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "texture": "RunZone-Reborn-nagrand.tga",
+      "credit": "Azeroth Reborn official campaign media"
+    },
+    "netherstorm": {
+      "source": "design/reborn-run-images/netherstorm.webp",
+      "url": "https://azreborn.com/_nuxt/netherstorm-800.4ccM2FM5.webp",
+      "page": "https://azreborn.com/",
+      "sha256": "3be0f0d6c844d6574cecdbf077199a72af7d2a5dd5f04af7db4a72f9dda22b49",
+      "size": [
+        800,
+        457
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "texture": "RunZone-Reborn-netherstorm.tga",
+      "credit": "Azeroth Reborn official campaign media"
+    },
+    "pitofsaron": {
+      "source": "design/reborn-run-images/pitofsaron.webp",
+      "url": "https://azreborn.com/_nuxt/pitofsaron-800.C8Cqi97g.webp",
+      "page": "https://azreborn.com/",
+      "sha256": "1447e1faa141b8813fa8594ae42dcb4634837b8dea50b5f058221f978d93fcd0",
+      "size": [
+        800,
+        457
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "texture": "RunZone-Reborn-pitofsaron.tga",
+      "credit": "Azeroth Reborn official campaign media"
+    },
+    "queldanas": {
+      "source": "design/reborn-run-images/queldanas.webp",
+      "url": "https://azreborn.com/_nuxt/queldanas-800.C4z3vAUT.webp",
+      "page": "https://azreborn.com/",
+      "sha256": "6c750beff91817aa7fa43bd352d4d0f40ccefd2f644c8588f593b1ebe816b924",
+      "size": [
+        800,
+        457
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "texture": "RunZone-Reborn-queldanas.tga",
+      "credit": "Azeroth Reborn official campaign media"
+    },
+    "shadowmoon": {
+      "source": "design/reborn-run-images/shadowmoon.webp",
+      "url": "https://azreborn.com/_nuxt/shadowmoon-800.h5TK84lR.webp",
+      "page": "https://azreborn.com/",
+      "sha256": "c00095dd6dc506c0028e327563cd749f91928146f304d96498656e5beff9a2d7",
+      "size": [
+        800,
+        457
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "texture": "RunZone-Reborn-shadowmoon.tga",
+      "credit": "Azeroth Reborn official campaign media"
+    },
+    "sholazar": {
+      "source": "design/reborn-run-images/sholazar.webp",
+      "url": "https://azreborn.com/_nuxt/sholazar-800.DgjjJFcz.webp",
+      "page": "https://azreborn.com/",
+      "sha256": "faefaa98ad4e6aa5be64730ff1b7741d2c17f44ea342807ab971a1d9cbbb9d4f",
+      "size": [
+        800,
+        457
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "texture": "RunZone-Reborn-sholazar.tga",
+      "credit": "Azeroth Reborn official campaign media"
+    },
+    "stormpeaks": {
+      "source": "design/reborn-run-images/stormpeaks.webp",
+      "url": "https://azreborn.com/_nuxt/stormpeaks-800.BGJmAKBE.webp",
+      "page": "https://azreborn.com/",
+      "sha256": "43704fe1fe132312573485aa49006fae7a1a74d421f234b96ce54fd4f88cf377",
+      "size": [
+        800,
+        457
+      ],
+      "focus": [
+        0.5,
+        0.4
+      ],
+      "texture": "RunZone-Reborn-stormpeaks.tga",
+      "credit": "Azeroth Reborn official campaign media"
+    },
+    "terokkar": {
+      "source": "design/reborn-run-images/terokkar.webp",
+      "url": "https://azreborn.com/_nuxt/terokkar-800.Csqtjmak.webp",
+      "page": "https://azreborn.com/",
+      "sha256": "a0b64597090bcd189d6d61b27a389c49ad7449af52cffcf6b4f2a7794e26f17a",
+      "size": [
+        800,
+        457
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "texture": "RunZone-Reborn-terokkar.tga",
+      "credit": "Azeroth Reborn official campaign media"
+    },
+    "tol_barad": {
+      "source": "design/reborn-run-images/tol_barad.jpg",
+      "url": "https://bnetcmsus-a.akamaihd.net/cms/content_entry_media/px/PXQDGK5X7IGC1715734527228.png",
+      "page": "https://worldofwarcraft.blizzard.com/en-gb/news/24095668",
+      "sha256": "c11638dd15330be7bcf3eb715af8cd9ab840919635271c9b9d1a3d5247556e63",
+      "size": [
+        1280,
+        780
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "texture": "RunZone-Reborn-tol_barad.tga",
+      "credit": "Blizzard Entertainment"
+    },
+    "twilight_highlands": {
+      "source": "design/reborn-run-images/twilight_highlands.jpg",
+      "url": "https://fservus20221227.blob.core.windows.net/files/BlizzardLive/2024/05/140201-8cd4c168/WoW_Cataclysm_Classic_Zones_Twilight_Highlands_001.png",
+      "page": "https://blizzard.gamespress.com/en/World-of-Warcraft-Cataclysm-Classic-Launch",
+      "sha256": "77e470268f63ab8ecb2b1d72e1d874a9e562d41eddb926ad2de3111c2a7ab2cc",
+      "size": [
+        3840,
+        2160
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "texture": "RunZone-Reborn-twilight_highlands.tga",
+      "credit": "Blizzard Entertainment"
+    },
+    "uldum": {
+      "source": "design/reborn-run-images/uldum.jpg",
+      "url": "https://fservus20221227.blob.core.windows.net/files/BlizzardLive/2023/11/031355-fd79a2ea/WoW_CataclysmClassic_Zones_Uldum_001_png_jpgcopy.jpg",
+      "page": "https://blizzard.gamespress.com/en/World-of-Warcraft-Cataclysm-Classic-Launch",
+      "sha256": "57c9d370da93836d6a436b236cea22dae50306aafd9a772bf0014e54cafe2b7b",
+      "size": [
+        3840,
+        2160
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "texture": "RunZone-Reborn-uldum.tga",
+      "credit": "Blizzard Entertainment"
+    },
+    "vashjir": {
+      "source": "design/reborn-run-images/vashjir.jpg",
+      "url": "https://fservus20221227.blob.core.windows.net/files/BlizzardLive/2024/05/140201-8cd4c168/WoW_Cataclysm_Classic_Zones_Vashjir_001.png",
+      "page": "https://blizzard.gamespress.com/en/World-of-Warcraft-Cataclysm-Classic-Launch",
+      "sha256": "a2fa316310c4cc8545f8c772fdac5c8383a511cca0901c76f2ca1511f2a4761c",
+      "size": [
+        3840,
+        2160
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "texture": "RunZone-Reborn-vashjir.tga",
+      "credit": "Blizzard Entertainment"
+    },
+    "zangarmarsh": {
+      "source": "design/reborn-run-images/zangarmarsh.webp",
+      "url": "https://azreborn.com/_nuxt/zangarmarsh-800.DGKJQNeA.webp",
+      "page": "https://azreborn.com/",
+      "sha256": "fc5370a3d7da3257848c7df99803a5eee358e0fa538f4dc67db20651afa6aa67",
+      "size": [
+        800,
+        457
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "texture": "RunZone-Reborn-zangarmarsh.tga",
+      "credit": "Azeroth Reborn official campaign media"
+    },
+    "zulaman": {
+      "source": "design/reborn-run-images/zulaman.webp",
+      "url": "https://azreborn.com/_nuxt/zulaman-800.0ta4fyK-.webp",
+      "page": "https://azreborn.com/",
+      "sha256": "a206a6443a16daa9564c5b35eb94fa6fd2ca0f37a5eb804a68c59191767fdc38",
+      "size": [
+        800,
+        457
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "texture": "RunZone-Reborn-zulaman.tga",
+      "credit": "Azeroth Reborn official campaign media"
+    },
+    "zuldrak": {
+      "source": "design/reborn-run-images/zuldrak.webp",
+      "url": "https://azreborn.com/_nuxt/zuldrak-800.CVSswdUu.webp",
+      "page": "https://azreborn.com/",
+      "sha256": "5f1a72d14955c74a9d1a520dc71d1f7352364158d7d3cce4e9753a27f987b2e4",
+      "size": [
+        800,
+        457
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "texture": "RunZone-Reborn-zuldrak.tga",
+      "credit": "Azeroth Reborn official campaign media"
+    }
+  }
+}

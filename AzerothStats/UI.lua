@@ -144,6 +144,8 @@ local overlayRoots = {
     AzerothStatsWindow = true,
     AzerothStatsMenu = true,
     AzerothStatsThemePicker = true,
+    AzerothStatsBackupManager = true,
+    AzerothStatsStorageSettings = true,
     AzerothStatsRetentionConfirmation = true,
     AzerothStatsDataManagement = true,
     AzerothStatsEntryReview = true,
@@ -253,6 +255,9 @@ end
 
 --- Resolve a fixed class atlas or a validated Interface icon path, with a known fallback.
 local function icon(tex, name, cls)
+    if A.RebornClassIcon and cls and not coords[cls] then
+        name = A.RebornClassIcon(cls)
+    end
     tex.themeGlyph = nil
     tex:SetVertexColor(1, 1, 1)
     if cls and coords[cls] then
@@ -2433,8 +2438,19 @@ local function buildSettings(frame)
             put(paging, tr("Page ", "Page ") .. page .. " / " .. pages)
             put(
                 selectedText,
-                selectedBackup and (tr("Selected: ", "Sélection : ") .. entryTitle(selectedBackup))
+                (
+                    selectedBackup
+                        and (tr("Selected: ", "Sélection : ") .. entryTitle(selectedBackup))
                     or tr("No backup selected", "Aucune sauvegarde sélectionnée")
+                )
+                    .. (
+                        A.liveDataManagement
+                            and ("\n" .. tr(
+                                "After restoration, recording resumes next run",
+                                "Après restauration, l’enregistrement reprend à la prochaine partie"
+                            ))
+                        or ""
+                    )
             )
         end
         for index = 1, 7 do
@@ -2601,7 +2617,7 @@ local function buildSettings(frame)
             manager,
             20,
             522,
-            610,
+            A.OpenStorageSettings and 298 or 610,
             24,
             tr("Create new manual backup", "Créer une sauvegarde manuelle"),
             function()
@@ -2615,6 +2631,20 @@ local function buildSettings(frame)
             end
         )
         backupNow.key = nil
+        if A.OpenStorageSettings then
+            local storage = button(
+                manager,
+                330,
+                522,
+                300,
+                24,
+                tr("Backup storage", "Stockage des sauvegardes"),
+                function()
+                    A.OpenStorageSettings()
+                end
+            )
+            storage.key = nil
+        end
         manager.refresh = refresh
         refresh()
     end
@@ -2644,6 +2674,9 @@ function A.BuildUI()
     drag(frame, "windowPos")
     place(frame, "windowPos", "CENTER", 0, 0)
     frame:SetScript("OnHide", function()
+        if A.storageDialog then
+            A.storageDialog:Hide()
+        end
         if UI.themeDialog then
             UI.themeDialog:Hide()
         end
@@ -4313,9 +4346,13 @@ function A.BuildUI()
                 or A.T(
                     data.kind == "favorites"
                             and "Removing favorites unprotects runs from future history cleanup"
+                        or A.liveDataManagement and "A backup is created before deletion; restore at any time"
                         or "A backup is created before deletion; restore between runs"
                 )
         )
+        if A.liveDataManagement and data.kind == "reset" and A.run and not data.status then
+            put(data.warning, A.T("Current run excluded after reset; recording resumes next run"))
+        end
         put(data.tokenCaption, A.T("Type RESET to confirm"))
         data.token:SetFont(A.Font(false), 14, "")
         show(data.token, review and data.kind == "reset")
@@ -4388,6 +4425,7 @@ function A.BuildUI()
         local ok, message = A.ConfirmEntryAction()
         if ok then
             entry:Hide()
+            UI.entryBlocker:Hide()
             A.RefreshUI()
             A.Say(A.T(message))
         else
@@ -4443,7 +4481,7 @@ function A.BuildUI()
             A.T(verbs[plan.kind])
                 .. "\n\n"
                 .. A.T(
-                    plan.kind == "run" and "History only; totals stay unchanged"
+                    plan.kind == "run" and "Deleted run contributions are removed from totals"
                         or plan.kind == "total" and "Lifetime totals are cleared; retained runs stay"
                         or "Only this entry is reset; other entries are kept"
                 )

@@ -1,0 +1,490 @@
+"""Contract regressions for the generated, namespaced Reborn runtime (synthetic saves only)."""
+
+from pathlib import Path
+import argparse, json, hashlib, sys
+from lupa.lua51 import LuaRuntime
+from build_reborn import build, ROOT
+
+p = argparse.ArgumentParser()
+p.add_argument("--game", type=Path)
+args = p.parse_args()
+target = build()
+lua = LuaRuntime(unpack_returned_tuples=True)
+lua.execute((ROOT / "AzerothStats/tests/mock.lua").read_text(encoding="utf8"))
+lua.execute(
+    """
+-- Reproduce Reborn's non-inheriting child levels/strata instead of the old lazy mock.
+local frameMethods=getmetatable(UIParent).__index
+function frameMethods:GetChildren()
+ local children={};for _,v in ipairs(self.children or {}) do if v.kind~='Texture' and v.kind~='FontString' then table.insert(children,v) end end;return unpack(children)
+end
+function frameMethods:GetFrameStrata() return self.strata or 'MEDIUM' end
+function frameMethods:SetFrameStrata(value) self.strata=value end
+local makeFrame=CreateFrame
+function CreateFrame(...) local f=makeFrame(...);f.frameLevel=0;f.strata='MEDIUM';return f end
+ORIGINAL={sentinel=true};AzerothStatsDB=ORIGINAL
+AzerothStatsBackup={untouched=true};AzerothStatsAutoBackup={untouched=true}
+UnitClass=function() return 'Moine','MONK' end
+UnitName=function() return 'Tester' end
+GetLocale=function() return 'frFR' end
+AZS_LOCALE='frFR'
+time=function() return 1000 end
+date=function() return '2026-01-01 00:00' end
+IsLoggedIn=function() return true end
+GetCVar=function() return '' end
+GetSpellInfo=function(id) return 'Test Spell',nil,'Interface\\\\Icons\\\\Spell_Frost_FrostBolt02' end
+AZS={handlers={}}
+function AZS.On(p,f) AZS.handlers[p]=AZS.handlers[p] or {};table.insert(AZS.handlers[p],f) end
+function AZS.ParseKV(msg) local t={};for k,v in string.gmatch(msg or '', '(%w+)=([^;]*)') do t[k]=tonumber(v) or v end;return t end
+function AZS.ParseList(msg,names) local out={};for row in string.gmatch(msg or '', '[^;]+') do local v={};local i=1;for s in string.gmatch(row..',','(.-),') do v[names[i] or i]=tonumber(s) or s;i=i+1 end;table.insert(out,v) end;return out end
+AZS_List=AZS.ParseList;AZS_Fields=AZS.ParseKV
+function ROUTE(p,m) for _,f in ipairs(AZS.handlers[p] or {}) do f(m,p) end end
+AZS_ZONE={zone='hellfire',class='monk',dt=3,run='r12345678'}
+AZS_RUN={ph='ready',t=0,kills=0,dealt=0,lvl=1};AZS_END={};AZS_SPELLS={};AZS_STATS={};AZS_GEAR={};AZS_REVIVE={};AZS_SCHEDULE={};AZS_UNITS={}
+AZS_GetRunTime=function() return AZS_RUN.t end
+AZS_L={['Auto Shot']='Tir automatique',['Monk']='Moine',['Hellfire Peninsula']='Péninsule des Flammes infernales'}
+"""
+)
+if args.game:
+    native = args.game / "Interface/AddOns"
+    for part, name in [
+        ("AzerothSurvivors", "Generated/Content.lua"),
+        ("AzerothSurvivorsAPI", "Api.lua"),
+        ("AzerothSurvivorsAPI", "Meter.lua"),
+        ("AzerothSurvivorsAPI", "CombatText.lua"),
+    ]:
+        lua.execute((native / part / name).read_text(encoding="utf8"))
+else:
+    lua.execute(
+        """
+AZS_GEN={classes={{key='monk',name='Monk'},{key='deathknight',name='Death Knight'},{key='demonhunter',name='Demon Hunter'}},zones={{key='hellfire',name='Hellfire Peninsula'}},spells={{key='auto_shot',name='Auto Shot'}}}
+AZS_GetPhase=function() return AZS_ZONE.hub~=1 and AZS_RUN.ph or nil end
+AZS_GetMeterContext=function(...) assert(select('#',...)==0);return {runId='azs:'..AZS_ZONE.run,uiSessionId='u1',asOfRunSeconds=AZS_RUN.t,languageCode='fr'} end
+AZS_GetMeterCapabilities=function(...) assert(select('#',...)==0);return {apiVersion=1,uiSessionId='u1'} end
+AZS_GetMeterSnapshot=function(q) assert(type(q)=='table' and q.windowSeconds<=120 and q.runId=='azs:'..AZS_ZONE.run);return {apiVersion=1,totals={recentRate={status='ready',value=100,approximate=true},displayAmount=1000},rows={}} end
+AZS_GetMeterLoadout=function(q) return {complete=true,sources={a={abilityKey='auto_shot',name='Auto Shot',spellIds={75},icon={status='ready',path='Interface\\\\Icons\\\\Ability_Whirlwind'}},j={itemKey='test_jewel',name='Test Jewel',rank=4}},abilities={{sourceKey='a',rank=2}},runJewelry={{sourceKey='j',slotId=13}}} end
+AZS_GetCombatTextEvents=function() return {apiVersion=1,cursor='ct:1',events={},gap=false} end
+AZS_CreateMeterCheckpoint=function(id) assert(type(id)=='string');return {checkpointId='cp:1',runId=id} end
+AZS_ReleaseMeterCheckpoint=function(id) assert(type(id)=='string');return true end
+AZS_GetUpcomingBosses=function() return {{name='Test Boss',left=30,index=1}} end
+AZS_GetGuardians=function() return {{id=1,name='Missing',hp=0,hpm=0},{id=2,name='Present',hp=100,hpm=200,awake=true}} end
+"""
+    )
+for name in (target / "AzerothStatsReborn.toc").read_text().splitlines():
+    if name.endswith(".lua"):
+        lua.execute((target / name).read_text(encoding="utf8"))
+lua.execute(
+    """
+A=AzerothStatsReborn
+TESTS=0
+function check(v,msg) TESTS=TESTS+1;assert(v,msg) end
+check(AzerothStats==nil,'original namespace untouched')
+-- Exercise upgraded legacy profiles here; fresh shared defaults have their own suite.
+AzerothStatsRebornDB={game=A.game,schema=A.schema,sequence=0,runs={},totals={},classes={},settings={},migrations={}}
+check(A.InitDB(),'isolated DB initializes')
+check(AzerothStatsDB==ORIGINAL and A.db~=ORIGINAL,'original DB unchanged')
+check(AzerothStatsBackup.untouched and AzerothStatsAutoBackup.untouched,'original backups unchanged')
+check(SlashCmdList.AZEROTHSTATSREBORN and not SlashCmdList.AZEROTHSTATS,'slash command isolated')
+check(A.ReadHeroic()==3,'native difficulty')
+check(A.RebornStartSegment()==nil,'no checkpoint before a live run')
+check(select(2,A.Identity())=='monk','new class')
+check(A.knownClasses.deathknight and A.knownClasses.demonhunter,'all twelve classes')
+A.DetectLocale();check(A.Locale()=='fr','native locale')
+check(A.SourceName('Auto Shot')=='Tir automatique','localized combat sources')
+A.Sample();check(not A.run and table.getn(A.db.runs)==0,'ready is not a run')
+AZS_RUN.ph='playing';AZS_RUN.t=1;NOW=101;AZS_RUN.ck=2;AZS_RUN.chest=64;AZS_RUN.bk=1;AZS_RUN.gk=3;AZS_RUN.ek=4;AZS_RUN.ge=500
+ROUTE('AZSZONE','');ROUTE('AZSRUN','ph=playing;t=1');A.Sample()
+check(A.run and A.run.nativeRunId=='azs:r12345678','native identity captured')
+check(A.run.game==A.game,'game provenance captured')
+check(A.run.values.chests==2 and A.run.values.guardians==3 and A.run.values.bosses==1 and A.run.values.elites==4,'native cumulative counters and cache-price distinction')
+check(A.run.reborn.nativeTally.ge==500,'earned gold distinct from spendable balance')
+local first=A.run
+AZS_RUN.t=10;NOW=110;ROUTE('AZSRUN','ph=playing;t=10');A.Sample()
+A.run=nil;A.Sample()
+check(A.run==first and not first.resumeHeuristic,'native reload continuity')
+AZS_ZONE.run='r87654321';ROUTE('AZSZONE','');A.Sample()
+check(A.run~=first and table.getn(A.db.runs)==2,'different UUID never merged')
+A.Sample();check(table.getn(A.db.runs)==2,'repeated sample idempotent')
+check(A.RebornSnapshot('damage',5)~=nil,'five second window')
+check(A.RebornSnapshot('healing',120)~=nil,'120 second healing window')
+check(A.RebornSnapshot('damage',4)==nil and A.RebornSnapshot('damage',121)==nil,'window limits')
+check(A.RebornSnapshot('received',15)==nil,'unsupported metric rejected')
+local cp,err=A.RebornStartSegment();check(cp~=nil,err and err.code or 'checkpoint creates')
+check(A.RebornStartSegment()==nil,'one active local segment')
+AZS_RUN.t=20;NOW=120;ROUTE('AZSRUN','ph=playing;t=20');A.Sample()
+check(A.RebornEndSegment()~=nil,'checkpoint captures and releases')
+check(A.RebornEndSegment()==nil,'no duplicate segment release')
+local store=A.V2Store(true);store.preferences.combatIntelligence=true
+A.V2CombatReset();A.V2CombatTick(A.run)
+check(A.V2CombatSnapshot().invalid==0,'native batch accepted without streamId')
+local normalized=A.NormalizeCombatBatch({apiVersion=1,cursor='ct:2',gap=true,events={{kind='damage',amount=25,school=4}}})
+check(normalized.gap and normalized.events[1].schoolMask==4,'gap and school normalized')
+local exported=A.ExportRebornRun(A.run.id);exported.values.damage=999999
+check(A.run.values.damage~=999999,'interop detached from live database')
+AZS_RUN.endless=1;A.Sample();check(A.run.reborn.endless and table.getn(A.run.reborn.nextBosses)==0,'endless does not invent a future boss')
+AZS_ZONE.hub=1;local n=table.getn(A.db.runs);A.Sample();check(table.getn(A.db.runs)==n,'hub does not create run')
+AZS_ZONE.hub=nil
+
+
+local selected=A.view.selected
+A.view.selected=A.db.runs[1].id
+check(A.RebornSection('Reborn:start')=='RebornSegments' and not A.RebornSegmentState(),'historical report cannot start a hidden live segment')
+A.view.selected=selected
+local oldQuery=AZS_GetMeterSnapshot
+AZS_GetMeterSnapshot=function(q) return {totals={recentRate={status='ready',value=q.windowSeconds},windowAmount=q.windowSeconds*10},rows={}} end
+A.view.reportSection=A.RebornSection('Reborn:5');local m5={rows={}};A.ReportModel(m5,A.run)
+A.view.reportSection=A.RebornSection('Reborn:120');local m120={rows={}};A.ReportModel(m120,A.run)
+check(m5.title~=m120.title and m5.rows[1].value~=m120.rows[1].value,'selected windows render distinct titles and native data')
+AZS_GetMeterSnapshot=oldQuery
+local savedFeed=AZS_GetCombatTextEvents
+local feedN=0
+AZS_GetCombatTextEvents=function(cursor) feedN=feedN+1;return {apiVersion=1,cursor='probe:'..feedN,gap=true,events={{kind='damage',amount=125,school=4,critical=true,periodic=true,meterSource='Auto Shot'},{kind='heal',amount=25}}} end
+A.V2CombatReset();A.V2CombatTick(A.run)
+local sum=A.V2CombatSnapshot()
+check(sum.hits==1 and sum.damageObserved==125 and sum.critical==1 and sum.periodic==1,'structured damage classification')
+check(sum.invalid==0 and sum.gaps==1,'heals are not malformed damage and gaps are retained')
+check(sum.schools['4'].damage==125,'native school retained')
+AZS_GetCombatTextEvents=savedFeed
+check(A.RebornSection('Reborn:60')=='RebornWindow' and A.rebornWindow==60,'window UI choice wired')
+
+UnitGUID=function() return 'player:1' end
+local deathFrame=getglobal('AzerothStatsRebornDeathLog')
+deathFrame.scripts.OnEvent(deathFrame,'COMBAT_LOG_EVENT_UNFILTERED',NOW,'SPELL_DAMAGE','enemy:1','Native Boss',0,'player:1','Tester',0,123,'Fatal spell',4,300,25,4,0,0,0,false)
+A.MarkDeath()
+check(A.run.reborn.fatal and A.run.reborn.fatal.overkill==25,'native fatal hit recorded')
+check(A.run.deaths[1].confidence=='confirmed','structured fatal evidence confirms attribution')
+
+AZS_END={result='dead',quit=0,t=20}
+check(A.ReadSummary().result=='defeat' and AZS_END.result=='dead','native death summary normalized without modifying native data')
+AZS_END.quit=1;check(A.ReadSummary().result=='left','native quit normalized as abandonment')
+AZS_END.hero={};check(A.ReadSummary()==nil,'normalization never launders malformed identity fields')
+local before=A.db.totals.runs
+
+
+AZS_END={result='victory',t=20,dmg=1000,hero='Tester',zone='hellfire',class='monk'}
+A.Packet('AZSEND','result=victory');A.Sample()
+local total=A.db.totals.runs
+A.Sample();A.Sample()
+check(A.db.totals.runs==total and A.run.result=='victory','terminal summary counted once')
+local match=A.SummaryMatches(A.run,{runId='azs:r00000000',hero='Tester',zone='hellfire'})
+check(not match,'foreign native summary rejected')
+A.view.rebornMode='campaign';check(not A.MatchesHistory(A.run),'campaign filter excludes endless continuation')
+A.view.rebornMode='all'
+
+check(A.ValidateDatabase(A.db),'enriched database validates')
+local foreign=A.Copy(A.db);foreign.game=nil;check(not A.ValidateDatabase(foreign),'original-game saves cannot be restored into Reborn')
+check(A.CreateDataBackup(),'namespaced backup stores enriched Reborn data')
+check(AzerothStatsBackup.untouched and AzerothStatsRebornBackup.entries[1].data.game==A.game,'backup roots stay isolated')
+local getSnapshot=AZS_GetMeterSnapshot;AZS_GetMeterSnapshot=nil
+local missing,why=A.RebornSnapshot('damage',15)
+check(not missing and why.code=='API_MISSING','unavailable API is not fabricated zero')
+AZS_GetMeterSnapshot=getSnapshot
+local series=A.V2Curve({reborn={windowSamples={{t=15,damage=20},{t=30,healing=50},{t=45,damage=30}}}},'recentDps')
+check(table.getn(series)==2 and series[2].value==30 and series[2].gap,'DPS curve never uses healing as missing damage and shows gaps')
+
+
+"""
+)
+if not args.game:
+    lua.execute(
+        """
+check(A.run.reborn.loadout.jewelry[1].rank==4,'jewelry rank retained')
+check(type(A.run.reborn.loadout.abilities[1].icon)=='string','structured native icon descriptor decoded')
+check(table.getn(A.run.reborn.guardians)==1,'no empty guardian observations')
+for _,theme in ipairs(A.themeOrder) do
+ A.UseTheme(theme);local model={rows={}};A.view.reportSection='Reborn';A.ReportModel(model,A.run)
+ check(A.activeTheme==theme and table.getn(model.rows)>=6,'Reborn report works with each actual theme')
+end
+"""
+    )
+lua.execute((ROOT / "AzerothStats/tests/serialize.lua").read_text(encoding="utf8"))
+lua.execute(
+    "local saved=SNAPSHOT(A.db);AzerothStatsRebornDB=assert(loadstring('return '..saved))();A.run=nil;check(A.InitDB() and A.ValidateDatabase(A.db),'Reborn save serialization roundtrip')"
+)
+lua.execute(
+    "A.BuildUI();for _,theme in ipairs(A.themeOrder) do A.UseTheme(theme);A.ApplyUI();A.RefreshUI();check(A.window~=nil,'all five themes build actual UI widgets') end"
+)
+lua.execute(
+    """
+
+local backups=A.ListDataBackups(false);local backup=backups[table.getn(backups)]
+A.db.settings.rebornWindow=117
+check(A.RestoreDataBackup(backup.id,false),'real Reborn backup restores validated snapshot')
+check(A.db.settings.rebornWindow~=117 and A.db.game==A.game,'backup restores saved preferences and game identity')
+local count=table.getn(A.db.runs)
+local plan=A.DataPlan('history')
+check(plan~=nil and table.getn(A.db.runs)==count,'data preview is read-only')
+A.ToggleUI(true)
+A.OpenThemePicker();A.RebornRepairLayers()
+local dialog=A.ui.themeDialog
+check(table.getn(dialog.options)==5,'theme choices exist')
+for _,option in ipairs(dialog.options) do
+ check(option:GetFrameLevel()>dialog:GetFrameLevel() and option:GetFrameStrata()==dialog:GetFrameStrata(),'theme choice stays above its panel')
+end
+A.window:SetFrameLevel(10000);A.RebornRepairLayers()
+check(dialog:GetFrameLevel()>A.ui.themeBlocker:GetFrameLevel(),'dialog above blocker after native raise')
+check(dialog.apply:GetFrameLevel()>dialog:GetFrameLevel(),'Apply button survives raised window')
+A.window:SetFrameLevel(100);A.RebornRepairLayers()
+for _,id in ipairs(A.themeOrder) do A.PreviewTheme(id);A.CloseThemePicker(true);check(A.db.settings.theme==id,'theme apply persists selected style');A.OpenThemePicker() end
+A.CloseThemePicker(false)
+A.OpenDataManagement();A.RebornRepairLayers()
+check(A.ui.dataDialog.actions[1]:GetFrameLevel()>A.ui.dataDialog:GetFrameLevel(),'local data actions above dialog surface')
+A.ui.dataDialog:Hide();A.ui.dataBlocker:Hide()
+A.view.tab=8;A.RefreshUI()
+for _,control in ipairs(A.ui.controls) do
+ if control.label and control.label:GetText()=='Gérer les sauvegardes' then control.callback(control);break end
+end
+A.RebornRepairLayers()
+local manager=getglobal('AzerothStatsRebornBackupManager')
+check(manager~=nil,'backup manager opens')
+local managerButtons=0
+for _,child in ipairs({manager:GetChildren()}) do
+ if child.kind=='Button' then managerButtons=managerButtons+1;check(child:GetFrameLevel()>manager:GetFrameLevel(),'backup controls above surface') end
+end
+check(managerButtons>4,'backup manager exposes history and actions')
+check(A.RebornNpcIcon('Matriarche ravasaure'):find('Nemesis%-d11319'), 'actual ravasaur portrait')
+check(A.RebornNpcIcon("Uhk'loc")~=A.RebornNpcIcon('Roi Mosh'),'different bosses keep different actual portraits')
+"""
+)
+lua.execute(
+    """
+local A=AzerothStatsReborn
+local texture={}
+function texture:SetTexture(path) self.path=path end
+function texture:SetVertexColor(...) self.tint={...} end
+function texture:SetTexCoord(...) self.uv={...} end
+for _,theme in ipairs(A.themeOrder) do
+ A.UseTheme(theme)
+ local count=0
+ for zone,entry in pairs(A.rebornZoneImages) do
+  count=count+1
+  texture.themeGlyph='stale';texture.tint={0,0,0};texture.uv={0,0,0,0}
+  A.ZoneIllustration(texture,zone)
+  check(texture.path==A.theme.media..entry.texture,'expansion path across themes: '..zone)
+  check(texture.themeGlyph==nil and texture.tint[1]==1 and texture.tint[2]==1 and texture.tint[3]==1,'stale glyph and tint reset')
+  check(texture.uv[1]==entry.left and texture.uv[4]==entry.bottom,'reviewed native framing')
+ end
+ check(count==36,'all three expansion catalogues')
+ A.ZoneIllustration(texture,'ungoro')
+ check(texture.path==A.theme.media..'RunZone-ungoro.tga','Classic unchanged')
+ A.ZoneIllustration(texture,'unknown_future_zone')
+ check(texture.path==A.theme.media..'ChroniclePlate4.tga','unknown map fallback')
+end
+A.UseTheme('chroniques')
+"""
+)
+lua.execute(
+    """
+-- Reproduce a historical deletion while another native run is active.
+local A=AzerothStatsReborn
+local source=assert(A.db.runs[1])
+local live=A.Copy(source);live.id='delete-test-live';live.status='active'
+local old=A.Copy(source);old.id='delete-test-history';old.status='ended'
+A.db.runs={old,live};A.run=live;A.db.sequence=A.db.sequence+1
+A.view.selected=old.id
+AzerothStatsRebornAutoBackup=nil
+local manualBefore=A.Sign(AzerothStatsRebornBackup)
+local liveBefore=A.Sign(live)
+local action={kind='run',key=old.id,label='Historical test'}
+A.OpenEntryReview(action);A.RebornRepairLayers()
+check(A.pendingEntryPlan.allowed,'historical deletion allowed during another run')
+check(A.ui.entryDialog.confirm:GetFrameLevel()>A.ui.entryDialog:GetFrameLevel(),'deletion control is clickable above dialog')
+check(not A.CreateDataBackup(false,A.pendingEntryPlan.history),'manual backup cannot bypass run boundary')
+local plan=A.pendingEntryPlan.history
+check(not A.CreateDataBackup(true,plan),'unreviewed backup context rejected')
+A.pendingDataPlan=plan
+local stale=A.Copy(plan);stale.signature='stale';A.pendingDataPlan=stale
+check(not A.CreateDataBackup(true,stale),'stale history snapshot rejected')
+A.pendingDataPlan=nil
+-- Snapshot failure leaves the live database and history untouched.
+A.db.badCycle=A.db
+local ok,reason=A.ConfirmEntryAction()
+check(not ok and A.FindRun(old.id)==old,'failed safety snapshot prevents deletion')
+check(AzerothStatsRebornAutoBackup==nil,'failed snapshot leaves backup root unchanged')
+A.db.badCycle=nil
+A.OpenEntryReview(action)
+A.ui.entryDialog.confirm.callback()
+check(not A.FindRun(old.id),'confirmation button deletes historical run during play')
+check(A.run==live and A.FindRun(live.id)==live and A.Sign(live)==liveBefore,'live run and tracker unchanged')
+check(not A.ui.entryDialog:IsShown() and not A.ui.entryBlocker:IsShown(),'successful deletion closes modal and blocker')
+local backups=A.ListDataBackups(true)
+check(table.getn(backups)==1,'automatic safety backup created before deletion')
+check(A.Sign(AzerothStatsRebornBackup)==manualBefore,'first automatic backup never borrows or prunes manual catalogue')
+local saved=AzerothStatsRebornAutoBackup.entries[1].data
+check(saved.runs[1].id==old.id and saved.runs[2].id==live.id,'snapshot includes removed history and current observation')
+check(saved.runs[2].status=='interrupted' and saved.runs[2].partial and live.status=='active','only snapshot freezes live observation')
+check(A.ValidateDatabase(saved),'mid-run safety snapshot passes persistence validation')
+check(not A.EntryPlan({kind='run',key=live.id,label='Live'}).allowed,'active run cannot be deleted')
+A.run=nil
+check(A.RestoreDataBackup(backups[1].id,true),'safety snapshot restores between runs')
+check(A.FindRun(old.id) and A.FindRun(live.id).status=='interrupted','restoration recovers deleted history without phantom live run')
+local recovered=A.FindRun(old.id)
+A.ToggleFavorite(A.RunFavorite(recovered))
+A.run=A.FindRun(live.id);A.run.status='active'
+check(not A.EntryPlan({kind='run',key=old.id,label='Favorite'}).allowed,'favorite protection remains during play')
+check(AzerothStatsDB==ORIGINAL,'deletion never affects original addon database')
+"""
+)
+lua.execute(
+    """
+local A=AzerothStatsReborn
+AZS_RUN.ph='playing';AZS_END={};AZS_ZONE.hub=nil
+local live=A.run
+live.nativeRunId=A.NativeRunId();live.identity=select(1,A.Identity());live.result=nil
+live.closeReason=nil
+local liveId=live.id
+local valuesBefore=A.Sign(live.values)
+A.db.totals.records={damage={value=1000,id=live.id,at=10}}
+live.reportRecords={damage=1000}
+local usage={spells={test={runs=1,gains=1,changes=0,maxRank=2}},jewelry={}}
+A.db.totals.usage=A.Copy(usage);live.usage={spells={test={maxRank=2,gains=1}},jewelry={}}
+A.db.totals.deathEvidence={deaths=1,sources={Kobold={confirmed=0,probable=1}}}
+live.deaths={{confidence='unknown',t=10,at=10,hits={}}}
+check(A.ValidateDatabase(A.db),'live cleanup fixture validates')
+A.OpenDataManagement();A.ui.dataDialog.actions[5].callback()
+check(A.pendingDataPlan.allowed,'records cleanup available while playing')
+A.ui.dataDialog.confirm.callback()
+check(A.ui.dataDialog.stage=='review','live records cleanup still requires review')
+A.ui.dataDialog.confirm.callback()
+check(not next(A.db.totals.records) and live.recordsReset,'records cleanup clears and marks live observation')
+check(A.run==live and A.Sign(live.values)==valuesBefore,'category cleanup preserves live numeric combat data')
+A.Account(live)
+check(not next(A.db.totals.records),'polling does not resurrect erased current-run records')
+for _,kind in ipairs({'trends','nemesis','favorites'}) do
+ local plan=A.PrepareDataAction(kind)
+ check(plan and plan.allowed,'category cleanup available in play: '..kind)
+ check(A.ConfirmDataAction(),'category cleanup succeeds in play: '..kind)
+end
+check(live.trendsReset and not live.usage and live.nemesisReset and not live.deaths,'live reset barriers persist for trends and nemesis')
+check(not next(A.db.favorites.entries),'favorites cleared while live run remains')
+check(A.FindRun(liveId)==live,'category cleanups never delete current run')
+-- Individual records/totals use the same reviewed safety backup path on Reborn.
+A.db.totals.records.damage={value=1000,id=live.id,at=10}
+A.pendingEntryPlan=A.EntryPlan({kind='record',key='damage',label='Damage'})
+check(A.pendingEntryPlan.allowed and A.ConfirmEntryAction(),'individual record reset works during play')
+A.pendingEntryPlan=A.EntryPlan({kind='total',key='damage',label='Damage'})
+check(A.pendingEntryPlan.allowed and A.ConfirmEntryAction(),'individual total reset works during play')
+A.Account(live)
+check(not A.db.totals.sum.damage and not A.db.totals.records.damage,'targeted reset barriers prevent replay')
+local sequence=A.db.sequence
+local settings=A.db.settings;settings.testKeep='kept'
+local nativeBefore=A.Sign(AZS_RUN)
+local reset=A.PrepareDataAction('reset')
+check(reset.allowed,'full reset available during play')
+check(not A.ConfirmDataAction('WRONG') and A.FindRun(liveId),'RESET token still required')
+A.db.badCycle=A.db
+check(not A.ConfirmDataAction('RESET') and A.FindRun(liveId),'failed full-reset snapshot prevents mutation')
+A.db.badCycle=nil
+check(A.ConfirmDataAction('RESET'),'full reset succeeds during play after backup')
+check(A.db.settings==settings and settings.testKeep=='kept' and A.db.sequence==sequence,'full reset preserves preferences and monotonic IDs')
+check(not A.run and table.getn(A.db.runs)==0 and not next(A.db.totals),'full reset clears current run and totals')
+check(settings.rebornResetRunId==A.NativeRunId(),'reset persists current native run exclusion')
+A.Packet('AZSRUN','ph=playing;t=50');A.Packet('AZSEND','result=victory')
+A.Sample();A.Sample()
+check(table.getn(A.db.runs)==0 and not next(A.db.totals),'same native run cannot refill cleared database')
+check(A.Sign(AZS_RUN)==nativeBefore,'cleanup never changes native game counters')
+AzerothStatsRebornDB=assert(loadstring('return '..SNAPSHOT(A.db)))();A.db=nil
+check(A.InitDB(),'post-reset database reloads')
+A.Sample()
+check(table.getn(A.db.runs)==0 and not A.run,'native run exclusion survives reload')
+AZS_ZONE.run='r13572468';AZS_RUN={ph='playing',t=1,kills=2,lvl=1,dealt=10};AZS_END={}
+A.Sample()
+check(A.run and A.run.nativeRunId=='azs:r13572468' and A.db.sequence==sequence+1,'next native run resumes collection once')
+check(not A.db.settings.rebornResetRunId and A.db.totals.runs==1,'new run clears exclusion and starts fresh totals')
+local damage=A.db.totals.sum.damage
+A.Sample()
+check(A.db.totals.runs==1 and A.db.totals.sum.damage==damage,'post-reset new run stays idempotent')
+check(AzerothStatsDB==ORIGINAL and A.ValidateDatabase(A.db),'live cleanup remains isolated and persistable')
+"""
+)
+lua.execute(
+    """
+local A=AzerothStatsReborn
+local live=assert(A.run)
+local nativeBefore=A.Sign(AZS_RUN)
+local liveBefore=A.Sign(live)
+for i=1,3 do check(A.CreateDataBackup(false),'manual backup available during play') end
+local manual=A.ListDataBackups(false)
+check(A.DeleteDataBackup(manual[1].id,false),'backup deletion available during play')
+local cleanup=A.PreviewManualBackupCleanup(2)
+check(cleanup and cleanup.remove>0,'manual cleanup preview available during play')
+check(A.CreateDataBackup(false),'catalogue can change after cleanup preview')
+check(not A.CleanupManualBackups(2,cleanup.token),'stale live cleanup preview rejected')
+cleanup=A.PreviewManualBackupCleanup(2)
+check(A.CleanupManualBackups(2,cleanup.token) and table.getn(A.ListDataBackups(false))==2,'reviewed manual cleanup works during play')
+check(A.run==live and A.Sign(live)==liveBefore,'backup management preserves current tracker')
+A.db.settings.restoreTest='before'
+check(A.CreateDataBackup(false),'selected manual snapshot created during play')
+manual=A.ListDataBackups(false)
+local selected=manual[1]
+local entry=AzerothStatsRebornBackup.entries[table.getn(AzerothStatsRebornBackup.entries)]
+local sourceBefore=SNAPSHOT(entry.data)
+check(entry.data.runs[table.getn(entry.data.runs)].status=='interrupted','manual snapshot freezes active observation only in copy')
+A.db.settings.restoreTest='after';live.values.damage=999;A.Account(live)
+local before=A.Sign(A.db)
+-- Invalid selected snapshots and initializer errors cannot change the tracker.
+table.insert(AzerothStatsRebornBackup.entries,{id=999999,data={invalid=true}})
+check(not A.RestoreDataBackup(999999,false) and A.Sign(A.db)==before and A.run==live,'invalid restore is atomic during play')
+table.remove(AzerothStatsRebornBackup.entries)
+local initialize=A.InitDB
+A.InitDB=function() A.db={broken=true};error('synthetic initializer failure') end
+check(not A.RestoreDataBackup(selected.id,false) and A.Sign(A.db)==before and A.run==live,'failed initialization restores database and live tracker')
+A.InitDB=initialize
+A.pendingReport={id=live.id};A.pendingEntryPlan={stale=true};A.partySession={run=live};A.deathWatch={run=live}
+check(A.RestoreDataBackup(selected.id,false),'manual backup restores during play')
+check(A.db.settings.restoreTest=='before' and not A.run,'restore uses saved preferences and detaches old run')
+check(not A.pendingReport and not A.pendingEntryPlan and not A.partySession and not A.deathWatch,'restore clears stale observer references')
+check(SNAPSHOT(entry.data)==sourceBefore,'restoration never mutates selected backup')
+local safety=AzerothStatsRebornAutoBackup.entries[table.getn(AzerothStatsRebornAutoBackup.entries)].data
+check(safety.settings.restoreTest=='after','pre-restore state remains in safety backup')
+local restoredCount=table.getn(A.db.runs)
+local restoredDamage=A.db.totals.sum.damage
+A.Packet('AZSRUN','ph=playing;t=40');A.Sample()
+check(not A.run and table.getn(A.db.runs)==restoredCount and A.db.totals.sum.damage==restoredDamage,'current native counters do not overwrite restored history')
+AzerothStatsRebornDB=assert(loadstring('return '..SNAPSHOT(A.db)))();A.db=nil
+check(A.InitDB(),'restored database reloads during play')
+A.Sample()
+check(not A.run and table.getn(A.db.runs)==restoredCount,'restore exclusion survives reload')
+check(A.Sign(AZS_RUN)==nativeBefore,'backup operations never change native counters')
+AZS_ZONE.run='r24681357';AZS_RUN={ph='playing',t=1,kills=1,lvl=1,dealt=5};AZS_END={}
+A.Sample()
+check(A.run and A.run.nativeRunId=='azs:r24681357' and table.getn(A.db.runs)==restoredCount+1,'next run resumes recording after restoration')
+local totals=A.Sign(A.db.totals);A.Sample()
+check(A.Sign(A.db.totals)==totals,'restored history plus next run remains idempotent')
+-- The selected automatic snapshot may be evicted by the pre-restore safety backup.
+check(A.CreateDataBackup(true),'automatic snapshot can be requested during play')
+local auto=A.ListDataBackups(true)[1]
+A.db.settings.autoBackupRetention=1;A.db.settings.restoreTest='second'
+check(A.RestoreDataBackup(auto.id,true),'selected automatic backup survives retention eviction during restoration')
+check(table.getn(A.ListDataBackups(true))==1 and A.db.settings.restoreTest~='second','automatic restore selects the copied target, not new safety snapshot')
+check(A.ValidateDatabase(A.db) and AzerothStatsDB==ORIGINAL,'live restore remains isolated and persistable')
+A.db=nil
+check(A.RestoreDataBackup(selected.id,false) and A.db.game==A.game,'validated backup can recover when no live database is loaded')
+"""
+)
+for path in target.glob("*.lua"):
+
+    raw = path.read_text(encoding="utf8")
+    lua.eval("function(s) local f,e=loadstring(s);assert(f,e) end")(raw)
+    assert "Interface\\\\AddOns\\\\AzerothStats\\\\" not in raw, path
+    assert "AzerothStatsDB" not in raw, path
+print(
+    "PASS:",
+    lua.globals().TESTS,
+    (
+        "Reborn checks; installed API"
+        if args.game
+        else "Reborn checks; synthetic native contract"
+    ),
+)
+(ROOT / "build/reborn-validation.json").write_text(
+    json.dumps(
+        {
+            "checks": lua.globals().TESTS,
+            "installedAPI": bool(args.game),
+            "scope": "Lua 5.1, generated runtime, synthetic saves/host; not in-game visual acceptance",
+        },
+        indent=2,
+    )
+    + "\n"
+)

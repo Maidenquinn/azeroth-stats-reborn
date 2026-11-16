@@ -265,7 +265,10 @@ function A.EntryPlan(action)
         for _ in pairs(state.classes) do
             plan.count = plan.count + 1
         end
-        if A.ReadProgress().ph ~= "ready" or (A.run and A.run.status == "active") then
+        if
+            not A.liveDataManagement
+            and (A.ReadProgress().ph ~= "ready" or (A.run and A.run.status == "active"))
+        then
             plan.reason = "Reset is available between runs only"
         end
     end
@@ -317,6 +320,12 @@ function A.ConfirmEntryAction()
     end
     if plan.signature ~= old.signature then
         return false, "Data changed; review again"
+    end
+    if A.liveDataManagement and plan.kind ~= "run" then
+        local ok, reason = A.CreateDataBackup(true, plan)
+        if not ok then
+            return false, reason
+        end
     end
     if plan.kind == "run" then
         A.pendingDataPlan = plan.history

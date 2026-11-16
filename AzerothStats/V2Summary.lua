@@ -49,7 +49,7 @@ function A.V2Highlights(run, page)
             end
         end
     end
-    return table.getn(out) > 0 and table.concat(out, "\\n") or A.T("No build journal recorded"),
+    return table.getn(out) > 0 and table.concat(out, "\n") or A.T("No build journal recorded"),
         page,
         pages,
         count

@@ -1,7 +1,7 @@
 -- Explicit local data removal. No native writes, file I/O, arithmetic subtraction
 -- from cumulative ledgers, or implicit reset from slash-command arguments.
 local A = AzerothStats
--- Category resets are global and require an explicit between-run boundary.
+-- Original-client category resets require a boundary; Reborn opts into live actions.
 A.dataCategories =
     { nemesis = "Nemesis", records = "Records", trends = "Trends", favorites = "Favorites" }
 local function size(value)
@@ -222,7 +222,12 @@ end
 -- Historical backups are kept outside the main database so restoring a snapshot
 -- never overwrites the catalogue. Legacy single-slot snapshots remain readable.
 local function backupStore(automatic)
-    local name = automatic and AzerothStatsAutoBackup or AzerothStatsBackup
+    local name
+    if automatic then
+        name = AzerothStatsAutoBackup
+    else
+        name = AzerothStatsBackup
+    end
     if type(name) == "table" and name.schema == 2 and type(name.entries) == "table" then
         return name
     end
@@ -240,6 +245,9 @@ local function backupStore(automatic)
 end
 
 function A.ListDataBackups(automatic)
+    if A.SharedBackupsEnabled and A.SharedBackupsEnabled() then
+        return A.SharedListBackups(automatic)
+    end
     local store = backupStore(automatic)
     local result = {}
     for index = table.getn(store.entries), 1, -1 do
@@ -301,12 +309,47 @@ local function sameSnapshot(left, right, state)
     return equal
 end
 
-function A.CreateDataBackup(automatic)
+-- Only a current reviewed removal may take a safety snapshot during a run.
+-- Reborn also opts category/full/entry cleanup into this path.
+local function reviewedRemovalBackup(plan)
+    if type(plan) == "table" and A.liveDataManagement and plan == A.pendingEntryPlan then
+        local fresh = A.EntryPlan(plan)
+        return fresh and fresh.allowed and fresh.signature == plan.signature
+    end
+    if
+        type(plan) ~= "table"
+        or plan ~= A.pendingDataPlan
+        or not (
+            plan.kind == "run"
+            or plan.kind == "history"
+            or (A.liveDataManagement and (plan.kind == "reset" or A.dataCategories[plan.kind]))
+        )
+    then
+        return false
+    end
+    local fresh = A.DataPlan(plan.kind, plan.class, plan.id)
+    return fresh
+        and fresh.allowed
+        and (fresh.count > 0 or A.liveDataManagement)
+        and fresh.signature == plan.signature
+end
+
+function A.CreateDataBackup(automatic, removalPlan)
     if not A.db then
         return false, "No database loaded"
     end
-    if A.run and A.run.status == "active" then
+    local liveSnapshot = A.run and A.run.status == "active"
+    if
+        liveSnapshot
+        and not (
+            (removalPlan == nil and A.liveDataManagement)
+            or (automatic and reviewedRemovalBackup(removalPlan))
+        )
+    then
         return false, "Backups are available between runs"
+    end
+    if A.SharedBackupsEnabled and A.SharedBackupsEnabled() then
+        return A.SharedCreateBackup(automatic, liveSnapshot)
     end
     -- Read the existing catalogue without converting legacy roots first:
     -- a rejected live snapshot must not mutate *any* SavedVariables root.
@@ -333,6 +376,15 @@ function A.CreateDataBackup(automatic)
     local data, err = snapshot(A.db, { count = 0, visiting = {} }, 0)
     if err then
         return false, err
+    end
+    if liveSnapshot then
+        -- Freeze only the detached snapshot. Restoring it later must not create
+        -- a phantom active run or mutate/resume the live native tracker.
+        for _, run in ipairs(data.runs or {}) do
+            if run.status == "active" then
+                run.status, run.partial = "interrupted", true
+            end
+        end
     end
     if not A.ValidateDatabase(data) then
         return false, "Backup failed validation"
@@ -391,19 +443,27 @@ function A.RecordCompletedRunBackup(run)
 end
 
 function A.RestoreDataBackup(id, automatic)
-    if A.run and A.run.status == "active" then
+    if not A.liveDataManagement and A.run and A.run.status == "active" then
         return false, "Restore is available between runs"
     end
-    local store = backupStore(automatic)
     local entry
-    for _, candidate in ipairs(store.entries) do
-        if type(candidate) == "table" and candidate.id == id then
-            entry = candidate
-            break
+    if A.SharedBackupsEnabled and A.SharedBackupsEnabled() then
+        local reason
+        entry, reason = A.SharedReadBackup(id, automatic)
+        if not entry then
+            return false, reason
         end
-    end
-    if not entry and id == nil then
-        entry = store.entries[table.getn(store.entries)]
+    else
+        local store = backupStore(automatic)
+        for _, candidate in ipairs(store.entries) do
+            if type(candidate) == "table" and candidate.id == id then
+                entry = candidate
+                break
+            end
+        end
+        if not entry and id == nil then
+            entry = store.entries[table.getn(store.entries)]
+        end
     end
     if not entry then
         return false, "Selected backup not found"
@@ -411,6 +471,20 @@ function A.RestoreDataBackup(id, automatic)
     local data, err = snapshot(entry.data, { count = 0, visiting = {} }, 0)
     if err or not A.ValidateDatabase(data) then
         return false, err or "Backup validation failed"
+    end
+    if A.PrepareBackupRestore then
+        A.PrepareBackupRestore(data)
+        if not A.ValidateDatabase(data) then
+            return false, "Backup validation failed"
+        end
+    end
+    if A.liveDataManagement and A.db then
+        -- Clone/validate the selected entry first: creating this snapshot may
+        -- prune that entry under automatic retention, but must not lose it.
+        local ok, reason = A.CreateDataBackup(true)
+        if not ok then
+            return false, reason
+        end
     end
     -- Keep the previous live database recoverable if initialization fails.
     -- Validation above is necessary but does not guarantee that migrations or
@@ -426,12 +500,18 @@ function A.RestoreDataBackup(id, automatic)
         return false, "Backup could not be loaded; previous database preserved"
     end
     A.pendingDataPlan = nil
+    if A.AfterBackupRestore then
+        A.AfterBackupRestore()
+    end
     return true, "Backup No." .. entry.id .. " restored; reload recommended"
 end
 
 function A.DeleteDataBackup(id, automatic)
-    if A.run and A.run.status == "active" then
+    if not A.liveDataManagement and A.run and A.run.status == "active" then
         return false, "Backup deletion is available between runs"
+    end
+    if A.SharedBackupsEnabled and A.SharedBackupsEnabled() then
+        return A.SharedDeleteBackup(id, automatic)
     end
     local store = backupStore(automatic)
     for index, entry in ipairs(store.entries) do
@@ -446,8 +526,11 @@ end
 -- Manual snapshots are never pruned automatically. A two-step preview token
 -- prevents stale confirmations from deleting a changed backup catalogue.
 function A.PreviewManualBackupCleanup(keep)
-    if A.run and A.run.status == "active" then
+    if not A.liveDataManagement and A.run and A.run.status == "active" then
         return nil, "Backup cleanup is available between runs"
+    end
+    if A.SharedBackupsEnabled and A.SharedBackupsEnabled() then
+        return A.SharedPreviewCleanup(keep)
     end
     keep = A.Number(keep)
     if not keep or keep ~= math.floor(keep) or keep < 1 or keep > 50 then
@@ -465,6 +548,9 @@ function A.PreviewManualBackupCleanup(keep)
 end
 
 function A.CleanupManualBackups(keep, token)
+    if A.SharedBackupsEnabled and A.SharedBackupsEnabled() then
+        return A.SharedCleanup(keep, token)
+    end
     if type(token) ~= "string" then
         return false, "Preview cleanup and confirm the current selection first"
     end
@@ -529,8 +615,11 @@ function A.DataPlan(kind, class, id)
         categoryImpact(kind, plan)
     end
     if kind == "reset" or A.dataCategories[kind] then
-        -- An explicit ready phase is required: absence of the API is not a safe boundary.
-        if A.ReadProgress().ph ~= "ready" or (A.run and A.run.status == "active") then
+        -- The original client requires an explicit ready phase; Reborn opts in above.
+        if
+            not A.liveDataManagement
+            and (A.ReadProgress().ph ~= "ready" or (A.run and A.run.status == "active"))
+        then
             plan.reason = "Reset is available between runs only"
         elseif
             A.dataCategories[kind]
@@ -590,13 +679,16 @@ function A.ConfirmDataAction(token)
     if fresh.kind == "reset" and token ~= "RESET" then
         return false, "Type RESET to confirm"
     end
-    local backupOK, backupMessage = A.CreateDataBackup(true)
+    local backupOK, backupMessage = A.CreateDataBackup(true, fresh)
     if not backupOK then
         return false, backupMessage
     end
     if A.dataCategories[fresh.kind] then
         clearCategory(fresh.kind)
     elseif fresh.kind == "reset" then
+        if A.BeforeFullDataReset then
+            A.BeforeFullDataReset()
+        end
         A.V2Reset()
         -- Keep schema/version, migrations, monotonic IDs and the exact settings object.
         -- Do not rebuild totals from retained runs: their older history may be pruned.

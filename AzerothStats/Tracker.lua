@@ -201,10 +201,12 @@ local function start(phase, serverTime)
     local key, class, hero, zone, zoneName, zoneSource = A.Identity()
     local heroic = A.ReadHeroic()
     local old = database.runs[table.getn(database.runs)]
+    local nativeRunId = A.NativeRunId and A.NativeRunId()
     -- No server run UUID exists. Continuity after a UI reload is explicitly heuristic.
     if
         not A.newBoundary
         and old
+        and (not nativeRunId or old.nativeRunId == nativeRunId)
         and (old.identity == key or (old.hero == hero and old.class == class and (not zone or not old.zone or zone == old.zone)))
         and (heroic == nil or old.heroic == nil or heroic == old.heroic)
         and serverTime
@@ -214,7 +216,7 @@ local function start(phase, serverTime)
         and phase ~= "ready"
     then
         A.run = old
-        old.resumeHeuristic = true
+        old.resumeHeuristic = not nativeRunId
         if heroic ~= nil then
             old.heroic, old.heroicSource = heroic, "AZS_ZONE.heroic"
         end
@@ -225,7 +227,12 @@ local function start(phase, serverTime)
         if not zone then
             old.zoneSource = old.zoneSource or "resumed observation"
         end
-        A.Event(old, "resume", "Reprise probable apres rechargement ; pas d'identifiant serveur")
+        A.Event(
+            old,
+            "resume",
+            nativeRunId and "Reprise par identifiant serveur"
+                or "Reprise probable apres rechargement ; pas d'identifiant serveur"
+        )
     else
         if old and old.status == "active" then
             old.status = "interrupted"
@@ -234,6 +241,9 @@ local function start(phase, serverTime)
         database.sequence = database.sequence + 1
         local run = {
             id = "azstats-" .. tostring(database.sequence),
+            nativeRunId = nativeRunId,
+            game = A.game,
+            reborn = A.NewRunData and A.NewRunData(),
             identity = key,
             class = class,
             hero = hero,
@@ -432,7 +442,8 @@ function A.Sample()
         or (
             A.run
             and (
-                (serverTime and A.run.lastRawTime and serverTime + 2 < A.run.lastRawTime)
+                (A.NativeRunId and A.NativeRunId() and A.run.nativeRunId ~= A.NativeRunId())
+                or (serverTime and A.run.lastRawTime and serverTime + 2 < A.run.lastRawTime)
                 or (key ~= A.run.identity)
                 or (heroic ~= nil and A.run.heroic ~= nil and heroic ~= A.run.heroic)
                 or (

@@ -18,6 +18,9 @@ local function menu(anchor, choices, action)
 end
 
 local function section(key)
+    if A.RebornSection then
+        key = A.RebornSection(key)
+    end
     local id = A.Selected() and A.Selected().id
     if key == "Combat" then
         A.SelectRun(id)

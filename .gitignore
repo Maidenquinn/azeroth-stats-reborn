@@ -14,3 +14,4 @@ AzerothStats/tests/*results.json
 AzerothStats/tests/*evidence*.json
 AzerothStats/tests/*migration*.json
 release-assets/
+build/

@@ -1,0 +1,4025 @@
+{
+  "names": {
+    "Aberration": {
+      "entry": 701203,
+      "icon": "Spell_Shadow_AbominationExplosion",
+      "kind": "enemy"
+    },
+    "Abomination": {
+      "entry": 3905,
+      "icon": "Spell_Shadow_AbominationExplosion",
+      "kind": "enemy"
+    },
+    "Abyssal Guardian": {
+      "entry": 700154,
+      "icon": "Spell_Shadow_DemonForm",
+      "kind": "elite"
+    },
+    "Abyssal Razorclaw": {
+      "entry": 701105,
+      "icon": "Ability_Hunter_Pet_Crab",
+      "kind": "enemy"
+    },
+    "Ace": {
+      "entry": 701150,
+      "icon": "Ability_Warrior_Rampage",
+      "kind": "boss"
+    },
+    "Acidmaw": {
+      "entry": 5191,
+      "icon": "Ability_Hunter_Pet_Worm",
+      "kind": "boss"
+    },
+    "Aeonaxx": {
+      "entry": 701013,
+      "icon": "INV_Misc_Head_Dragon_Black",
+      "kind": "boss"
+    },
+    "Akil'zon": {
+      "entry": 3891,
+      "icon": "Ability_Hunter_Pet_Owl",
+      "kind": "boss"
+    },
+    "Alizabal": {
+      "entry": 701053,
+      "icon": "Spell_Shadow_ShadowWordPain",
+      "kind": "boss"
+    },
+    "Alterac Yeti Lord": {
+      "entry": 306,
+      "icon": "Ability_Hunter_Pet_Gorilla",
+      "kind": "elite"
+    },
+    "Alysrazor": {
+      "entry": 701173,
+      "icon": "spell_fire_burningspeed",
+      "kind": "boss"
+    },
+    "Alzzin the Wildshaper": {
+      "entry": 891,
+      "icon": "Spell_Shadow_SummonFelHunter",
+      "kind": "boss"
+    },
+    "Amani Bear": {
+      "entry": 3804,
+      "icon": "Ability_Hunter_Pet_Bear",
+      "kind": "enemy"
+    },
+    "Amani Crocolisk": {
+      "entry": 3808,
+      "icon": "Ability_Hunter_Pet_Crocolisk",
+      "kind": "enemy"
+    },
+    "Amani Dragonhawk": {
+      "entry": 3801,
+      "icon": "Ability_Hunter_Pet_DragonHawk",
+      "kind": "enemy"
+    },
+    "Amani Dragonhawk Matriarch": {
+      "entry": 3812,
+      "icon": "Ability_Hunter_Pet_DragonHawk",
+      "kind": "elite"
+    },
+    "Amani Eagle": {
+      "entry": 3806,
+      "icon": "Ability_Hunter_Pet_Owl",
+      "kind": "enemy"
+    },
+    "Amani Elder Bear": {
+      "entry": 3811,
+      "icon": "Ability_Hunter_Pet_Bear",
+      "kind": "elite"
+    },
+    "Amani Lynx": {
+      "entry": 3802,
+      "icon": "Ability_Hunter_Pet_Cat",
+      "kind": "enemy"
+    },
+    "Amani'shi Flame Caster": {
+      "entry": 3803,
+      "icon": "INV_Misc_Head_Troll_02",
+      "kind": "enemy"
+    },
+    "Amani'shi Guardian": {
+      "entry": 3805,
+      "icon": "INV_Misc_Head_Troll_01",
+      "kind": "enemy"
+    },
+    "Amani'shi Hexer": {
+      "entry": 3807,
+      "icon": "INV_Misc_Head_Troll_02",
+      "kind": "enemy"
+    },
+    "Amani'shi Scout": {
+      "entry": 3800,
+      "icon": "INV_Misc_Head_Troll_01",
+      "kind": "enemy"
+    },
+    "Amani'shi Warbringer": {
+      "entry": 3810,
+      "icon": "INV_Misc_Head_Troll_01",
+      "kind": "elite"
+    },
+    "Amethyst Breaker": {
+      "entry": 700104,
+      "icon": "INV_Misc_Gem_Amethyst_02",
+      "kind": "elite"
+    },
+    "Ancient Core Hound": {
+      "entry": 701163,
+      "icon": "ability_hunter_pet_corehound",
+      "kind": "enemy"
+    },
+    "Anetheron": {
+      "entry": 3991,
+      "icon": "Spell_Shadow_SummonInfernal",
+      "kind": "boss"
+    },
+    "Anomalus": {
+      "entry": 4992,
+      "icon": "Achievement_Boss_Anomalus",
+      "kind": "boss"
+    },
+    "Anub'Rekhan": {
+      "entry": 1490,
+      "icon": "INV_Misc_Head_Nerubian_01",
+      "kind": "boss"
+    },
+    "Anub'ar Ambusher": {
+      "entry": 4402,
+      "icon": "INV_Misc_Head_Nerubian_01",
+      "kind": "enemy"
+    },
+    "Anub'ar Champion": {
+      "entry": 4808,
+      "icon": "INV_Misc_Head_Nerubian_01",
+      "kind": "enemy"
+    },
+    "Anub'ar Crusher": {
+      "entry": 4805,
+      "icon": "INV_Misc_Head_Nerubian_01",
+      "kind": "enemy"
+    },
+    "Anub'ar Crypt Fiend": {
+      "entry": 4804,
+      "icon": "INV_Misc_Head_Nerubian_01",
+      "kind": "enemy"
+    },
+    "Anub'ar Darter": {
+      "entry": 4801,
+      "icon": "INV_Misc_Head_Nerubian_01",
+      "kind": "enemy"
+    },
+    "Anub'ar Guardian": {
+      "entry": 4811,
+      "icon": "INV_Misc_Head_Nerubian_01",
+      "kind": "elite"
+    },
+    "Anub'ar Necromancer": {
+      "entry": 4807,
+      "icon": "INV_Misc_Head_Nerubian_01",
+      "kind": "enemy"
+    },
+    "Anub'ar Skirmisher": {
+      "entry": 4800,
+      "icon": "INV_Misc_Head_Nerubian_01",
+      "kind": "enemy"
+    },
+    "Anub'ar Venomancer": {
+      "entry": 4810,
+      "icon": "INV_Misc_Head_Nerubian_01",
+      "kind": "elite"
+    },
+    "Anub'ar Warrior": {
+      "entry": 4802,
+      "icon": "INV_Misc_Head_Nerubian_01",
+      "kind": "enemy"
+    },
+    "Anub'ar Webspinner": {
+      "entry": 4803,
+      "icon": "INV_Misc_Head_Nerubian_01",
+      "kind": "enemy"
+    },
+    "Anub'arak": {
+      "entry": 2107,
+      "icon": "Achievement_Boss_Anubarak",
+      "kind": "boss"
+    },
+    "Anubisath Sentinel": {
+      "entry": 1110,
+      "icon": "Ability_GolemThunderClap",
+      "kind": "elite"
+    },
+    "Anvilrage Guardsman": {
+      "entry": 1004,
+      "icon": "INV_Misc_Head_Dwarf_01",
+      "kind": "enemy"
+    },
+    "Apexis Guardian": {
+      "entry": 3512,
+      "icon": "Ability_GolemStormBolt",
+      "kind": "elite"
+    },
+    "Apocalypse Guard": {
+      "entry": 4108,
+      "icon": "Spell_Shadow_SummonInfernal",
+      "kind": "enemy"
+    },
+    "Arcane Annihilator": {
+      "entry": 3411,
+      "icon": "Ability_GolemStormBolt",
+      "kind": "elite"
+    },
+    "Arcane Anomaly": {
+      "entry": 3604,
+      "icon": "Spell_Arcane_Arcane01",
+      "kind": "enemy"
+    },
+    "Arcane Construct": {
+      "entry": 3708,
+      "icon": "Ability_GolemStormBolt",
+      "kind": "enemy"
+    },
+    "Arcane Golem": {
+      "entry": 3404,
+      "icon": "Ability_GolemStormBolt",
+      "kind": "enemy"
+    },
+    "Arcane Protector": {
+      "entry": 3605,
+      "icon": "Ability_GolemStormBolt",
+      "kind": "enemy"
+    },
+    "Arcane Serpent": {
+      "entry": 4901,
+      "icon": "Ability_Hunter_Pet_WindSerpent",
+      "kind": "enemy"
+    },
+    "Arcane Watchman": {
+      "entry": 3611,
+      "icon": "Ability_GolemStormBolt",
+      "kind": "elite"
+    },
+    "Arcanist Doan": {
+      "entry": 1391,
+      "icon": "INV_Misc_Head_Human_02",
+      "kind": "boss"
+    },
+    "Arcanotron": {
+      "entry": 701211,
+      "icon": "INV_Misc_Gear_01",
+      "kind": "boss"
+    },
+    "Archdruid Aldryn": {
+      "entry": 701093,
+      "icon": "ability_druid_catform",
+      "kind": "boss"
+    },
+    "Archimonde": {
+      "entry": 2010,
+      "icon": "Spell_Shadow_SummonInfernal",
+      "kind": "boss"
+    },
+    "Argaloth": {
+      "entry": 700128,
+      "icon": "Spell_Fire_FelFlameStrike",
+      "kind": "boss"
+    },
+    "Arion": {
+      "entry": 701132,
+      "icon": "Spell_Nature_Cyclone",
+      "kind": "boss"
+    },
+    "Artruis the Heartless": {
+      "entry": 2106,
+      "icon": "Spell_Shadow_RaiseDead",
+      "kind": "boss"
+    },
+    "Ash Hound": {
+      "entry": 700141,
+      "icon": "ability_hunter_pet_corehound",
+      "kind": "enemy"
+    },
+    "Ashtongue Warrior": {
+      "entry": 4012,
+      "icon": "INV_Misc_Head_Orc_01",
+      "kind": "elite"
+    },
+    "Atramedes": {
+      "entry": 701213,
+      "icon": "Ability_Hunter_Pet_Bat",
+      "kind": "boss"
+    },
+    "Attumen the Huntsman": {
+      "entry": 3690,
+      "icon": "INV_Misc_Head_Undead_01",
+      "kind": "boss"
+    },
+    "Auchenai Voidcaller": {
+      "entry": 3207,
+      "icon": "Spell_Shadow_SummonVoidWalker",
+      "kind": "enemy"
+    },
+    "Avatar of Freya": {
+      "entry": 4792,
+      "icon": "Achievement_Boss_Freya_01",
+      "kind": "boss"
+    },
+    "Azgalor": {
+      "entry": 3993,
+      "icon": "Spell_Shadow_SummonInfernal",
+      "kind": "boss"
+    },
+    "Azralon the Gatekeeper": {
+      "entry": 701091,
+      "icon": "spell_fire_meteorstorm",
+      "kind": "boss"
+    },
+    "Azure Drake": {
+      "entry": 4910,
+      "icon": "INV_Misc_Head_Dragon_Blue",
+      "kind": "elite"
+    },
+    "Azure Scale-Binder": {
+      "entry": 4911,
+      "icon": "INV_Misc_Head_Dragon_Blue",
+      "kind": "elite"
+    },
+    "Azure Spellbinder": {
+      "entry": 4902,
+      "icon": "INV_Misc_Head_Dragon_Blue",
+      "kind": "enemy"
+    },
+    "Azure Whelp": {
+      "entry": 4406,
+      "icon": "INV_Misc_Head_Dragon_Blue",
+      "kind": "enemy"
+    },
+    "Azure Whelpling": {
+      "entry": 4906,
+      "icon": "INV_Misc_Head_Dragon_Blue",
+      "kind": "enemy"
+    },
+    "Azuregos": {
+      "entry": 393,
+      "icon": "INV_Misc_Head_Dragon_Blue",
+      "kind": "boss"
+    },
+    "Bamm Megabomb": {
+      "entry": 701151,
+      "icon": "INV_Misc_Bomb_08",
+      "kind": "boss"
+    },
+    "Banshee": {
+      "entry": 3906,
+      "icon": "Achievement_Halloween_Ghost_01",
+      "kind": "enemy"
+    },
+    "Banshee Harrier": {
+      "entry": 701023,
+      "icon": "Spell_Shadow_SoulLeech_3",
+      "kind": "enemy"
+    },
+    "Baron Ashbury": {
+      "entry": 701030,
+      "icon": "Spell_Shadow_AnimateDead",
+      "kind": "boss"
+    },
+    "Baron Geddon": {
+      "entry": 700148,
+      "icon": "Spell_Fire_SelfDestruct",
+      "kind": "boss"
+    },
+    "Baron Silverlaine": {
+      "entry": 701031,
+      "icon": "Ability_Druid_Mangle2",
+      "kind": "boss"
+    },
+    "Basalt Colossus": {
+      "entry": 701146,
+      "icon": "Achievement_Dungeon_UlduarRaid_IronGolem_01",
+      "kind": "elite"
+    },
+    "Bellygrub": {
+      "entry": 611,
+      "icon": "Ability_Hunter_Pet_Boar",
+      "kind": "elite"
+    },
+    "Beth'tilac": {
+      "entry": 701171,
+      "icon": "achievement_boss_maexxna",
+      "kind": "boss"
+    },
+    "Bile Retcher": {
+      "entry": 1405,
+      "icon": "Spell_Shadow_AbominationExplosion",
+      "kind": "enemy"
+    },
+    "Bilgewater Thug": {
+      "entry": 701143,
+      "icon": "Ability_Rogue_Garrote",
+      "kind": "enemy"
+    },
+    "Bittertide Hydra": {
+      "entry": 4710,
+      "icon": "Ability_Hunter_Pet_WindSerpent",
+      "kind": "elite"
+    },
+    "Black Broodling": {
+      "entry": 1001,
+      "icon": "INV_Misc_Head_Dragon_Black",
+      "kind": "enemy"
+    },
+    "Black Drake": {
+      "entry": 1010,
+      "icon": "INV_Misc_Head_Dragon_Black",
+      "kind": "elite"
+    },
+    "Black Widow Hatchling": {
+      "entry": 702,
+      "icon": "Ability_Hunter_Pet_Spider",
+      "kind": "enemy"
+    },
+    "Black Wyrmkin": {
+      "entry": 1007,
+      "icon": "INV_Misc_Head_Dragon_Black",
+      "kind": "enemy"
+    },
+    "Blackrock Grunt": {
+      "entry": 1002,
+      "icon": "INV_Misc_Head_Orc_01",
+      "kind": "enemy"
+    },
+    "Blackwing Chimera": {
+      "entry": 701206,
+      "icon": "Ability_Hunter_Pet_Chimera",
+      "kind": "elite"
+    },
+    "Blackwing Horror": {
+      "entry": 700214,
+      "icon": "INV_Misc_Head_Dragon_Black",
+      "kind": "elite"
+    },
+    "Blackwing Overseer": {
+      "entry": 700211,
+      "icon": "INV_Misc_Head_Orc_01",
+      "kind": "enemy"
+    },
+    "Blackwing Spellbinder": {
+      "entry": 701205,
+      "icon": "Spell_Nature_Lightning",
+      "kind": "enemy"
+    },
+    "Bladespire Champion": {
+      "entry": 3505,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "enemy"
+    },
+    "Bladespire Mountain Giant": {
+      "entry": 3508,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "enemy"
+    },
+    "Bladespire Raptor": {
+      "entry": 3506,
+      "icon": "Ability_Hunter_Pet_Raptor",
+      "kind": "enemy"
+    },
+    "Bladespire Shaman": {
+      "entry": 3503,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "enemy"
+    },
+    "Bladewing Rockflayer": {
+      "entry": 3501,
+      "icon": "Ability_Hunter_Pet_Bat",
+      "kind": "enemy"
+    },
+    "Blazing Elemental": {
+      "entry": 1005,
+      "icon": "Spell_Fire_Elemental_Totem",
+      "kind": "enemy"
+    },
+    "Blazing Talon": {
+      "entry": 701161,
+      "icon": "ability_hunter_pet_dragonhawk",
+      "kind": "enemy"
+    },
+    "Blight Abomination": {
+      "entry": 700112,
+      "icon": "Spell_Shadow_AbominationExplosion",
+      "kind": "enemy"
+    },
+    "Blight Hound": {
+      "entry": 700111,
+      "icon": "Ability_Hunter_Pet_Hyena",
+      "kind": "enemy"
+    },
+    "Blight Juggernaut": {
+      "entry": 700114,
+      "icon": "Ability_Warrior_Rampage",
+      "kind": "elite"
+    },
+    "Blighted Abomination": {
+      "entry": 5305,
+      "icon": "Spell_Shadow_AbominationExplosion",
+      "kind": "enemy"
+    },
+    "Blistering Elementium": {
+      "entry": 700224,
+      "icon": "Spell_Fire_Volcano",
+      "kind": "elite"
+    },
+    "Bloated Abomination": {
+      "entry": 4605,
+      "icon": "Spell_Shadow_AbominationExplosion",
+      "kind": "enemy"
+    },
+    "Bloated Plague-Bearer": {
+      "entry": 701024,
+      "icon": "Spell_Shadow_PlagueCloud",
+      "kind": "enemy"
+    },
+    "Blood-Queen Lana'thel": {
+      "entry": 5393,
+      "icon": "Achievement_Boss_Lanathel",
+      "kind": "boss"
+    },
+    "Bloodcrazed Worg": {
+      "entry": 4501,
+      "icon": "Ability_Hunter_Pet_Wolf",
+      "kind": "enemy"
+    },
+    "Bloodfang Stalker": {
+      "entry": 701025,
+      "icon": "Ability_Hunter_Pet_Wolf",
+      "kind": "enemy"
+    },
+    "Bloodlord Mandokir": {
+      "entry": 992,
+      "icon": "INV_Misc_Head_Troll_01",
+      "kind": "boss"
+    },
+    "Bloodmaul Geomancer": {
+      "entry": 3507,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "enemy"
+    },
+    "Bloodmaul Skirmisher": {
+      "entry": 3502,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "enemy"
+    },
+    "Bloodmaul Warlord": {
+      "entry": 3511,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "elite"
+    },
+    "Bloodmoon Alpha": {
+      "entry": 4512,
+      "icon": "Ability_Hunter_Pet_Wolf",
+      "kind": "elite"
+    },
+    "Bloodmoon Worgen": {
+      "entry": 4502,
+      "icon": "Ability_Hunter_Pet_Wolf",
+      "kind": "enemy"
+    },
+    "Bloodpetal Lasher": {
+      "entry": 1204,
+      "icon": "Ability_Druid_ForceofNature",
+      "kind": "enemy"
+    },
+    "Bloodseeker Bat": {
+      "entry": 902,
+      "icon": "Ability_Hunter_Pet_Bat",
+      "kind": "enemy"
+    },
+    "Bog Giant": {
+      "entry": 3110,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "elite"
+    },
+    "Bog Lurker": {
+      "entry": 3105,
+      "icon": "Spell_Nature_EarthElemental_Totem",
+      "kind": "enemy"
+    },
+    "Bone Chewer": {
+      "entry": 708,
+      "icon": "Spell_Shadow_AnimateDead",
+      "kind": "enemy"
+    },
+    "Bone Construct": {
+      "entry": 700210,
+      "icon": "INV_Misc_Bone_HumanSkull_01",
+      "kind": "enemy"
+    },
+    "Bone Golem": {
+      "entry": 5108,
+      "icon": "Achievement_Dungeon_UlduarRaid_IronGolem_01",
+      "kind": "enemy"
+    },
+    "Bonechewer Hungerer": {
+      "entry": 3000,
+      "icon": "INV_Misc_Head_Orc_01",
+      "kind": "enemy"
+    },
+    "Bonechewer Shadowcaster": {
+      "entry": 3007,
+      "icon": "INV_Misc_Head_Orc_02",
+      "kind": "enemy"
+    },
+    "Borean Condor": {
+      "entry": 4206,
+      "icon": "Ability_Hunter_Pet_Vulture",
+      "kind": "enemy"
+    },
+    "Boulderfist Brute": {
+      "entry": 1508,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "enemy"
+    },
+    "Boulderfist Crusher": {
+      "entry": 3308,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "enemy"
+    },
+    "Boulderfist Enforcer": {
+      "entry": 1511,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "elite"
+    },
+    "Boulderfist Magus": {
+      "entry": 1507,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "enemy"
+    },
+    "Boulderfist Mystic": {
+      "entry": 3307,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "enemy"
+    },
+    "Boulderfist Ogre": {
+      "entry": 1505,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "enemy"
+    },
+    "Boulderfist Warlord": {
+      "entry": 3311,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "elite"
+    },
+    "Brutallus": {
+      "entry": 4191,
+      "icon": "Spell_Fire_Elemental_Totem",
+      "kind": "boss"
+    },
+    "Burning Imp": {
+      "entry": 100,
+      "icon": "Spell_Shadow_SummonImp",
+      "kind": "enemy"
+    },
+    "C'Thun": {
+      "entry": 1194,
+      "icon": "Achievement_Boss_CThun",
+      "kind": "boss"
+    },
+    "Caldera Guardian": {
+      "entry": 700183,
+      "icon": "Spell_Nature_EarthElemental_Totem",
+      "kind": "elite"
+    },
+    "Caldera Skitterer": {
+      "entry": 700180,
+      "icon": "Ability_Hunter_Pet_Crab",
+      "kind": "enemy"
+    },
+    "Carrion Recluse": {
+      "entry": 710,
+      "icon": "Ability_Hunter_Pet_Spider",
+      "kind": "elite"
+    },
+    "Carrion Spinner": {
+      "entry": 1404,
+      "icon": "Ability_Hunter_Pet_Spider",
+      "kind": "enemy"
+    },
+    "Chalkstone Sentinel": {
+      "entry": 700103,
+      "icon": "INV_Stone_08",
+      "kind": "enemy"
+    },
+    "Cho'gall": {
+      "entry": 700168,
+      "icon": "Spell_Shadow_DemonBreath",
+      "kind": "boss"
+    },
+    "Chromatic Prototype": {
+      "entry": 701202,
+      "icon": "INV_Misc_Head_Dragon_01",
+      "kind": "enemy"
+    },
+    "Chromatic Whelp": {
+      "entry": 701200,
+      "icon": "INV_Misc_Head_Dragon_Red",
+      "kind": "enemy"
+    },
+    "Cinder Hound": {
+      "entry": 700192,
+      "icon": "ability_hunter_pet_corehound",
+      "kind": "enemy"
+    },
+    "Cinder Infernal": {
+      "entry": 701085,
+      "icon": "spell_shadow_summoninfernal",
+      "kind": "enemy"
+    },
+    "Cinderweb Drone": {
+      "entry": 701160,
+      "icon": "ability_hunter_pet_spider",
+      "kind": "enemy"
+    },
+    "Clefthoof Bull": {
+      "entry": 3305,
+      "icon": "Ability_Hunter_Pet_Rhino",
+      "kind": "enemy"
+    },
+    "Coilfang Champion": {
+      "entry": 3111,
+      "icon": "ACHIEVEMENT_BOSS_LADYVASHJ",
+      "kind": "elite"
+    },
+    "Coilfang Myrmidon": {
+      "entry": 3102,
+      "icon": "ACHIEVEMENT_BOSS_LADYVASHJ",
+      "kind": "enemy"
+    },
+    "Coilfang Siren": {
+      "entry": 3103,
+      "icon": "ACHIEVEMENT_BOSS_LADYVASHJ",
+      "kind": "enemy"
+    },
+    "Coilfang Sorceress": {
+      "entry": 3107,
+      "icon": "ACHIEVEMENT_BOSS_LADYVASHJ",
+      "kind": "enemy"
+    },
+    "Coilskar Myrmidon": {
+      "entry": 4002,
+      "icon": "ACHIEVEMENT_BOSS_LADYVASHJ",
+      "kind": "enemy"
+    },
+    "Coilskar Sorceress": {
+      "entry": 4003,
+      "icon": "ACHIEVEMENT_BOSS_LADYVASHJ",
+      "kind": "enemy"
+    },
+    "Coldarra Arcane Guardian": {
+      "entry": 4912,
+      "icon": "Ability_GolemStormBolt",
+      "kind": "elite"
+    },
+    "Coldarra Spellweaver": {
+      "entry": 4903,
+      "icon": "INV_Misc_Head_Dragon_Blue",
+      "kind": "enemy"
+    },
+    "Coldarra Wyrmkin": {
+      "entry": 4900,
+      "icon": "INV_Misc_Head_Dragon_Blue",
+      "kind": "enemy"
+    },
+    "Coldmist Widow": {
+      "entry": 3608,
+      "icon": "Ability_Hunter_Pet_Spider",
+      "kind": "enemy"
+    },
+    "Commander Springvale": {
+      "entry": 701032,
+      "icon": "INV_Helmet_08",
+      "kind": "boss"
+    },
+    "Commander Ulthok": {
+      "entry": 701110,
+      "icon": "Ability_Hunter_Pet_Crab",
+      "kind": "boss"
+    },
+    "Commander Zanoth": {
+      "entry": 701051,
+      "icon": "INV_Misc_Head_Orc_01",
+      "kind": "boss"
+    },
+    "Coralfin Murloc": {
+      "entry": 701100,
+      "icon": "INV_Misc_Head_Murloc_01",
+      "kind": "enemy"
+    },
+    "Corborus": {
+      "entry": 701010,
+      "icon": "INV_Elemental_Crystal_Earth",
+      "kind": "boss"
+    },
+    "Core Hound": {
+      "entry": 1009,
+      "icon": "Ability_Hunter_Pet_CoreHound",
+      "kind": "elite"
+    },
+    "Corrupted Ancient": {
+      "entry": 4510,
+      "icon": "Ability_Druid_ForceofNature",
+      "kind": "elite"
+    },
+    "Crushridge Brute": {
+      "entry": 304,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "enemy"
+    },
+    "Crushridge Ogre Mage": {
+      "entry": 303,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "enemy"
+    },
+    "Crypt Fiend": {
+      "entry": 3904,
+      "icon": "INV_Misc_Head_Nerubian_01",
+      "kind": "enemy"
+    },
+    "Crypt Scarab Swarmlord": {
+      "entry": 4812,
+      "icon": "Ability_Hunter_Pet_Spider",
+      "kind": "elite"
+    },
+    "Crystalback Spider": {
+      "entry": 701000,
+      "icon": "Ability_Hunter_Pet_Spider",
+      "kind": "enemy"
+    },
+    "Crystalline Ice Giant": {
+      "entry": 4905,
+      "icon": "Achievement_Dungeon_UlduarRaid_IceGiant_01",
+      "kind": "enemy"
+    },
+    "Crystalline Protector": {
+      "entry": 4908,
+      "icon": "Spell_Nature_EarthElemental_Totem",
+      "kind": "enemy"
+    },
+    "Crystalline Tender": {
+      "entry": 4904,
+      "icon": "Spell_Nature_EarthElemental_Totem",
+      "kind": "enemy"
+    },
+    "Cult Necrolyte": {
+      "entry": 4403,
+      "icon": "INV_Misc_Head_Human_02",
+      "kind": "enemy"
+    },
+    "Cursed Infantry": {
+      "entry": 700120,
+      "icon": "Spell_Shadow_AnimateDead",
+      "kind": "enemy"
+    },
+    "Cursed Jailer": {
+      "entry": 700124,
+      "icon": "Ability_Creature_Cursed_02",
+      "kind": "elite"
+    },
+    "Cursed Shipwright": {
+      "entry": 701042,
+      "icon": "INV_Weapon_Crossbow_02",
+      "kind": "enemy"
+    },
+    "Dark Hound": {
+      "entry": 700161,
+      "icon": "Ability_Hunter_Pet_Devilsaur",
+      "kind": "enemy"
+    },
+    "Dark Iron Geomancer": {
+      "entry": 1003,
+      "icon": "INV_Misc_Head_Dwarf_02",
+      "kind": "enemy"
+    },
+    "Dark Iron Slaver": {
+      "entry": 1000,
+      "icon": "INV_Misc_Head_Dwarf_01",
+      "kind": "enemy"
+    },
+    "Dark Ranger Thyala": {
+      "entry": 700118,
+      "icon": "Ability_TheBlackArrow",
+      "kind": "boss"
+    },
+    "Darkfallen Blood Knight": {
+      "entry": 5303,
+      "icon": "Spell_DeathKnight_ArmyOfTheDead",
+      "kind": "enemy"
+    },
+    "Darkfallen Noble": {
+      "entry": 5307,
+      "icon": "Spell_DeathKnight_ArmyOfTheDead",
+      "kind": "enemy"
+    },
+    "Darkweaver Syth": {
+      "entry": 3293,
+      "icon": "Ability_Hunter_Pet_Vulture",
+      "kind": "boss"
+    },
+    "Death Knight Champion": {
+      "entry": 5110,
+      "icon": "Spell_DeathKnight_ArmyOfTheDead",
+      "kind": "elite"
+    },
+    "Deathbound Ward": {
+      "entry": 5308,
+      "icon": "INV_Misc_Head_Undead_01",
+      "kind": "enemy"
+    },
+    "Deathwing": {
+      "entry": 700228,
+      "icon": "Achievement_Boss_Nefarion",
+      "kind": "boss"
+    },
+    "Deepwater Horror": {
+      "entry": 700152,
+      "icon": "Spell_Shadow_EvilEye",
+      "kind": "enemy"
+    },
+    "Defense Golem": {
+      "entry": 701204,
+      "icon": "INV_Misc_Gear_08",
+      "kind": "enemy"
+    },
+    "Defias Enforcer": {
+      "entry": 608,
+      "icon": "INV_Misc_Head_Human_01",
+      "kind": "enemy"
+    },
+    "Defias Rogue Wizard": {
+      "entry": 607,
+      "icon": "INV_Misc_Head_Human_02",
+      "kind": "enemy"
+    },
+    "Defias Thug": {
+      "entry": 604,
+      "icon": "INV_Misc_Head_Human_01",
+      "kind": "enemy"
+    },
+    "Devilsaur": {
+      "entry": 1211,
+      "icon": "Ability_Hunter_Pet_Devilsaur",
+      "kind": "elite"
+    },
+    "Devourer of Souls": {
+      "entry": 5292,
+      "icon": "Achievement_Boss_DevourerofSouls",
+      "kind": "boss"
+    },
+    "Doomguard": {
+      "entry": 3910,
+      "icon": "Spell_Shadow_SummonInfernal",
+      "kind": "elite"
+    },
+    "Doomguard Commander": {
+      "entry": 190,
+      "icon": "Spell_Shadow_SummonInfernal",
+      "kind": "boss"
+    },
+    "Dragonblight Mage Hunter": {
+      "entry": 4407,
+      "icon": "INV_Misc_Head_Human_02",
+      "kind": "enemy"
+    },
+    "Dragonblight Wolf": {
+      "entry": 4401,
+      "icon": "Ability_Hunter_Pet_Wolf",
+      "kind": "enemy"
+    },
+    "Dragonflayer Ironhelm": {
+      "entry": 4305,
+      "icon": "INV_Misc_Head_Vrykul",
+      "kind": "enemy"
+    },
+    "Dragonflayer Lord": {
+      "entry": 4310,
+      "icon": "INV_Misc_Head_Vrykul",
+      "kind": "elite"
+    },
+    "Dragonflayer Raider": {
+      "entry": 4302,
+      "icon": "INV_Misc_Head_Vrykul",
+      "kind": "enemy"
+    },
+    "Dragonflayer Runecaster": {
+      "entry": 4303,
+      "icon": "INV_Misc_Head_Vrykul",
+      "kind": "enemy"
+    },
+    "Dragonflayer Worg": {
+      "entry": 4301,
+      "icon": "Ability_Hunter_Pet_Wolf",
+      "kind": "enemy"
+    },
+    "Dragonmaw Grunt": {
+      "entry": 701120,
+      "icon": "INV_Misc_Head_Orc_01",
+      "kind": "enemy"
+    },
+    "Drahga Shadowburner": {
+      "entry": 701192,
+      "icon": "INV_Misc_Head_Orc_01",
+      "kind": "boss"
+    },
+    "Drakkari Colossus": {
+      "entry": 4691,
+      "icon": "Ability_GolemStormBolt",
+      "kind": "boss"
+    },
+    "Drakkari Earthshaker": {
+      "entry": 4604,
+      "icon": "Spell_Nature_EarthElemental_Totem",
+      "kind": "enemy"
+    },
+    "Drakkari Guardian": {
+      "entry": 4610,
+      "icon": "Ability_GolemStormBolt",
+      "kind": "elite"
+    },
+    "Drakkari Inciter": {
+      "entry": 4607,
+      "icon": "INV_Misc_Head_Troll_02",
+      "kind": "enemy"
+    },
+    "Drakkari Rhino": {
+      "entry": 4608,
+      "icon": "Ability_Hunter_Pet_Rhino",
+      "kind": "enemy"
+    },
+    "Drakkari Shaman": {
+      "entry": 4503,
+      "icon": "INV_Misc_Head_Troll_02",
+      "kind": "enemy"
+    },
+    "Drakkari Skullcrusher": {
+      "entry": 4602,
+      "icon": "INV_Misc_Head_Troll_01",
+      "kind": "enemy"
+    },
+    "Drakos the Interrogator": {
+      "entry": 4990,
+      "icon": "INV_Misc_Head_Dragon_Blue",
+      "kind": "boss"
+    },
+    "Dread Creeper": {
+      "entry": 1401,
+      "icon": "Ability_Hunter_Pet_Spider",
+      "kind": "enemy"
+    },
+    "Dreadsaber": {
+      "entry": 4706,
+      "icon": "Ability_Hunter_Pet_Cat",
+      "kind": "enemy"
+    },
+    "Dreadwarden": {
+      "entry": 4008,
+      "icon": "Spell_Shadow_SummonFelGuard",
+      "kind": "enemy"
+    },
+    "Druid of the Flame": {
+      "entry": 701080,
+      "icon": "ability_druid_catform",
+      "kind": "enemy"
+    },
+    "Dune Burrower": {
+      "entry": 701065,
+      "icon": "Ability_Hunter_Pet_Worm",
+      "kind": "enemy"
+    },
+    "Dune Scarab": {
+      "entry": 701061,
+      "icon": "INV_Scarab_Bronze",
+      "kind": "enemy"
+    },
+    "Durn the Hungerer": {
+      "entry": 3310,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "elite"
+    },
+    "Dust Howler": {
+      "entry": 3306,
+      "icon": "Spell_Nature_Cyclone",
+      "kind": "enemy"
+    },
+    "Dust Servant": {
+      "entry": 700131,
+      "icon": "Spell_Nature_Cyclone",
+      "kind": "enemy"
+    },
+    "Dust Stormer": {
+      "entry": 1108,
+      "icon": "Spell_Nature_Cyclone",
+      "kind": "enemy"
+    },
+    "Earthen Ironguard": {
+      "entry": 5002,
+      "icon": "INV_Misc_Head_Dwarf_01",
+      "kind": "enemy"
+    },
+    "Eck the Ferocious": {
+      "entry": 4693,
+      "icon": "Ability_Hunter_Pet_Worm",
+      "kind": "boss"
+    },
+    "Edwin VanCleef": {
+      "entry": 694,
+      "icon": "Achievement_Boss_EdwinVancleef",
+      "kind": "boss"
+    },
+    "Elder Diemetradon": {
+      "entry": 1208,
+      "icon": "Ability_Hunter_Pet_Raptor",
+      "kind": "enemy"
+    },
+    "Elder Nadox": {
+      "entry": 4892,
+      "icon": "Achievement_Boss_ElderNadox",
+      "kind": "boss"
+    },
+    "Elementium Fragment": {
+      "entry": 700221,
+      "icon": "INV_Elemental_Primal_Earth",
+      "kind": "enemy"
+    },
+    "Elementium Terror": {
+      "entry": 700222,
+      "icon": "Spell_Nature_EarthElemental_Totem",
+      "kind": "enemy"
+    },
+    "Emperor Dagran Thaurissan": {
+      "entry": 1092,
+      "icon": "Achievement_Boss_EmperorDagranThaurissan",
+      "kind": "boss"
+    },
+    "Enslaved Burning Ember": {
+      "entry": 701181,
+      "icon": "Spell_Fire_Fire",
+      "kind": "enemy"
+    },
+    "Enslaved Gronn Brute": {
+      "entry": 701184,
+      "icon": "Ability_Warrior_Rampage",
+      "kind": "enemy"
+    },
+    "Enslaved Gronn Warlord": {
+      "entry": 701186,
+      "icon": "Achievement_Boss_Gruulthedragonkiller",
+      "kind": "elite"
+    },
+    "Eredar Sorcerer": {
+      "entry": 4103,
+      "icon": "Spell_Shadow_SummonInfernal",
+      "kind": "enemy"
+    },
+    "Eredar Torturer": {
+      "entry": 701046,
+      "icon": "Spell_Shadow_ShadowWordDominate",
+      "kind": "elite"
+    },
+    "Erudax": {
+      "entry": 700208,
+      "icon": "Spell_Shadow_UnholyFrenzy",
+      "kind": "boss"
+    },
+    "Erunak Stonespeaker": {
+      "entry": 701111,
+      "icon": "Spell_Nature_EarthShock",
+      "kind": "boss"
+    },
+    "Ethereal Arcanist": {
+      "entry": 3403,
+      "icon": "Spell_Arcane_Arcane04",
+      "kind": "enemy"
+    },
+    "Ethereal Spellbinder": {
+      "entry": 3204,
+      "icon": "Spell_Arcane_Arcane04",
+      "kind": "enemy"
+    },
+    "Ethereal Spellfilcher": {
+      "entry": 3603,
+      "icon": "Spell_Arcane_Arcane04",
+      "kind": "enemy"
+    },
+    "Ethereal Thief": {
+      "entry": 3407,
+      "icon": "Spell_Arcane_Arcane04",
+      "kind": "enemy"
+    },
+    "Ethereum Assassin": {
+      "entry": 3402,
+      "icon": "Spell_Arcane_Arcane04",
+      "kind": "enemy"
+    },
+    "Ethereum Jailor": {
+      "entry": 3711,
+      "icon": "Spell_Arcane_Arcane04",
+      "kind": "elite"
+    },
+    "Ethereum Nullifier": {
+      "entry": 3707,
+      "icon": "Spell_Arcane_Arcane04",
+      "kind": "enemy"
+    },
+    "Ethereum Ray": {
+      "entry": 3704,
+      "icon": "Ability_Hunter_Pet_NetherRay",
+      "kind": "enemy"
+    },
+    "Ethereum Shocktrooper": {
+      "entry": 3703,
+      "icon": "Spell_Arcane_Arcane04",
+      "kind": "enemy"
+    },
+    "Exarch Maladaar": {
+      "entry": 3292,
+      "icon": "Achievement_Boss_Exarch_Maladaar",
+      "kind": "boss"
+    },
+    "Experimental Drake": {
+      "entry": 700212,
+      "icon": "INV_Misc_Head_Dragon_Bronze",
+      "kind": "enemy"
+    },
+    "Faceless Enforcer": {
+      "entry": 700204,
+      "icon": "Ability_Warrior_Cleave",
+      "kind": "elite"
+    },
+    "Faceless Flameweaver": {
+      "entry": 701224,
+      "icon": "Spell_Fire_Fireball02",
+      "kind": "enemy"
+    },
+    "Faceless Shadowcaster": {
+      "entry": 701222,
+      "icon": "Spell_Shadow_ShadowBolt",
+      "kind": "enemy"
+    },
+    "Faceless Stalker": {
+      "entry": 700201,
+      "icon": "Spell_Shadow_Shadowfiend",
+      "kind": "enemy"
+    },
+    "Fallen Val'kyr": {
+      "entry": 5212,
+      "icon": "Spell_Holy_GuardianSpirit",
+      "kind": "elite"
+    },
+    "Fel Bat": {
+      "entry": 108,
+      "icon": "Ability_Hunter_Pet_Bat",
+      "kind": "enemy"
+    },
+    "Fel Hound": {
+      "entry": 700122,
+      "icon": "Spell_Shadow_SummonFelHunter",
+      "kind": "enemy"
+    },
+    "Fel Reaver Sentry": {
+      "entry": 3012,
+      "icon": "Achievement_Dungeon_UlduarRaid_IronGolem_01",
+      "kind": "elite"
+    },
+    "Fel Stalker": {
+      "entry": 3901,
+      "icon": "Spell_Shadow_SummonFelHunter",
+      "kind": "enemy"
+    },
+    "Fel Warden": {
+      "entry": 700123,
+      "icon": "Spell_Shadow_SummonFelGuard",
+      "kind": "elite"
+    },
+    "Felboar": {
+      "entry": 4001,
+      "icon": "Ability_Hunter_Pet_Boar",
+      "kind": "enemy"
+    },
+    "Felguard Elite": {
+      "entry": 106,
+      "icon": "Spell_Shadow_SummonFelGuard",
+      "kind": "elite"
+    },
+    "Felguard Legionnaire": {
+      "entry": 4005,
+      "icon": "Spell_Shadow_SummonFelGuard",
+      "kind": "enemy"
+    },
+    "Felguard Sentry": {
+      "entry": 701045,
+      "icon": "Spell_Shadow_SummonFelGuard",
+      "kind": "enemy"
+    },
+    "Felguard Slayer": {
+      "entry": 4105,
+      "icon": "Spell_Shadow_SummonFelGuard",
+      "kind": "enemy"
+    },
+    "Felhound": {
+      "entry": 101,
+      "icon": "Spell_Shadow_SummonFelHunter",
+      "kind": "enemy"
+    },
+    "Felmyst": {
+      "entry": 4192,
+      "icon": "INV_Misc_Head_Dragon_Green",
+      "kind": "boss"
+    },
+    "Fen Ray": {
+      "entry": 3101,
+      "icon": "Ability_Hunter_Pet_NetherRay",
+      "kind": "enemy"
+    },
+    "Feral Mountain Lion": {
+      "entry": 1506,
+      "icon": "Ability_Hunter_Pet_Cat",
+      "kind": "enemy"
+    },
+    "Feral Scar Yeti": {
+      "entry": 808,
+      "icon": "Ability_Hunter_Pet_Gorilla",
+      "kind": "enemy"
+    },
+    "Festergut": {
+      "entry": 5392,
+      "icon": "Achievement_Boss_FestergutRotface",
+      "kind": "boss"
+    },
+    "Festering Prisoner": {
+      "entry": 701044,
+      "icon": "Spell_Shadow_PlagueCloud",
+      "kind": "enemy"
+    },
+    "Fire Hawk": {
+      "entry": 701082,
+      "icon": "ability_hunter_pet_dragonhawk",
+      "kind": "enemy"
+    },
+    "Fire Imp": {
+      "entry": 109,
+      "icon": "Spell_Shadow_SummonImp",
+      "kind": "enemy"
+    },
+    "Fire Worm": {
+      "entry": 701162,
+      "icon": "ability_hunter_pet_worm",
+      "kind": "enemy"
+    },
+    "Fireguard Destroyer": {
+      "entry": 1008,
+      "icon": "INV_Misc_Head_Dwarf_01",
+      "kind": "enemy"
+    },
+    "Firegut Ogre": {
+      "entry": 1006,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "enemy"
+    },
+    "Firelands Flamewaker": {
+      "entry": 700190,
+      "icon": "Spell_Fire_Flare",
+      "kind": "enemy"
+    },
+    "Fjord Hawk": {
+      "entry": 4306,
+      "icon": "Ability_Hunter_Pet_Owl",
+      "kind": "enemy"
+    },
+    "Flamewaker": {
+      "entry": 700140,
+      "icon": "Spell_Fire_Flare",
+      "kind": "enemy"
+    },
+    "Flamewaker Pyromancer": {
+      "entry": 701165,
+      "icon": "spell_fire_flamebolt",
+      "kind": "enemy"
+    },
+    "Flamewaker Sentinel": {
+      "entry": 700143,
+      "icon": "Spell_Fire_FlameTounge",
+      "kind": "elite"
+    },
+    "Fledgling Pterrordax": {
+      "entry": 1202,
+      "icon": "Ability_Hunter_Pet_WindSerpent",
+      "kind": "enemy"
+    },
+    "Flesh Eating Abomination": {
+      "entry": 711,
+      "icon": "Spell_Shadow_AbominationExplosion",
+      "kind": "elite"
+    },
+    "Fleshripper": {
+      "entry": 706,
+      "icon": "Ability_Hunter_Pet_Wolf",
+      "kind": "enemy"
+    },
+    "Forgemaster Garfrost": {
+      "entry": 5290,
+      "icon": "Achievement_Boss_Forgemaster",
+      "kind": "boss"
+    },
+    "Forgemaster Throngus": {
+      "entry": 701191,
+      "icon": "Achievement_Boss_Forgemaster",
+      "kind": "boss"
+    },
+    "Forsaken Crossbowman": {
+      "entry": 701022,
+      "icon": "INV_Weapon_Crossbow_01",
+      "kind": "enemy"
+    },
+    "Forsaken Enforcer": {
+      "entry": 700113,
+      "icon": "INV_Misc_Head_Undead_01",
+      "kind": "elite"
+    },
+    "Forsaken Footman": {
+      "entry": 700110,
+      "icon": "Spell_Shadow_AnimateDead",
+      "kind": "enemy"
+    },
+    "Forsaken Ghoul": {
+      "entry": 701021,
+      "icon": "Ability_Racial_Cannibalize",
+      "kind": "enemy"
+    },
+    "Frenzied Pterrordax": {
+      "entry": 1207,
+      "icon": "Ability_Hunter_Pet_WindSerpent",
+      "kind": "enemy"
+    },
+    "Frenzyheart Hunter": {
+      "entry": 4701,
+      "icon": "INV_Misc_Head_Troll_01",
+      "kind": "enemy"
+    },
+    "Frenzyheart Ravager": {
+      "entry": 4712,
+      "icon": "INV_Misc_Head_Troll_01",
+      "kind": "elite"
+    },
+    "Frenzyheart Spearbearer": {
+      "entry": 4703,
+      "icon": "INV_Misc_Head_Troll_01",
+      "kind": "enemy"
+    },
+    "Frost Lich": {
+      "entry": 3912,
+      "icon": "Spell_Shadow_RaiseDead",
+      "kind": "elite"
+    },
+    "Frost Revenant": {
+      "entry": 4611,
+      "icon": "Spell_Frost_SummonWaterElemental_2",
+      "kind": "elite"
+    },
+    "Frost Worg": {
+      "entry": 5001,
+      "icon": "Ability_Hunter_Pet_Wolf",
+      "kind": "enemy"
+    },
+    "Frostpaw Trapper": {
+      "entry": 4500,
+      "icon": "Ability_Hunter_Pet_Wolf",
+      "kind": "enemy"
+    },
+    "Frostwolf Packleader": {
+      "entry": 310,
+      "icon": "Ability_Hunter_Pet_Wolf",
+      "kind": "enemy"
+    },
+    "Frozen Earth": {
+      "entry": 4405,
+      "icon": "Spell_Frost_SummonWaterElemental_2",
+      "kind": "enemy"
+    },
+    "Gal'darah": {
+      "entry": 2105,
+      "icon": "Achievement_Boss_Galdarah",
+      "kind": "boss"
+    },
+    "Gammothra the Tormentor": {
+      "entry": 4492,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "boss"
+    },
+    "Gargoyle": {
+      "entry": 3902,
+      "icon": "Achievement_Dungeon_UlduarRaid_IronGolem_01",
+      "kind": "enemy"
+    },
+    "Geist Ambusher": {
+      "entry": 5104,
+      "icon": "Ability_GhoulFrenzy",
+      "kind": "enemy"
+    },
+    "General Angerforge": {
+      "entry": 1090,
+      "icon": "INV_Misc_Head_Dwarf_01",
+      "kind": "boss"
+    },
+    "General Bjarngrim": {
+      "entry": 5091,
+      "icon": "Achievement_Boss_GeneralBjarngrim",
+      "kind": "boss"
+    },
+    "General Husam": {
+      "entry": 701071,
+      "icon": "INV_Misc_Head_Orc_01",
+      "kind": "boss"
+    },
+    "General Rajaxx": {
+      "entry": 1191,
+      "icon": "Ability_Hunter_Pet_Silithid",
+      "kind": "boss"
+    },
+    "General Umbriss": {
+      "entry": 701190,
+      "icon": "Achievement_Boss_GeneralBjarngrim",
+      "kind": "boss"
+    },
+    "Ghaz'an": {
+      "entry": 3191,
+      "icon": "Ability_Hunter_Pet_WindSerpent",
+      "kind": "boss"
+    },
+    "Ghostly Steward": {
+      "entry": 3602,
+      "icon": "Achievement_Halloween_Ghost_01",
+      "kind": "enemy"
+    },
+    "Ghoul": {
+      "entry": 3900,
+      "icon": "Ability_GhoulFrenzy",
+      "kind": "enemy"
+    },
+    "Ghoul Scavenger": {
+      "entry": 4601,
+      "icon": "Ability_GhoulFrenzy",
+      "kind": "enemy"
+    },
+    "Giant Infernal": {
+      "entry": 3908,
+      "icon": "Spell_Shadow_SummonInfernal",
+      "kind": "enemy"
+    },
+    "Gilgoblin Hunter": {
+      "entry": 701101,
+      "icon": "Ability_Hunter_SniperShot",
+      "kind": "enemy"
+    },
+    "Gjalerbron Necromancer": {
+      "entry": 4307,
+      "icon": "Spell_Shadow_RaiseDead",
+      "kind": "enemy"
+    },
+    "Glacial Revenant": {
+      "entry": 5207,
+      "icon": "Spell_Frost_SummonWaterElemental_2",
+      "kind": "enemy"
+    },
+    "Glacius the Frozen Titan": {
+      "entry": 394,
+      "icon": "Spell_Frost_SummonWaterElemental_2",
+      "kind": "boss"
+    },
+    "Goblin Bomber": {
+      "entry": 701142,
+      "icon": "INV_Misc_Bomb_04",
+      "kind": "enemy"
+    },
+    "Gordunni Brute": {
+      "entry": 809,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "elite"
+    },
+    "Gordunni Ogre": {
+      "entry": 804,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "enemy"
+    },
+    "Gordunni Ogre-Mage": {
+      "entry": 807,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "enemy"
+    },
+    "Gorishi Stinger": {
+      "entry": 1203,
+      "icon": "Ability_Hunter_Pet_Wasp",
+      "kind": "enemy"
+    },
+    "Gormok the Impaler": {
+      "entry": 5190,
+      "icon": "Achievement_Dungeon_UlduarRaid_IceGiant_01",
+      "kind": "boss"
+    },
+    "Gortok Palehoof": {
+      "entry": 4392,
+      "icon": "Ability_Hunter_Pet_Gorilla",
+      "kind": "boss"
+    },
+    "Great White Shark": {
+      "entry": 701102,
+      "icon": "INV_Pet_BabyShark",
+      "kind": "enemy"
+    },
+    "Grizzly Bear": {
+      "entry": 4505,
+      "icon": "Ability_Hunter_Pet_Bear",
+      "kind": "enemy"
+    },
+    "Grizzly Hills Stag": {
+      "entry": 4506,
+      "icon": "Ability_Hunter_Pet_TallStrider",
+      "kind": "enemy"
+    },
+    "Gronn-Priest": {
+      "entry": 3510,
+      "icon": "Achievement_Boss_GruulTheDragonkiller",
+      "kind": "elite"
+    },
+    "Gruff Swiftbite": {
+      "entry": 610,
+      "icon": "Ability_Hunter_Pet_Wolf",
+      "kind": "elite"
+    },
+    "Gruul": {
+      "entry": 2006,
+      "icon": "Achievement_Boss_GruulTheDragonkiller",
+      "kind": "boss"
+    },
+    "Guardian of Icecrown": {
+      "entry": 1411,
+      "icon": "INV_Misc_Head_Undead_02",
+      "kind": "elite"
+    },
+    "Gundrak Raptor": {
+      "entry": 4606,
+      "icon": "Ability_Hunter_Pet_Raptor",
+      "kind": "enemy"
+    },
+    "Gurn Grubnosh": {
+      "entry": 3590,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "boss"
+    },
+    "Gurok the Usurper": {
+      "entry": 3392,
+      "icon": "Achievement_Boss_GruulTheDragonkiller",
+      "kind": "boss"
+    },
+    "Gurtogg Bloodboil": {
+      "entry": 4093,
+      "icon": "INV_Misc_Head_Orc_02",
+      "kind": "boss"
+    },
+    "Gurubashi Axe Thrower": {
+      "entry": 904,
+      "icon": "INV_Misc_Head_Troll_01",
+      "kind": "enemy"
+    },
+    "Gurubashi Berserker": {
+      "entry": 909,
+      "icon": "INV_Misc_Head_Troll_01",
+      "kind": "elite"
+    },
+    "Gurubashi Champion": {
+      "entry": 911,
+      "icon": "INV_Misc_Head_Troll_01",
+      "kind": "elite"
+    },
+    "Gurubashi Scout": {
+      "entry": 900,
+      "icon": "INV_Misc_Head_Troll_01",
+      "kind": "enemy"
+    },
+    "Gutripper": {
+      "entry": 3390,
+      "icon": "Ability_Hunter_Pet_Ravager",
+      "kind": "boss"
+    },
+    "Hadronox": {
+      "entry": 4891,
+      "icon": "Achievement_Boss_Hadronox",
+      "kind": "boss"
+    },
+    "Hagara the Stormbinder": {
+      "entry": 701233,
+      "icon": "Spell_Frost_Frozencore",
+      "kind": "boss"
+    },
+    "Hakkar the Soulflayer": {
+      "entry": 994,
+      "icon": "Achievement_Boss_Hakkar",
+      "kind": "boss"
+    },
+    "Hakkari Shadowcaster": {
+      "entry": 903,
+      "icon": "INV_Misc_Head_Troll_02",
+      "kind": "enemy"
+    },
+    "Hakkari Witch Doctor": {
+      "entry": 907,
+      "icon": "INV_Misc_Head_Troll_02",
+      "kind": "enemy"
+    },
+    "Halazzi": {
+      "entry": 3893,
+      "icon": "Ability_Hunter_Pet_Cat",
+      "kind": "boss"
+    },
+    "Halfus Wyrmbreaker": {
+      "entry": 701130,
+      "icon": "Achievement_Boss_Drakkisath",
+      "kind": "boss"
+    },
+    "Hand of the Deceiver": {
+      "entry": 4112,
+      "icon": "Spell_Shadow_SummonInfernal",
+      "kind": "elite"
+    },
+    "Harbinger Skyriss": {
+      "entry": 3793,
+      "icon": "Achievement_Boss_Harbinger_Skyriss",
+      "kind": "boss"
+    },
+    "Hardknuckle Forager": {
+      "entry": 4704,
+      "icon": "Ability_Hunter_Pet_Rhino",
+      "kind": "enemy"
+    },
+    "Hardknuckle Matriarch": {
+      "entry": 4708,
+      "icon": "Ability_Hunter_Pet_Rhino",
+      "kind": "enemy"
+    },
+    "Hellfire Boar": {
+      "entry": 3004,
+      "icon": "Ability_Hunter_Pet_Boar",
+      "kind": "enemy"
+    },
+    "Hellfire Imp": {
+      "entry": 3001,
+      "icon": "Spell_Shadow_SummonImp",
+      "kind": "enemy"
+    },
+    "Hellscream Grunt": {
+      "entry": 701041,
+      "icon": "INV_Misc_Head_Orc_01",
+      "kind": "enemy"
+    },
+    "Herald Volazj": {
+      "entry": 4893,
+      "icon": "Achievement_Boss_HeraldVolazj",
+      "kind": "boss"
+    },
+    "Herod": {
+      "entry": 1392,
+      "icon": "INV_Misc_Head_Human_01",
+      "kind": "boss"
+    },
+    "High Inquisitor Whitemane": {
+      "entry": 1394,
+      "icon": "INV_Misc_Head_Human_02",
+      "kind": "boss"
+    },
+    "High King Maulgar": {
+      "entry": 3592,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "boss"
+    },
+    "High Priest Venoxis": {
+      "entry": 991,
+      "icon": "INV_Misc_Head_Troll_02",
+      "kind": "boss"
+    },
+    "High Priestess Azil": {
+      "entry": 701012,
+      "icon": "Spell_Shadow_Twilight",
+      "kind": "boss"
+    },
+    "High Priestess Jeklik": {
+      "entry": 990,
+      "icon": "INV_Misc_Head_Troll_02",
+      "kind": "boss"
+    },
+    "High Prophet Barim": {
+      "entry": 701072,
+      "icon": "Spell_Holy_Crusade",
+      "kind": "boss"
+    },
+    "High Warlord Naj'entus": {
+      "entry": 4090,
+      "icon": "INV_Misc_Head_Orc_01",
+      "kind": "boss"
+    },
+    "Hive'Zara Stinger": {
+      "entry": 1102,
+      "icon": "Ability_Hunter_Pet_Wasp",
+      "kind": "enemy"
+    },
+    "Hodir": {
+      "entry": 5093,
+      "icon": "Achievement_Boss_Hodir_01",
+      "kind": "boss"
+    },
+    "Hogger": {
+      "entry": 690,
+      "icon": "INV_Misc_Head_Gnoll_01",
+      "kind": "boss"
+    },
+    "Houndmaster Loksey": {
+      "entry": 1390,
+      "icon": "INV_Misc_Head_Human_01",
+      "kind": "boss"
+    },
+    "Hungarfen": {
+      "entry": 3190,
+      "icon": "Creature_SporeMushroom",
+      "kind": "boss"
+    },
+    "Hungering Ghoul": {
+      "entry": 5208,
+      "icon": "Ability_GhoulFrenzy",
+      "kind": "enemy"
+    },
+    "Hyldnir Spellweaver": {
+      "entry": 5003,
+      "icon": "INV_Misc_Head_Vrykul",
+      "kind": "enemy"
+    },
+    "Hyldsmeet Warbear": {
+      "entry": 5008,
+      "icon": "Ability_Hunter_Pet_Bear",
+      "kind": "enemy"
+    },
+    "Ice Revenant": {
+      "entry": 305,
+      "icon": "Spell_Frost_SummonWaterElemental_2",
+      "kind": "enemy"
+    },
+    "Iceborn Proto-Drake": {
+      "entry": 5211,
+      "icon": "INV_PET_FROSTWYRM",
+      "kind": "elite"
+    },
+    "Icecrown Abomination": {
+      "entry": 5105,
+      "icon": "Spell_Shadow_AbominationExplosion",
+      "kind": "enemy"
+    },
+    "Icecrown Flesh Giant": {
+      "entry": 5111,
+      "icon": "Achievement_Dungeon_UlduarRaid_IceGiant_01",
+      "kind": "elite"
+    },
+    "Icehorn": {
+      "entry": 4292,
+      "icon": "Ability_Hunter_Pet_Rhino",
+      "kind": "boss"
+    },
+    "Icehowl": {
+      "entry": 5192,
+      "icon": "Ability_Hunter_Pet_Rhino",
+      "kind": "boss"
+    },
+    "Icemist Warlord": {
+      "entry": 4411,
+      "icon": "INV_Misc_Head_Nerubian_01",
+      "kind": "elite"
+    },
+    "Ick": {
+      "entry": 5291,
+      "icon": "INV_Misc_Head_Undead_02",
+      "kind": "boss"
+    },
+    "Icy Ghoul": {
+      "entry": 5100,
+      "icon": "Ability_GhoulFrenzy",
+      "kind": "enemy"
+    },
+    "Illidan Stormrage": {
+      "entry": 2011,
+      "icon": "Achievement_Boss_Illidan",
+      "kind": "boss"
+    },
+    "Immol'thar": {
+      "entry": 893,
+      "icon": "Spell_Shadow_SummonFelHunter",
+      "kind": "boss"
+    },
+    "Infernal": {
+      "entry": 107,
+      "icon": "Spell_Shadow_SummonInfernal",
+      "kind": "elite"
+    },
+    "Infernal Warbringer": {
+      "entry": 3008,
+      "icon": "Spell_Shadow_SummonInfernal",
+      "kind": "enemy"
+    },
+    "Ingvar the Plunderer": {
+      "entry": 2102,
+      "icon": "INV_Misc_Head_Vrykul",
+      "kind": "boss"
+    },
+    "Iron Dwarf Assailant": {
+      "entry": 4504,
+      "icon": "INV_Misc_Head_Dwarf_01",
+      "kind": "enemy"
+    },
+    "Iron Golem": {
+      "entry": 5004,
+      "icon": "Achievement_Dungeon_UlduarRaid_IronGolem_01",
+      "kind": "enemy"
+    },
+    "Iron Rune Construct": {
+      "entry": 4304,
+      "icon": "Achievement_Dungeon_UlduarRaid_IronGolem_01",
+      "kind": "enemy"
+    },
+    "Iron Rune Golem": {
+      "entry": 4312,
+      "icon": "Achievement_Dungeon_UlduarRaid_IronGolem_01",
+      "kind": "elite"
+    },
+    "Iron Rune-Weaver": {
+      "entry": 4507,
+      "icon": "INV_Misc_Head_Dwarf_02",
+      "kind": "enemy"
+    },
+    "Ironbark Protector": {
+      "entry": 811,
+      "icon": "Ability_Druid_ForceofNature",
+      "kind": "elite"
+    },
+    "Ironfur Bear": {
+      "entry": 806,
+      "icon": "Ability_Hunter_Pet_Bear",
+      "kind": "enemy"
+    },
+    "Ironhide Giant": {
+      "entry": 4511,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "elite"
+    },
+    "Ironjaw Basilisk": {
+      "entry": 3205,
+      "icon": "Ability_Hunter_Pet_Crocolisk",
+      "kind": "enemy"
+    },
+    "Ivus the Forest Lord": {
+      "entry": 391,
+      "icon": "Ability_Druid_ForceofNature",
+      "kind": "boss"
+    },
+    "Jagged Shardling": {
+      "entry": 700101,
+      "icon": "INV_Elemental_Mote_Earth01",
+      "kind": "enemy"
+    },
+    "Jan'alai": {
+      "entry": 3892,
+      "icon": "Ability_Hunter_Pet_DragonHawk",
+      "kind": "boss"
+    },
+    "Jin'do the Hexxer": {
+      "entry": 993,
+      "icon": "INV_Misc_Head_Troll_01",
+      "kind": "boss"
+    },
+    "Kael'thas Sunstrider": {
+      "entry": 2008,
+      "icon": "Achievement_Boss_Kael'thasSunstrider_01",
+      "kind": "boss"
+    },
+    "Kajaro Raptor": {
+      "entry": 701144,
+      "icon": "Ability_Hunter_Pet_Raptor",
+      "kind": "enemy"
+    },
+    "Kalecgos": {
+      "entry": 4190,
+      "icon": "INV_Misc_Head_Dragon_Blue",
+      "kind": "boss"
+    },
+    "Kargath Bladefist": {
+      "entry": 2001,
+      "icon": "Achievement_Boss_KargathBladefist_01",
+      "kind": "boss"
+    },
+    "Kaz'rogal": {
+      "entry": 3992,
+      "icon": "Spell_Shadow_SummonInfernal",
+      "kind": "boss"
+    },
+    "Kel'Thuzad": {
+      "entry": 1494,
+      "icon": "Achievement_Boss_KelThuzad_01",
+      "kind": "boss"
+    },
+    "Keli'dan the Breaker": {
+      "entry": 3093,
+      "icon": "Achievement_Boss_KelidanTheBreaker",
+      "kind": "boss"
+    },
+    "Keristrasza": {
+      "entry": 2101,
+      "icon": "Achievement_Boss_Keristrasza",
+      "kind": "boss"
+    },
+    "Kil'jaeden": {
+      "entry": 2012,
+      "icon": "ACHIEVEMENT_BOSS_KILJAEDAN",
+      "kind": "boss"
+    },
+    "King Dred": {
+      "entry": 4593,
+      "icon": "Achievement_Boss_kingdred",
+      "kind": "boss"
+    },
+    "King Gordok": {
+      "entry": 894,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "boss"
+    },
+    "King Krush": {
+      "entry": 4790,
+      "icon": "Ability_Hunter_Pet_Devilsaur",
+      "kind": "boss"
+    },
+    "King Mosh": {
+      "entry": 1294,
+      "icon": "Ability_Hunter_Pet_Devilsaur",
+      "kind": "boss"
+    },
+    "Kobold Geomancer": {
+      "entry": 603,
+      "icon": "INV_Misc_Head_Kobold_01",
+      "kind": "enemy"
+    },
+    "Kobold Taskmaster": {
+      "entry": 609,
+      "icon": "INV_Misc_Head_Kobold_01",
+      "kind": "elite"
+    },
+    "Kobold Vermin": {
+      "entry": 600,
+      "icon": "INV_Misc_Head_Kobold_01",
+      "kind": "enemy"
+    },
+    "Korrak the Bloodrager": {
+      "entry": 390,
+      "icon": "INV_Misc_Head_Orc_01",
+      "kind": "boss"
+    },
+    "Kovork": {
+      "entry": 1590,
+      "icon": "INV_Misc_Head_Troll_01",
+      "kind": "boss"
+    },
+    "Krik'thir the Gatewatcher": {
+      "entry": 4890,
+      "icon": "Achievement_Boss_Krikthir",
+      "kind": "boss"
+    },
+    "Krosh Firehand": {
+      "entry": 3593,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "boss"
+    },
+    "Krystallus": {
+      "entry": 5090,
+      "icon": "Spell_Nature_EarthElemental_Totem",
+      "kind": "boss"
+    },
+    "Kurinnaxx": {
+      "entry": 1190,
+      "icon": "Ability_Hunter_Pet_Worm",
+      "kind": "boss"
+    },
+    "Kvaldir High-Shaman": {
+      "entry": 4293,
+      "icon": "INV_Misc_Head_Vrykul",
+      "kind": "boss"
+    },
+    "Kvaldir Mistweaver": {
+      "entry": 4203,
+      "icon": "INV_Misc_Head_Vrykul",
+      "kind": "enemy"
+    },
+    "Kvaldir Raider": {
+      "entry": 4210,
+      "icon": "INV_Misc_Head_Vrykul",
+      "kind": "elite"
+    },
+    "Kvaldir Reaver": {
+      "entry": 4308,
+      "icon": "INV_Misc_Head_Vrykul",
+      "kind": "enemy"
+    },
+    "Lady Deathwhisper": {
+      "entry": 5391,
+      "icon": "Achievement_Boss_LadyDeathwhisper",
+      "kind": "boss"
+    },
+    "Lady Naz'jar": {
+      "entry": 700158,
+      "icon": "Spell_Frost_SummonWaterElemental_2",
+      "kind": "boss"
+    },
+    "Lady Vashj": {
+      "entry": 2002,
+      "icon": "ACHIEVEMENT_BOSS_LADYVASHJ",
+      "kind": "boss"
+    },
+    "Laj": {
+      "entry": 3792,
+      "icon": "Ability_Druid_ForceofNature",
+      "kind": "boss"
+    },
+    "Lar'korwi": {
+      "entry": 1292,
+      "icon": "Ability_Hunter_Pet_Devilsaur",
+      "kind": "boss"
+    },
+    "Lava Parasite": {
+      "entry": 701201,
+      "icon": "Spell_Fire_LavaSpawn",
+      "kind": "enemy"
+    },
+    "Lava Spawn": {
+      "entry": 701164,
+      "icon": "spell_fire_lavaspawn",
+      "kind": "enemy"
+    },
+    "Ley-Guardian Eregos": {
+      "entry": 4993,
+      "icon": "Achievement_Boss_Eregos",
+      "kind": "boss"
+    },
+    "Living Cyclone": {
+      "entry": 3312,
+      "icon": "Spell_Nature_Cyclone",
+      "kind": "elite"
+    },
+    "Living Ember": {
+      "entry": 700191,
+      "icon": "Spell_Fire_SelfDestruct",
+      "kind": "enemy"
+    },
+    "Living Monstrosity": {
+      "entry": 1408,
+      "icon": "Spell_Shadow_AbominationExplosion",
+      "kind": "enemy"
+    },
+    "Lockmaw": {
+      "entry": 701070,
+      "icon": "Ability_Hunter_Pet_Crocolisk",
+      "kind": "boss"
+    },
+    "Lokholar the Ice Lord": {
+      "entry": 392,
+      "icon": "Spell_Frost_SummonWaterElemental_2",
+      "kind": "boss"
+    },
+    "Longtooth Runner": {
+      "entry": 801,
+      "icon": "Ability_Hunter_Pet_Wolf",
+      "kind": "enemy"
+    },
+    "Loque'nahak": {
+      "entry": 4791,
+      "icon": "Ability_Hunter_Pet_Cat",
+      "kind": "boss"
+    },
+    "Lord Aliden Perenolde": {
+      "entry": 1594,
+      "icon": "INV_Misc_Head_Human_01",
+      "kind": "boss"
+    },
+    "Lord Falconcrest": {
+      "entry": 1593,
+      "icon": "INV_Misc_Head_Human_01",
+      "kind": "boss"
+    },
+    "Lord Hel'nurath": {
+      "entry": 194,
+      "icon": "Spell_Shadow_SummonInfernal",
+      "kind": "boss"
+    },
+    "Lord Jaraxxus": {
+      "entry": 5193,
+      "icon": "Spell_Shadow_SummonInfernal",
+      "kind": "boss"
+    },
+    "Lord Kazzak": {
+      "entry": 193,
+      "icon": "Spell_Shadow_SummonInfernal",
+      "kind": "boss"
+    },
+    "Lord Marrowgar": {
+      "entry": 5390,
+      "icon": "Achievement_Boss_LordMarrowgar",
+      "kind": "boss"
+    },
+    "Lord Rhyolith": {
+      "entry": 701172,
+      "icon": "spell_fire_volcano",
+      "kind": "boss"
+    },
+    "Lord Walden": {
+      "entry": 701033,
+      "icon": "Spell_Shadow_PlagueCloud",
+      "kind": "boss"
+    },
+    "Lost One Chieftain": {
+      "entry": 3112,
+      "icon": "INV_Misc_Head_Murloc_01",
+      "kind": "elite"
+    },
+    "Lupos": {
+      "entry": 793,
+      "icon": "Ability_Hunter_Pet_Wolf",
+      "kind": "boss"
+    },
+    "Lycanthoth": {
+      "entry": 701090,
+      "icon": "spell_nature_spiritwolf",
+      "kind": "boss"
+    },
+    "M'uru": {
+      "entry": 4193,
+      "icon": "Spell_Arcane_Arcane01",
+      "kind": "boss"
+    },
+    "Mage Hunter Ascendant": {
+      "entry": 4907,
+      "icon": "INV_Misc_Head_Human_02",
+      "kind": "enemy"
+    },
+    "Maggoc": {
+      "entry": 3591,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "boss"
+    },
+    "Magma Burrower": {
+      "entry": 700184,
+      "icon": "Ability_Hunter_Pet_Worm",
+      "kind": "elite"
+    },
+    "Magma Shard": {
+      "entry": 700182,
+      "icon": "Spell_Fire_SelfDestruct",
+      "kind": "enemy"
+    },
+    "Magma Worm": {
+      "entry": 701084,
+      "icon": "ability_hunter_pet_worm",
+      "kind": "enemy"
+    },
+    "Magmaw": {
+      "entry": 701210,
+      "icon": "Ability_Hunter_Pet_Worm",
+      "kind": "boss"
+    },
+    "Magnataur Alpha": {
+      "entry": 4211,
+      "icon": "Achievement_Dungeon_UlduarRaid_IceGiant_01",
+      "kind": "elite"
+    },
+    "Magnataur Huntress": {
+      "entry": 4208,
+      "icon": "Achievement_Dungeon_UlduarRaid_IceGiant_01",
+      "kind": "enemy"
+    },
+    "Maiden of Virtue": {
+      "entry": 3691,
+      "icon": "INV_Misc_Head_Human_02",
+      "kind": "boss"
+    },
+    "Majordomo Executus": {
+      "entry": 1093,
+      "icon": "Spell_Fire_Elemental_Totem",
+      "kind": "boss"
+    },
+    "Maloriak": {
+      "entry": 701212,
+      "icon": "Spell_Shadow_AbominationExplosion",
+      "kind": "boss"
+    },
+    "Malygos": {
+      "entry": 2108,
+      "icon": "Achievement_Boss_Malygos_01",
+      "kind": "boss"
+    },
+    "Mana Beast": {
+      "entry": 3705,
+      "icon": "Spell_Arcane_Arcane01",
+      "kind": "enemy"
+    },
+    "Mana Feeder": {
+      "entry": 3601,
+      "icon": "Ability_Hunter_Pet_Moth",
+      "kind": "enemy"
+    },
+    "Mana Fiend": {
+      "entry": 110,
+      "icon": "Spell_Shadow_ManaFeed",
+      "kind": "enemy"
+    },
+    "Mana Seeker": {
+      "entry": 3702,
+      "icon": "Ability_Hunter_Pet_Moth",
+      "kind": "enemy"
+    },
+    "Mana Serpent": {
+      "entry": 4106,
+      "icon": "Ability_Hunter_Pet_WindSerpent",
+      "kind": "enemy"
+    },
+    "Mana Wyrm": {
+      "entry": 3400,
+      "icon": "Ability_Hunter_Pet_Moth",
+      "kind": "enemy"
+    },
+    "Mangal Crocolisk": {
+      "entry": 4700,
+      "icon": "Ability_Hunter_Pet_Crocolisk",
+      "kind": "enemy"
+    },
+    "Mannoroth's Herald": {
+      "entry": 191,
+      "icon": "Spell_Shadow_SummonInfernal",
+      "kind": "boss"
+    },
+    "Marez Cowl": {
+      "entry": 1592,
+      "icon": "INV_Misc_Head_Human_01",
+      "kind": "boss"
+    },
+    "Marsh Lasher": {
+      "entry": 3104,
+      "icon": "Ability_Druid_ForceofNature",
+      "kind": "enemy"
+    },
+    "Mechano-Lord Capacitus": {
+      "entry": 3790,
+      "icon": "Ability_GolemStormBolt",
+      "kind": "boss"
+    },
+    "Mesa Buzzard": {
+      "entry": 1502,
+      "icon": "Ability_Hunter_Pet_Vulture",
+      "kind": "enemy"
+    },
+    "Mindbender Ghur'sha": {
+      "entry": 701112,
+      "icon": "Spell_Shadow_MindBomb",
+      "kind": "boss"
+    },
+    "Mire Hydra": {
+      "entry": 3108,
+      "icon": "Ability_Hunter_Pet_WindSerpent",
+      "kind": "enemy"
+    },
+    "Mistwhisper Lasher": {
+      "entry": 4705,
+      "icon": "Ability_Druid_ForceofNature",
+      "kind": "enemy"
+    },
+    "Mistwhisper Oracle": {
+      "entry": 4707,
+      "icon": "INV_Misc_Head_Murloc_01",
+      "kind": "enemy"
+    },
+    "Mo'arg Weaponsmith": {
+      "entry": 3005,
+      "icon": "Spell_Shadow_SummonInfernal",
+      "kind": "enemy"
+    },
+    "Mogor": {
+      "entry": 2004,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "boss"
+    },
+    "Molten Colossus": {
+      "entry": 701166,
+      "icon": "spell_fire_volcano",
+      "kind": "elite"
+    },
+    "Molten Giant": false,
+    "Moon Obelisk Guardian": {
+      "entry": 700133,
+      "icon": "INV_Stone_15",
+      "kind": "elite"
+    },
+    "Moorabi": {
+      "entry": 4692,
+      "icon": "Achievement_Boss_Moorabi",
+      "kind": "boss"
+    },
+    "Mor'Ladim": {
+      "entry": 791,
+      "icon": "INV_Misc_Head_Undead_02",
+      "kind": "boss"
+    },
+    "Morbent Fel": {
+      "entry": 794,
+      "icon": "INV_Misc_Head_Undead_01",
+      "kind": "boss"
+    },
+    "Morchok": {
+      "entry": 701230,
+      "icon": "Spell_Nature_EarthElemental_Totem",
+      "kind": "boss"
+    },
+    "Mother Fang": {
+      "entry": 691,
+      "icon": "Ability_Hunter_Pet_Spider",
+      "kind": "boss"
+    },
+    "Mountain Giant": {
+      "entry": 307,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "elite"
+    },
+    "Mr. Smite": {
+      "entry": 693,
+      "icon": "INV_Misc_Head_Human_01",
+      "kind": "boss"
+    },
+    "Murkblood Raider": {
+      "entry": 3300,
+      "icon": "INV_Misc_Head_Orc_01",
+      "kind": "enemy"
+    },
+    "Murloc Streamrunner": {
+      "entry": 602,
+      "icon": "INV_Misc_Head_Murloc_01",
+      "kind": "enemy"
+    },
+    "Mutated Corruption": {
+      "entry": 700223,
+      "icon": "Spell_Shadow_GatherShadows",
+      "kind": "elite"
+    },
+    "Naga Raider": {
+      "entry": 700150,
+      "icon": "Ability_Rogue_Ambush",
+      "kind": "enemy"
+    },
+    "Naga Siren": {
+      "entry": 701103,
+      "icon": "Spell_Shadow_Charm",
+      "kind": "enemy"
+    },
+    "Naga Waveblade": {
+      "entry": 700151,
+      "icon": "Spell_Nature_GiftOfTheWaterSpirit",
+      "kind": "enemy"
+    },
+    "Nalorakk": {
+      "entry": 3890,
+      "icon": "Ability_Hunter_Pet_Bear",
+      "kind": "boss"
+    },
+    "Naraxis": {
+      "entry": 790,
+      "icon": "Ability_Hunter_Pet_Spider",
+      "kind": "boss"
+    },
+    "Naxxramas Acolyte": {
+      "entry": 1407,
+      "icon": "INV_Misc_Head_Human_02",
+      "kind": "enemy"
+    },
+    "Naxxramas Cultist": {
+      "entry": 1403,
+      "icon": "INV_Misc_Head_Human_01",
+      "kind": "enemy"
+    },
+    "Naz'jar Honor Guard": {
+      "entry": 701106,
+      "icon": "Ability_Warrior_ShieldWall",
+      "kind": "elite"
+    },
+    "Nazan": {
+      "entry": 3092,
+      "icon": "Ability_Mount_NetherDrakeElite",
+      "kind": "boss"
+    },
+    "Nefarian": {
+      "entry": 700218,
+      "icon": "Achievement_Boss_Nefarion",
+      "kind": "boss"
+    },
+    "Neferset Colossus": {
+      "entry": 701066,
+      "icon": "INV_Stone_08",
+      "kind": "elite"
+    },
+    "Neferset Flamecaller": {
+      "entry": 701063,
+      "icon": "Spell_Fire_Fire",
+      "kind": "enemy"
+    },
+    "Nerub'ar Broodkeeper": {
+      "entry": 5301,
+      "icon": "INV_Misc_Head_Nerubian_01",
+      "kind": "enemy"
+    },
+    "Nerubian Skirmisher": {
+      "entry": 4202,
+      "icon": "INV_Misc_Head_Nerubian_01",
+      "kind": "enemy"
+    },
+    "Nerubian Spider-Priest": {
+      "entry": 4207,
+      "icon": "INV_Misc_Head_Nerubian_01",
+      "kind": "enemy"
+    },
+    "Nerubian Warlord": {
+      "entry": 4212,
+      "icon": "INV_Misc_Head_Nerubian_01",
+      "kind": "elite"
+    },
+    "Nether Drake": {
+      "entry": 3406,
+      "icon": "Ability_Mount_NetherDrakeElite",
+      "kind": "enemy"
+    },
+    "Nether Drakonid": {
+      "entry": 3410,
+      "icon": "Ability_Mount_NetherDrakeElite",
+      "kind": "elite"
+    },
+    "Nether Imp": {
+      "entry": 3700,
+      "icon": "Spell_Shadow_SummonImp",
+      "kind": "enemy"
+    },
+    "Nether Ray": {
+      "entry": 3401,
+      "icon": "Ability_Hunter_Pet_NetherRay",
+      "kind": "enemy"
+    },
+    "Nether Ray Alpha": {
+      "entry": 3712,
+      "icon": "Ability_Hunter_Pet_NetherRay",
+      "kind": "elite"
+    },
+    "Netherstorm Mountain Giant": {
+      "entry": 3710,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "elite"
+    },
+    "Netherwing Drake": {
+      "entry": 4010,
+      "icon": "Ability_Mount_NetherDrakeElite",
+      "kind": "elite"
+    },
+    "Netherwing Ray": {
+      "entry": 4006,
+      "icon": "Ability_Hunter_Pet_NetherRay",
+      "kind": "enemy"
+    },
+    "Netherwing Whelp": {
+      "entry": 3706,
+      "icon": "INV_Netherwhelp",
+      "kind": "enemy"
+    },
+    "Nexus-King Salhadaar": {
+      "entry": 3493,
+      "icon": "Spell_Arcane_Arcane04",
+      "kind": "boss"
+    },
+    "Nexus-Prince Shaffar": {
+      "entry": 3490,
+      "icon": "Achievement_Boss_Nexus_Prince_Shaffar",
+      "kind": "boss"
+    },
+    "Nightbane": {
+      "entry": 3693,
+      "icon": "INV_Misc_Head_Dragon_Black",
+      "kind": "boss"
+    },
+    "Nightbane Dark Runner": {
+      "entry": 705,
+      "icon": "INV_Misc_Head_Human_01",
+      "kind": "enemy"
+    },
+    "Nightbane Shadow Weaver": {
+      "entry": 703,
+      "icon": "INV_Misc_Head_Human_02",
+      "kind": "enemy"
+    },
+    "Nightbane Worgen Alpha": {
+      "entry": 709,
+      "icon": "Ability_Hunter_Pet_Wolf",
+      "kind": "elite"
+    },
+    "Nimar the Slayer": {
+      "entry": 1591,
+      "icon": "INV_Misc_Head_Troll_01",
+      "kind": "boss"
+    },
+    "Noth the Plaguebringer": {
+      "entry": 1491,
+      "icon": "INV_Misc_Head_Undead_02",
+      "kind": "boss"
+    },
+    "Novos the Summoner": {
+      "entry": 4592,
+      "icon": "Achievement_Boss_novos",
+      "kind": "boss"
+    },
+    "Nuramoc": {
+      "entry": 3492,
+      "icon": "Ability_Hunter_Pet_Ravager",
+      "kind": "boss"
+    },
+    "Obsidian Colossus": {
+      "entry": 701006,
+      "icon": "INV_Elemental_Crystal_Earth",
+      "kind": "elite"
+    },
+    "Obsidian Destroyer": {
+      "entry": 1111,
+      "icon": "Ability_GolemThunderClap",
+      "kind": "elite"
+    },
+    "Occu'thar": {
+      "entry": 701052,
+      "icon": "INV_Misc_Eye_01",
+      "kind": "boss"
+    },
+    "Old Crystalbark": {
+      "entry": 4290,
+      "icon": "Ability_Druid_ForceofNature",
+      "kind": "boss"
+    },
+    "Omor the Unscarred": {
+      "entry": 3091,
+      "icon": "Achievement_Boss_OmarTheUnscarred_01",
+      "kind": "boss"
+    },
+    "Oomlot Pygmy": {
+      "entry": 701140,
+      "icon": "INV_Misc_Head_Troll_01",
+      "kind": "enemy"
+    },
+    "Oomlot Shaman": {
+      "entry": 701141,
+      "icon": "Spell_Nature_LightningBolt",
+      "kind": "enemy"
+    },
+    "Ormorok the Tree-Shaper": {
+      "entry": 4291,
+      "icon": "Ability_Druid_ForceofNature",
+      "kind": "boss"
+    },
+    "Ossirian the Unscarred": {
+      "entry": 1193,
+      "icon": "Achievement_Boss_OssirianTheUnscarred",
+      "kind": "boss"
+    },
+    "Ozruk": {
+      "entry": 43391,
+      "icon": "Achievement_Boss_Archaedas",
+      "kind": "boss"
+    },
+    "Ozumat": {
+      "entry": 701113,
+      "icon": "Achievement_Boss_Ichoron",
+      "kind": "boss"
+    },
+    "Painmistress": {
+      "entry": 4107,
+      "icon": "Spell_Shadow_SummonSuccubus",
+      "kind": "enemy"
+    },
+    "Pandemonius": {
+      "entry": 3290,
+      "icon": "Spell_Shadow_SummonVoidWalker",
+      "kind": "boss"
+    },
+    "Patchwerk": {
+      "entry": 1492,
+      "icon": "Achievement_Boss_patchwerk",
+      "kind": "boss"
+    },
+    "Phantom Guest": {
+      "entry": 3607,
+      "icon": "Achievement_Halloween_Ghost_01",
+      "kind": "enemy"
+    },
+    "Phase Hound": {
+      "entry": 3610,
+      "icon": "Spell_Shadow_SummonFelHunter",
+      "kind": "elite"
+    },
+    "Pit Commander": {
+      "entry": 3011,
+      "icon": "Spell_Shadow_SummonInfernal",
+      "kind": "elite"
+    },
+    "Pit Overlord": {
+      "entry": 4111,
+      "icon": "Spell_Shadow_SummonInfernal",
+      "kind": "elite"
+    },
+    "Plague Behemoth": {
+      "entry": 4612,
+      "icon": "Spell_Shadow_AbominationExplosion",
+      "kind": "elite"
+    },
+    "Plague Spreader": {
+      "entry": 701,
+      "icon": "INV_Misc_Head_Undead_02",
+      "kind": "enemy"
+    },
+    "Plagueborn Abomination": {
+      "entry": 5210,
+      "icon": "Spell_Shadow_AbominationExplosion",
+      "kind": "elite"
+    },
+    "Plagueborn Horror": {
+      "entry": 5205,
+      "icon": "Spell_Shadow_AbominationExplosion",
+      "kind": "enemy"
+    },
+    "Plagued Abomination": {
+      "entry": 4412,
+      "icon": "Spell_Shadow_AbominationExplosion",
+      "kind": "elite"
+    },
+    "Plagued Dragonflayer": {
+      "entry": 4300,
+      "icon": "INV_Misc_Head_Vrykul",
+      "kind": "enemy"
+    },
+    "Plagued Ghoul": {
+      "entry": 1400,
+      "icon": "Ability_GhoulFrenzy",
+      "kind": "enemy"
+    },
+    "Plagued Zombie": {
+      "entry": 5300,
+      "icon": "INV_Misc_Head_Undead_01",
+      "kind": "enemy"
+    },
+    "Plaguehound": {
+      "entry": 5101,
+      "icon": "Ability_Hunter_Pet_Wolf",
+      "kind": "enemy"
+    },
+    "Plains Creeper": {
+      "entry": 1501,
+      "icon": "Ability_Hunter_Pet_Spider",
+      "kind": "enemy"
+    },
+    "Primordial Drake": {
+      "entry": 4711,
+      "icon": "Ability_Mount_Drake_Twilight",
+      "kind": "elite"
+    },
+    "Prince Keleseth": {
+      "entry": 4390,
+      "icon": "Achievement_Boss_PrinceKeleseth",
+      "kind": "boss"
+    },
+    "Prince Malchezaar": {
+      "entry": 2007,
+      "icon": "Achievement_Boss_Prince_Malchezaar",
+      "kind": "boss"
+    },
+    "Princess Huhuran": {
+      "entry": 1192,
+      "icon": "Ability_Hunter_Pet_Wasp",
+      "kind": "boss"
+    },
+    "Proto-Drake": {
+      "entry": 4311,
+      "icon": "INV_PET_FROSTWYRM",
+      "kind": "elite"
+    },
+    "Prowler": {
+      "entry": 606,
+      "icon": "Ability_Hunter_Pet_Cat",
+      "kind": "enemy"
+    },
+    "Pygmy Hexer": {
+      "entry": 700181,
+      "icon": "INV_Misc_Head_Troll_02",
+      "kind": "enemy"
+    },
+    "Pygmy Scavenger": {
+      "entry": 700130,
+      "icon": "INV_Misc_Head_Troll_01",
+      "kind": "enemy"
+    },
+    "Qiraji Champion": {
+      "entry": 1109,
+      "icon": "Ability_Hunter_Pet_Silithid",
+      "kind": "elite"
+    },
+    "Qiraji Gladiator": {
+      "entry": 1104,
+      "icon": "Ability_Hunter_Pet_Silithid",
+      "kind": "enemy"
+    },
+    "Qiraji Mindslayer": {
+      "entry": 1107,
+      "icon": "Ability_Hunter_Pet_Silithid",
+      "kind": "enemy"
+    },
+    "Quagmirran": {
+      "entry": 3192,
+      "icon": "Achievement_Boss_Quagmirran",
+      "kind": "boss"
+    },
+    "Quartz Skitterer": {
+      "entry": 700102,
+      "icon": "INV_Crystallized_Earth",
+      "kind": "enemy"
+    },
+    "Rage Winterchill": {
+      "entry": 3990,
+      "icon": "Spell_Shadow_RaiseDead",
+      "kind": "boss"
+    },
+    "Ragnaros": {
+      "entry": 700198,
+      "icon": "achievement_boss_ragnaros",
+      "kind": "boss"
+    },
+    "Rampaging Worgen": {
+      "entry": 701020,
+      "icon": "Ability_Druid_Mangle2",
+      "kind": "enemy"
+    },
+    "Ravasaur Hunter": {
+      "entry": 1209,
+      "icon": "Ability_Hunter_Pet_Raptor",
+      "kind": "elite"
+    },
+    "Ravasaur Matriarch": {
+      "entry": 1290,
+      "icon": "Ability_Hunter_Pet_Raptor",
+      "kind": "boss"
+    },
+    "Ravasaur Runner": {
+      "entry": 1200,
+      "icon": "Ability_Hunter_Pet_Raptor",
+      "kind": "enemy"
+    },
+    "Ravenous Vulture": {
+      "entry": 3006,
+      "icon": "Ability_Hunter_Pet_Vulture",
+      "kind": "enemy"
+    },
+    "Ravenous Windroc": {
+      "entry": 3301,
+      "icon": "Ability_Hunter_Pet_Vulture",
+      "kind": "enemy"
+    },
+    "Razorscale": {
+      "entry": 5092,
+      "icon": "Achievement_Boss_Razorscale",
+      "kind": "boss"
+    },
+    "Razzashi Raptor": {
+      "entry": 901,
+      "icon": "Ability_Hunter_Pet_Raptor",
+      "kind": "enemy"
+    },
+    "Razzashi Serpent": {
+      "entry": 906,
+      "icon": "Ability_Hunter_Pet_WindSerpent",
+      "kind": "enemy"
+    },
+    "Reanimated Guardian": {
+      "entry": 700213,
+      "icon": "Spell_Shadow_AnimateDead",
+      "kind": "elite"
+    },
+    "Regenerative Blood": {
+      "entry": 700220,
+      "icon": "INV_Misc_Slime_01",
+      "kind": "enemy"
+    },
+    "Restless Prisoner": {
+      "entry": 701040,
+      "icon": "Achievement_Halloween_Ghost_01",
+      "kind": "enemy"
+    },
+    "Restless Shade": {
+      "entry": 707,
+      "icon": "Achievement_Halloween_Ghost_01",
+      "kind": "enemy"
+    },
+    "Rhahk'Zor": {
+      "entry": 692,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "boss"
+    },
+    "Rimefang": {
+      "entry": 5293,
+      "icon": "INV_PET_FROSTWYRM",
+      "kind": "boss"
+    },
+    "Risen Ghoul": {
+      "entry": 4400,
+      "icon": "Ability_GhoulFrenzy",
+      "kind": "enemy"
+    },
+    "Riverpaw Brute": {
+      "entry": 605,
+      "icon": "INV_Misc_Head_Gnoll_01",
+      "kind": "enemy"
+    },
+    "Rock Borer": {
+      "entry": 701001,
+      "icon": "Ability_Hunter_Pet_Worm",
+      "kind": "enemy"
+    },
+    "Rotting Frost Giant": {
+      "entry": 5311,
+      "icon": "Achievement_Dungeon_UlduarRaid_IceGiant_01",
+      "kind": "elite"
+    },
+    "Rotting Horror": {
+      "entry": 704,
+      "icon": "Spell_Shadow_AbominationExplosion",
+      "kind": "enemy"
+    },
+    "Rumbling Exile": {
+      "entry": 1510,
+      "icon": "Spell_Nature_EarthElemental_Totem",
+      "kind": "elite"
+    },
+    "Sand Devil": {
+      "entry": 701064,
+      "icon": "Spell_Nature_WispSplode",
+      "kind": "enemy"
+    },
+    "Sand Scorpid": {
+      "entry": 701060,
+      "icon": "Ability_Hunter_Pet_Scorpid",
+      "kind": "enemy"
+    },
+    "Sapphiron": {
+      "entry": 1493,
+      "icon": "Achievement_Boss_Sapphiron_01",
+      "kind": "boss"
+    },
+    "Sartharion": {
+      "entry": 2103,
+      "icon": "Achievement_Boss_Sartharion_01",
+      "kind": "boss"
+    },
+    "Satyr Shadowcaster": {
+      "entry": 103,
+      "icon": "Spell_Shadow_SummonFelHunter",
+      "kind": "enemy"
+    },
+    "Satyr Trickster": {
+      "entry": 102,
+      "icon": "Spell_Shadow_SummonFelHunter",
+      "kind": "enemy"
+    },
+    "Scalewing Serpent": {
+      "entry": 3500,
+      "icon": "Ability_Hunter_Pet_WindSerpent",
+      "kind": "enemy"
+    },
+    "Scarlet Abbot": {
+      "entry": 1311,
+      "icon": "INV_Misc_Head_Human_02",
+      "kind": "elite"
+    },
+    "Scarlet Adept": {
+      "entry": 1303,
+      "icon": "INV_Misc_Head_Human_02",
+      "kind": "enemy"
+    },
+    "Scarlet Centurion": {
+      "entry": 1304,
+      "icon": "INV_Misc_Head_Human_01",
+      "kind": "enemy"
+    },
+    "Scarlet Champion": {
+      "entry": 1310,
+      "icon": "INV_Misc_Head_Human_01",
+      "kind": "elite"
+    },
+    "Scarlet Commander Mograine": {
+      "entry": 1393,
+      "icon": "INV_Misc_Head_Human_01",
+      "kind": "boss"
+    },
+    "Scarlet Defender": {
+      "entry": 1305,
+      "icon": "INV_Misc_Head_Human_01",
+      "kind": "enemy"
+    },
+    "Scarlet Gallant": {
+      "entry": 1306,
+      "icon": "INV_Misc_Head_Human_01",
+      "kind": "enemy"
+    },
+    "Scarlet Monk": {
+      "entry": 1300,
+      "icon": "INV_Misc_Head_Human_01",
+      "kind": "enemy"
+    },
+    "Scarlet Myrmidon": {
+      "entry": 1309,
+      "icon": "INV_Misc_Head_Human_01",
+      "kind": "elite"
+    },
+    "Scarlet Protector": {
+      "entry": 1308,
+      "icon": "INV_Misc_Head_Human_01",
+      "kind": "enemy"
+    },
+    "Scarlet Scout": {
+      "entry": 1302,
+      "icon": "INV_Misc_Head_Human_01",
+      "kind": "enemy"
+    },
+    "Scarlet Tracking Hound": {
+      "entry": 1301,
+      "icon": "Ability_Hunter_Pet_Wolf",
+      "kind": "enemy"
+    },
+    "Scarlet Wizard": {
+      "entry": 1307,
+      "icon": "INV_Misc_Head_Human_02",
+      "kind": "enemy"
+    },
+    "Scourge Geist": {
+      "entry": 4600,
+      "icon": "Ability_GhoulFrenzy",
+      "kind": "enemy"
+    },
+    "Scourge Necromancer": {
+      "entry": 4603,
+      "icon": "INV_Misc_Head_Human_02",
+      "kind": "enemy"
+    },
+    "Scourged Ghoul": {
+      "entry": 4200,
+      "icon": "Ability_GhoulFrenzy",
+      "kind": "enemy"
+    },
+    "Scourgelord Tyrannus": {
+      "entry": 2111,
+      "icon": "Achievement_Boss_ScourgelordTyrannus",
+      "kind": "boss"
+    },
+    "Serfex the Reaver": {
+      "entry": 4793,
+      "icon": "Ability_Hunter_Pet_Ravager",
+      "kind": "boss"
+    },
+    "Shadowbat": {
+      "entry": 3606,
+      "icon": "Ability_Hunter_Pet_Bat",
+      "kind": "enemy"
+    },
+    "Shadowlord": {
+      "entry": 4011,
+      "icon": "Spell_Shadow_SummonInfernal",
+      "kind": "elite"
+    },
+    "Shadowmaster": {
+      "entry": 3211,
+      "icon": "Spell_Shadow_SummonVoidWalker",
+      "kind": "elite"
+    },
+    "Shadowmoon Darkcaster": {
+      "entry": 4007,
+      "icon": "Spell_Shadow_SummonFelGuard",
+      "kind": "enemy"
+    },
+    "Shadowmoon Imp": {
+      "entry": 4000,
+      "icon": "Spell_Shadow_SummonImp",
+      "kind": "enemy"
+    },
+    "Shadowy Necromancer": {
+      "entry": 3903,
+      "icon": "INV_Misc_Head_Human_02",
+      "kind": "enemy"
+    },
+    "Shadron": {
+      "entry": 4491,
+      "icon": "Ability_Mount_Drake_Twilight",
+      "kind": "boss"
+    },
+    "Shannox": {
+      "entry": 701170,
+      "icon": "ability_hunter_pet_wolf",
+      "kind": "boss"
+    },
+    "Shardhorn Rhino": {
+      "entry": 4508,
+      "icon": "Ability_Hunter_Pet_Rhino",
+      "kind": "enemy"
+    },
+    "Shattered Hand Warlock": {
+      "entry": 3003,
+      "icon": "INV_Misc_Head_Orc_02",
+      "kind": "enemy"
+    },
+    "Shattered Hand Warlord": {
+      "entry": 3010,
+      "icon": "INV_Misc_Head_Orc_01",
+      "kind": "elite"
+    },
+    "Shirrak the Dead Watcher": {
+      "entry": 3291,
+      "icon": "Ability_Hunter_Pet_Bat",
+      "kind": "boss"
+    },
+    "Siamat": {
+      "entry": 700138,
+      "icon": "Spell_Nature_Cyclone",
+      "kind": "boss"
+    },
+    "Silithid Creeper": {
+      "entry": 1101,
+      "icon": "Ability_Hunter_Pet_Silithid",
+      "kind": "enemy"
+    },
+    "Silithid Ravager": {
+      "entry": 1106,
+      "icon": "Ability_Hunter_Pet_Silithid",
+      "kind": "enemy"
+    },
+    "Silithid Swarmer": {
+      "entry": 1100,
+      "icon": "Ability_Hunter_Pet_Silithid",
+      "kind": "enemy"
+    },
+    "Sinestra": {
+      "entry": 701133,
+      "icon": "Achievement_Boss_Onyxia",
+      "kind": "boss"
+    },
+    "Skadi the Ruthless": {
+      "entry": 4393,
+      "icon": "Achievement_Boss_Skadi",
+      "kind": "boss"
+    },
+    "Skarvald the Constructor": {
+      "entry": 4391,
+      "icon": "INV_Misc_Head_Vrykul",
+      "kind": "boss"
+    },
+    "Skeletal Mage": {
+      "entry": 3907,
+      "icon": "Spell_Shadow_AnimateDead",
+      "kind": "enemy"
+    },
+    "Skeletal Raider": {
+      "entry": 700,
+      "icon": "Spell_Shadow_AnimateDead",
+      "kind": "enemy"
+    },
+    "Skeletal Runesmith": {
+      "entry": 5103,
+      "icon": "Spell_Shadow_AnimateDead",
+      "kind": "enemy"
+    },
+    "Skettis Kaliri": {
+      "entry": 3206,
+      "icon": "Ability_Hunter_Pet_Vulture",
+      "kind": "enemy"
+    },
+    "Skettis Talonguard": {
+      "entry": 3210,
+      "icon": "Ability_Hunter_Pet_Vulture",
+      "kind": "elite"
+    },
+    "Skettis Talonite": {
+      "entry": 3202,
+      "icon": "Ability_Hunter_Pet_Vulture",
+      "kind": "enemy"
+    },
+    "Skettis Windwalker": {
+      "entry": 3203,
+      "icon": "Ability_Hunter_Pet_Vulture",
+      "kind": "enemy"
+    },
+    "Skittering Swarmer": {
+      "entry": 4806,
+      "icon": "Ability_Hunter_Pet_Spider",
+      "kind": "enemy"
+    },
+    "Slabhide": {
+      "entry": 701011,
+      "icon": "INV_Misc_Head_Dragon_Bronze",
+      "kind": "boss"
+    },
+    "Slad'ran": {
+      "entry": 4690,
+      "icon": "Achievement_Boss_Sladran",
+      "kind": "boss"
+    },
+    "Smoldering Core": {
+      "entry": 701083,
+      "icon": "spell_fire_sealoffire",
+      "kind": "enemy"
+    },
+    "Snobold Mongrel": {
+      "entry": 5000,
+      "icon": "INV_Misc_Head_Kobold_01",
+      "kind": "enemy"
+    },
+    "Snowfall Wendigo": {
+      "entry": 302,
+      "icon": "Ability_Hunter_Pet_Gorilla",
+      "kind": "enemy"
+    },
+    "Snowfall Wolf": {
+      "entry": 4201,
+      "icon": "Ability_Hunter_Pet_Wolf",
+      "kind": "enemy"
+    },
+    "Soldier of the Frozen Wastes": {
+      "entry": 1402,
+      "icon": "INV_Misc_Head_Undead_01",
+      "kind": "enemy"
+    },
+    "Son of Flame": {
+      "entry": 700193,
+      "icon": "Spell_Fire_ElementalDevastation",
+      "kind": "elite"
+    },
+    "Son of Hakkar": {
+      "entry": 908,
+      "icon": "INV_Misc_Head_Dragon_Green",
+      "kind": "enemy"
+    },
+    "Soul Weaver": {
+      "entry": 1409,
+      "icon": "Achievement_Halloween_Ghost_01",
+      "kind": "elite"
+    },
+    "Sparktouched Oracle": {
+      "entry": 4702,
+      "icon": "INV_Misc_Head_Murloc_01",
+      "kind": "enemy"
+    },
+    "Spectral Retainer": {
+      "entry": 3612,
+      "icon": "Achievement_Halloween_Ghost_01",
+      "kind": "elite"
+    },
+    "Spectral Servant": {
+      "entry": 3600,
+      "icon": "Achievement_Halloween_Ghost_01",
+      "kind": "enemy"
+    },
+    "Spectral Stalker": {
+      "entry": 700121,
+      "icon": "Spell_Shadow_Haunting",
+      "kind": "enemy"
+    },
+    "Spire Frostwyrm": {
+      "entry": 5310,
+      "icon": "INV_PET_FROSTWYRM",
+      "kind": "elite"
+    },
+    "Spire Gargoyle": {
+      "entry": 5304,
+      "icon": "Achievement_Dungeon_UlduarRaid_IronGolem_01",
+      "kind": "enemy"
+    },
+    "Sporebat": {
+      "entry": 3106,
+      "icon": "Ability_Hunter_Pet_Sporebat",
+      "kind": "enemy"
+    },
+    "Sporeling": {
+      "entry": 3100,
+      "icon": "Creature_SporeMushroom",
+      "kind": "enemy"
+    },
+    "Sprite Darter": {
+      "entry": 802,
+      "icon": "Ability_Hunter_Pet_Moth",
+      "kind": "enemy"
+    },
+    "Starving Frostwolf": {
+      "entry": 301,
+      "icon": "Ability_Hunter_Pet_Wolf",
+      "kind": "enemy"
+    },
+    "Stitches": {
+      "entry": 792,
+      "icon": "Spell_Shadow_AbominationExplosion",
+      "kind": "boss"
+    },
+    "Stonecore Gargoyle": {
+      "entry": 701002,
+      "icon": "INV_Stone_15",
+      "kind": "enemy"
+    },
+    "Stonecore Hurler": {
+      "entry": 701005,
+      "icon": "INV_Stone_03",
+      "kind": "enemy"
+    },
+    "Stonelash Scorpid": {
+      "entry": 1105,
+      "icon": "Ability_Hunter_Pet_Scorpid",
+      "kind": "enemy"
+    },
+    "Stoneskin Gargoyle": {
+      "entry": 1406,
+      "icon": "Achievement_Dungeon_UlduarRaid_IronGolem_01",
+      "kind": "enemy"
+    },
+    "Stonespine Gargoyle": {
+      "entry": 5206,
+      "icon": "Achievement_Dungeon_UlduarRaid_IronGolem_01",
+      "kind": "enemy"
+    },
+    "Storm Peaks Proto-Drake": {
+      "entry": 5012,
+      "icon": "INV_PET_FROSTWYRM",
+      "kind": "elite"
+    },
+    "Storm Revenant": {
+      "entry": 5011,
+      "icon": "Spell_Nature_Cyclone",
+      "kind": "elite"
+    },
+    "Stormcrest Eagle": {
+      "entry": 5006,
+      "icon": "Ability_Hunter_Pet_Owl",
+      "kind": "enemy"
+    },
+    "Stormforged Artificer": {
+      "entry": 5007,
+      "icon": "INV_Misc_Head_Dwarf_01",
+      "kind": "enemy"
+    },
+    "Stormforged Champion": {
+      "entry": 5010,
+      "icon": "INV_Misc_Head_Dwarf_01",
+      "kind": "elite"
+    },
+    "Stormforged Iron Giant": {
+      "entry": 5005,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "enemy"
+    },
+    "Succubus": {
+      "entry": 105,
+      "icon": "Spell_Shadow_SummonSuccubus",
+      "kind": "enemy"
+    },
+    "Sulfuron Colossus": {
+      "entry": 700144,
+      "icon": "Achievement_Dungeon_UlduarRaid_IronGolem_01",
+      "kind": "elite"
+    },
+    "Sulfuron Ravager": {
+      "entry": 700194,
+      "icon": "ability_hunter_pet_worm",
+      "kind": "elite"
+    },
+    "Sunblade Dragonhawk": {
+      "entry": 4101,
+      "icon": "Ability_Hunter_Pet_DragonHawk",
+      "kind": "enemy"
+    },
+    "Sunblade Protector": {
+      "entry": 4110,
+      "icon": "Ability_GolemStormBolt",
+      "kind": "elite"
+    },
+    "Supremus": {
+      "entry": 4091,
+      "icon": "Spell_Fire_Elemental_Totem",
+      "kind": "boss"
+    },
+    "Syndicate Mercenary": {
+      "entry": 1504,
+      "icon": "INV_Misc_Head_Human_01",
+      "kind": "enemy"
+    },
+    "Talbuk Stag": {
+      "entry": 3302,
+      "icon": "Ability_Hunter_Pet_TallStrider",
+      "kind": "enemy"
+    },
+    "Talon King Ikiss": {
+      "entry": 2003,
+      "icon": "Achievement_Boss_TalonKingIkiss",
+      "kind": "boss"
+    },
+    "Temple Guardian Anhuur": {
+      "entry": 701073,
+      "icon": "INV_Misc_Gem_Ruby_01",
+      "kind": "boss"
+    },
+    "Tendris Warpwood": {
+      "entry": 892,
+      "icon": "Ability_Druid_ForceofNature",
+      "kind": "boss"
+    },
+    "Tenebron": {
+      "entry": 4490,
+      "icon": "Ability_Mount_Drake_Twilight",
+      "kind": "boss"
+    },
+    "Teron Gorefiend": {
+      "entry": 4092,
+      "icon": "INV_Misc_Head_Undead_01",
+      "kind": "boss"
+    },
+    "Theralion": {
+      "entry": 701131,
+      "icon": "Ability_Mount_Drake_Twilight",
+      "kind": "boss"
+    },
+    "Thunderlord Dire Wolf": {
+      "entry": 3504,
+      "icon": "Ability_Hunter_Pet_Wolf",
+      "kind": "enemy"
+    },
+    "Tidecaller": {
+      "entry": 700153,
+      "icon": "Spell_Nature_Cyclone",
+      "kind": "elite"
+    },
+    "Timber Worg": {
+      "entry": 3200,
+      "icon": "Ability_Hunter_Pet_Wolf",
+      "kind": "enemy"
+    },
+    "Tol'vir Champion": {
+      "entry": 700134,
+      "icon": "INV_Misc_Bone_Skull_01",
+      "kind": "elite"
+    },
+    "Tol'vir Sandguard": {
+      "entry": 700132,
+      "icon": "INV_Helmet_08",
+      "kind": "enemy"
+    },
+    "Tormented Wraith": {
+      "entry": 701043,
+      "icon": "Spell_Shadow_DeathCoil",
+      "kind": "enemy"
+    },
+    "Towering Infernal": {
+      "entry": 3911,
+      "icon": "Spell_Shadow_SummonInfernal",
+      "kind": "elite"
+    },
+    "Trade Prince Gallywix": {
+      "entry": 701153,
+      "icon": "INV_Misc_Coin_02",
+      "kind": "boss"
+    },
+    "Trogg Dweller": {
+      "entry": 701180,
+      "icon": "INV_Misc_Head_Gnoll_01",
+      "kind": "enemy"
+    },
+    "Trogg Tunneler": {
+      "entry": 300,
+      "icon": "INV_Misc_Head_Orc_01",
+      "kind": "enemy"
+    },
+    "Trollgore": {
+      "entry": 4591,
+      "icon": "Achievement_Boss_trollgore",
+      "kind": "boss"
+    },
+    "Twilight Armsman": {
+      "entry": 701185,
+      "icon": "INV_Misc_Head_Dwarf_02",
+      "kind": "enemy"
+    },
+    "Twilight Ascendant": {
+      "entry": 700162,
+      "icon": "Spell_Shadow_ShadowBolt",
+      "kind": "enemy"
+    },
+    "Twilight Assault Commander": {
+      "entry": 701226,
+      "icon": "Spell_Shadow_UnholyFrenzy",
+      "kind": "elite"
+    },
+    "Twilight Assaulter": {
+      "entry": 701220,
+      "icon": "Spell_Shadow_Twilight",
+      "kind": "enemy"
+    },
+    "Twilight Beguiler": {
+      "entry": 701182,
+      "icon": "Spell_Shadow_ShadowBolt",
+      "kind": "enemy"
+    },
+    "Twilight Brute": {
+      "entry": 700164,
+      "icon": "Ability_Warrior_Rampage",
+      "kind": "elite"
+    },
+    "Twilight Cultist": false,
+    "Twilight Dragonspawn": false,
+    "Twilight Drake": {
+      "entry": 701125,
+      "icon": "Ability_Mount_Drake_Twilight",
+      "kind": "enemy"
+    },
+    "Twilight Drakeling": {
+      "entry": 701183,
+      "icon": "INV_Misc_Head_Dragon_Blue",
+      "kind": "enemy"
+    },
+    "Twilight Flamecaller": {
+      "entry": 701122,
+      "icon": "Spell_Fire_FelFlamebolt",
+      "kind": "enemy"
+    },
+    "Twilight Flamecaller Thalazan": {
+      "entry": 701092,
+      "icon": "spell_fire_rune",
+      "kind": "boss"
+    },
+    "Twilight Geolord": {
+      "entry": 1103,
+      "icon": "INV_Misc_Head_Human_01",
+      "kind": "enemy"
+    },
+    "Twilight Harbinger": {
+      "entry": 700163,
+      "icon": "Spell_Shadow_Twilight",
+      "kind": "elite"
+    },
+    "Twilight Horror": {
+      "entry": 700202,
+      "icon": "Spell_Shadow_DemonBreath",
+      "kind": "enemy"
+    },
+    "Twilight Incubator": {
+      "entry": 700203,
+      "icon": "Spell_Shadow_RitualOfSacrifice",
+      "kind": "elite"
+    },
+    "Twilight Inferno Lord": {
+      "entry": 701086,
+      "icon": "spell_shadow_shadowandflame",
+      "kind": "elite"
+    },
+    "Twilight Overlord": {
+      "entry": 701126,
+      "icon": "Achievement_Boss_Drakkisath",
+      "kind": "elite"
+    },
+    "Twilight Sapper": {
+      "entry": 701221,
+      "icon": "INV_Misc_Gear_01",
+      "kind": "enemy"
+    },
+    "Twilight Siege Breaker": {
+      "entry": 701225,
+      "icon": "INV_Misc_Gem_Variety_01",
+      "kind": "enemy"
+    },
+    "Twilight Whelp": {
+      "entry": 701123,
+      "icon": "INV_Misc_Head_Dragon_Bronze",
+      "kind": "enemy"
+    },
+    "Twilight Zealot": false,
+    "Tyrant Devilsaur": {
+      "entry": 1293,
+      "icon": "Ability_Hunter_Pet_Devilsaur",
+      "kind": "boss"
+    },
+    "Uhk'loc": {
+      "entry": 1291,
+      "icon": "Ability_Hunter_Pet_Devilsaur",
+      "kind": "boss"
+    },
+    "Un'Goro Stomper": {
+      "entry": 1205,
+      "icon": "Ability_Hunter_Pet_Devilsaur",
+      "kind": "enemy"
+    },
+    "Un'Goro Thunderer": {
+      "entry": 1210,
+      "icon": "Ability_Hunter_Pet_Devilsaur",
+      "kind": "elite"
+    },
+    "Unbound Earthshaper": {
+      "entry": 700105,
+      "icon": "INV_Elemental_Eternal_Earth",
+      "kind": "elite"
+    },
+    "Unbound Voidwraith": {
+      "entry": 3208,
+      "icon": "Spell_Shadow_SummonVoidWalker",
+      "kind": "enemy"
+    },
+    "Unstable Geode": {
+      "entry": 701004,
+      "icon": "INV_Misc_Gem_Ruby_01",
+      "kind": "enemy"
+    },
+    "Unstable Tide Elemental": {
+      "entry": 701104,
+      "icon": "Spell_Frost_SummonWaterElemental",
+      "kind": "enemy"
+    },
+    "Unstoppable Abomination": {
+      "entry": 1410,
+      "icon": "Spell_Shadow_AbominationExplosion",
+      "kind": "elite"
+    },
+    "Ursoc": {
+      "entry": 4590,
+      "icon": "Ability_Hunter_Pet_Bear",
+      "kind": "boss"
+    },
+    "Val'kyr Battle-Maiden": {
+      "entry": 5106,
+      "icon": "Spell_Holy_GuardianSpirit",
+      "kind": "enemy"
+    },
+    "Val'kyr Herald": {
+      "entry": 5306,
+      "icon": "Spell_Holy_GuardianSpirit",
+      "kind": "enemy"
+    },
+    "Val'kyr Overlord": {
+      "entry": 5112,
+      "icon": "Spell_Holy_GuardianSpirit",
+      "kind": "elite"
+    },
+    "Val'kyr Shadowguard": {
+      "entry": 5312,
+      "icon": "Spell_Holy_GuardianSpirit",
+      "kind": "elite"
+    },
+    "Valiona": {
+      "entry": 701193,
+      "icon": "Achievement_Boss_Nefarion",
+      "kind": "boss"
+    },
+    "Varimathras": {
+      "entry": 192,
+      "icon": "Spell_Shadow_SummonInfernal",
+      "kind": "boss"
+    },
+    "Varos Cloudstrider": {
+      "entry": 4991,
+      "icon": "INV_Misc_Head_Dragon_Blue",
+      "kind": "boss"
+    },
+    "Vengeful Spirit": {
+      "entry": 3212,
+      "icon": "Achievement_Halloween_Ghost_01",
+      "kind": "elite"
+    },
+    "Venomhide Ravasaur": {
+      "entry": 1206,
+      "icon": "Ability_Hunter_Pet_Raptor",
+      "kind": "enemy"
+    },
+    "Vesperon": {
+      "entry": 4493,
+      "icon": "Ability_Mount_Drake_Twilight",
+      "kind": "boss"
+    },
+    "Void Terror": {
+      "entry": 3408,
+      "icon": "Spell_Shadow_SummonVoidWalker",
+      "kind": "enemy"
+    },
+    "Voidhunter Yar": {
+      "entry": 3393,
+      "icon": "Spell_Shadow_SummonVoidWalker",
+      "kind": "boss"
+    },
+    "Voidlord": {
+      "entry": 3412,
+      "icon": "Spell_Shadow_SummonVoidWalker",
+      "kind": "elite"
+    },
+    "Voidwalker": {
+      "entry": 104,
+      "icon": "Spell_Shadow_SummonVoidWalker",
+      "kind": "enemy"
+    },
+    "Volatile Elemental": {
+      "entry": 701124,
+      "icon": "Spell_Nature_EarthElemental_Totem",
+      "kind": "enemy"
+    },
+    "Volatile Lava Spawn": {
+      "entry": 701145,
+      "icon": "Spell_Fire_LavaSpawn",
+      "kind": "enemy"
+    },
+    "Volcanoth": {
+      "entry": 700188,
+      "icon": "Spell_Fire_Volcano",
+      "kind": "boss"
+    },
+    "Vortex Wind Serpent": {
+      "entry": 701062,
+      "icon": "Ability_Hunter_Pet_WindSerpent",
+      "kind": "enemy"
+    },
+    "Vrykul Vargul": {
+      "entry": 5102,
+      "icon": "INV_Misc_Head_Vrykul",
+      "kind": "enemy"
+    },
+    "Warchief Rend Blackhand": {
+      "entry": 1091,
+      "icon": "INV_Misc_Head_Orc_02",
+      "kind": "boss"
+    },
+    "Warden Stillwater": {
+      "entry": 701050,
+      "icon": "Spell_Shadow_Haunting",
+      "kind": "boss"
+    },
+    "Warlord Zon’ozz": {
+      "entry": 701231,
+      "icon": "Spell_Shadow_SummonVoidWalker",
+      "kind": "boss"
+    },
+    "Warmaul Champion": {
+      "entry": 3391,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "boss"
+    },
+    "Warmaul Shaman": {
+      "entry": 3303,
+      "icon": "Achievement_Reputation_Ogre",
+      "kind": "enemy"
+    },
+    "Warp Chaser": {
+      "entry": 3701,
+      "icon": "Ability_Hunter_Pet_WarpStalker",
+      "kind": "enemy"
+    },
+    "Warp Splinter": {
+      "entry": 3791,
+      "icon": "Achievement_Boss_WarpSplinter",
+      "kind": "boss"
+    },
+    "Warp Stalker": {
+      "entry": 3201,
+      "icon": "Ability_Hunter_Pet_WarpStalker",
+      "kind": "enemy"
+    },
+    "Warpwood Treant": {
+      "entry": 810,
+      "icon": "Ability_Druid_ForceofNature",
+      "kind": "elite"
+    },
+    "Warrior-Matic NX-01": {
+      "entry": 701152,
+      "icon": "INV_Gizmo_KhoriumPowerCore",
+      "kind": "boss"
+    },
+    "Wastes Drake": {
+      "entry": 4410,
+      "icon": "Ability_Mount_Drake_Twilight",
+      "kind": "elite"
+    },
+    "Watchkeeper Gargolmar": {
+      "entry": 3090,
+      "icon": "INV_Misc_Head_Orc_01",
+      "kind": "boss"
+    },
+    "Wild Elekk": {
+      "entry": 3304,
+      "icon": "Ability_Mount_RidingElekk",
+      "kind": "enemy"
+    },
+    "Wildspawn Satyr": {
+      "entry": 805,
+      "icon": "Spell_Shadow_SummonFelHunter",
+      "kind": "enemy"
+    },
+    "Winterax Axe Thrower": {
+      "entry": 308,
+      "icon": "INV_Misc_Head_Troll_01",
+      "kind": "enemy"
+    },
+    "Winterax Shadow Hunter": {
+      "entry": 309,
+      "icon": "INV_Misc_Head_Troll_01",
+      "kind": "enemy"
+    },
+    "Winterax Warlord": {
+      "entry": 311,
+      "icon": "INV_Misc_Head_Troll_01",
+      "kind": "elite"
+    },
+    "Witherbark Headhunter": {
+      "entry": 1509,
+      "icon": "INV_Misc_Head_Troll_01",
+      "kind": "elite"
+    },
+    "Witherbark Shadowcaster": {
+      "entry": 1503,
+      "icon": "INV_Misc_Head_Troll_02",
+      "kind": "enemy"
+    },
+    "Witherbark Troll": {
+      "entry": 1500,
+      "icon": "INV_Misc_Head_Troll_01",
+      "kind": "enemy"
+    },
+    "Woodpaw Mongrel": {
+      "entry": 800,
+      "icon": "INV_Misc_Head_Gnoll_01",
+      "kind": "enemy"
+    },
+    "Woodpaw Mystic": {
+      "entry": 803,
+      "icon": "INV_Misc_Head_Gnoll_01",
+      "kind": "enemy"
+    },
+    "Wooly Mammoth": {
+      "entry": 4205,
+      "icon": "Ability_Mount_Mammoth_Brown",
+      "kind": "enemy"
+    },
+    "Wooly Mammoth Bull": {
+      "entry": 4408,
+      "icon": "Ability_Mount_Mammoth_Brown",
+      "kind": "enemy"
+    },
+    "Wooly Rhino": {
+      "entry": 4204,
+      "icon": "Ability_Hunter_Pet_Rhino",
+      "kind": "enemy"
+    },
+    "Worgen Packleader": {
+      "entry": 701026,
+      "icon": "Ability_Hunter_BeastCall",
+      "kind": "elite"
+    },
+    "Wrath Enforcer": {
+      "entry": 4104,
+      "icon": "Spell_Shadow_SummonFelGuard",
+      "kind": "enemy"
+    },
+    "Wrathbone Coldwraith": {
+      "entry": 5204,
+      "icon": "Achievement_Halloween_Ghost_01",
+      "kind": "enemy"
+    },
+    "Wrathbone Laborer": {
+      "entry": 5200,
+      "icon": "Spell_Shadow_AnimateDead",
+      "kind": "enemy"
+    },
+    "Wrathguard Defender": {
+      "entry": 4004,
+      "icon": "Spell_Shadow_SummonFelGuard",
+      "kind": "enemy"
+    },
+    "Wretched Fiend": {
+      "entry": 4102,
+      "icon": "INV_Misc_Head_Elf_02",
+      "kind": "enemy"
+    },
+    "Wretched Skulker": {
+      "entry": 4100,
+      "icon": "INV_Misc_Head_Elf_02",
+      "kind": "enemy"
+    },
+    "Ymirjar Battle-Maiden": {
+      "entry": 5302,
+      "icon": "INV_Misc_Head_Vrykul",
+      "kind": "enemy"
+    },
+    "Ymirjar Deathbringer": {
+      "entry": 5202,
+      "icon": "INV_Misc_Head_Vrykul",
+      "kind": "enemy"
+    },
+    "Ymirjar Necromancer": {
+      "entry": 5107,
+      "icon": "INV_Misc_Head_Vrykul",
+      "kind": "enemy"
+    },
+    "Ymirjar Skycaller": {
+      "entry": 5203,
+      "icon": "INV_Misc_Head_Vrykul",
+      "kind": "enemy"
+    },
+    "Ymirjar Wrathbringer": {
+      "entry": 5201,
+      "icon": "INV_Misc_Head_Vrykul",
+      "kind": "enemy"
+    },
+    "Yogg-Saron": {
+      "entry": 2109,
+      "icon": "Achievement_Boss_YoggSaron_01",
+      "kind": "boss"
+    },
+    "Yor": {
+      "entry": 3491,
+      "icon": "Spell_Shadow_SummonVoidWalker",
+      "kind": "boss"
+    },
+    "Yor’sahj the Unsleeping": {
+      "entry": 701232,
+      "icon": "INV_Misc_Slime_01",
+      "kind": "boss"
+    },
+    "Young Ravasaur": {
+      "entry": 1201,
+      "icon": "Ability_Hunter_Pet_Raptor",
+      "kind": "enemy"
+    },
+    "Young Wolf": {
+      "entry": 601,
+      "icon": "Ability_Hunter_Pet_Wolf",
+      "kind": "enemy"
+    },
+    "Zevrim Thornhoof": {
+      "entry": 890,
+      "icon": "Spell_Shadow_SummonFelHunter",
+      "kind": "boss"
+    },
+    "Zul'jin": {
+      "entry": 2009,
+      "icon": "Achievement_Boss_Zuljin",
+      "kind": "boss"
+    },
+    "Zulian Crocolisk": {
+      "entry": 910,
+      "icon": "Ability_Hunter_Pet_Crocolisk",
+      "kind": "elite"
+    },
+    "Zulian Tiger": {
+      "entry": 905,
+      "icon": "Ability_Hunter_Pet_Cat",
+      "kind": "enemy"
+    },
+    "the Black Knight": {
+      "entry": 2110,
+      "icon": "Spell_DeathKnight_ArmyOfTheDead",
+      "kind": "boss"
+    },
+    "the Black Stalker": {
+      "entry": 3193,
+      "icon": "Achievement_Boss_theBlackStalker",
+      "kind": "boss"
+    },
+    "the Curator": {
+      "entry": 3692,
+      "icon": "Ability_GolemStormBolt",
+      "kind": "boss"
+    },
+    "the Fel Reaver": {
+      "entry": 2005,
+      "icon": "Achievement_Dungeon_UlduarRaid_IronGolem_01",
+      "kind": "boss"
+    },
+    "the Lich King": {
+      "entry": 2112,
+      "icon": "Achievement_Boss_LichKing",
+      "kind": "boss"
+    },
+    "the Prophet Tharon'ja": {
+      "entry": 2104,
+      "icon": "Spell_Shadow_AnimateDead",
+      "kind": "boss"
+    }
+  },
+  "source": "Presentation metadata snapshot from our FieldKit Reborn catalogue; native AZS_GEN remains authoritative for entry icons.",
+  "sourceSha256": "2d324f0f716fa7cf85ef1ee7edcf29cd1a3e46a7c88145ac09105e4672ada2d3"
+}
