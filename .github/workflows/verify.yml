@@ -63,6 +63,8 @@ jobs:
           python-version: '3.12'
       - run: python -m pip install -r requirements-dev.txt
       - run: python tools/verify_reborn.py
+      - name: Verify isolated shared-storage research and read-only audit
+        run: python tools/verify_reborn_storage_research.py
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: AzerothStatsReborn-development-candidate
@@ -70,5 +72,6 @@ jobs:
             build/AzerothStatsReborn-*.zip
             build/AzerothStatsReborn-*.zip.sha256
             build/reborn-validation.json
+            build/reborn-storage-research-validation.json
           retention-days: 7
           if-no-files-found: error

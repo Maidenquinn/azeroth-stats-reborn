@@ -7,7 +7,7 @@ from build_reborn_run_images import build as zone_images, recipe as zone_image_r
 from security_review import tokens, FORBIDDEN
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.1.0-reborn.7-dev"
+VERSION = "0.1.0-reborn.8-dev"
 NAME = "AzerothStatsReborn"
 
 
@@ -62,7 +62,8 @@ def build(output=ROOT / "build"):
                     "## Author:", "## Dependencies: AzerothSurvivorsAPI\n## Author:"
                 )
                 text = text.replace(
-                    "Core.lua", "RebornNames.lua\nReborn.lua\nRebornFixes.lua\nCore.lua"
+                    "Core.lua",
+                    "RebornNames.lua\nReborn.lua\nRebornFixes.lua\nRebornStorageAudit.lua\nCore.lua",
                 )
             if name == "Core.lua":
                 text = text.replace(
@@ -91,6 +92,11 @@ def build(output=ROOT / "build"):
     )
     files["RebornFixes.lua"] = (
         (ROOT / "reborn/RebornFixes.lua").read_text(encoding="utf8").encode("utf8")
+    )
+    files["RebornStorageAudit.lua"] = (
+        (ROOT / "reborn/RebornStorageAudit.lua")
+        .read_text(encoding="utf8")
+        .encode("utf8")
     )
     names = json.loads((ROOT / "data/reborn-names.json").read_text(encoding="utf8"))
     files["RebornNames.lua"] = (

@@ -1,6 +1,14 @@
 # Reborn implementation and acceptance status
 
-Development candidate: `0.1.0-reborn.7-dev`. No stable release is authorized by this document.
+Development candidate: `0.1.0-reborn.8-dev`. No stable release is authorized by this document.
+
+## Read-only shared-storage research port (.8-dev)
+
+The owner accepted `.7-dev`, then explicitly selected audit/tests first after reviewing the original research branch's read-only scope. `.8-dev` adds a namespaced, FR/EN `/azstatsr shared audit` module without changing the three SavedVariables roots or enabling migration/compression. Its scan is bounded and rejects sparse/metatable-backed/malformed structures without initializing missing catalogues. It reports repeated IDs only as candidates, never exact duplicate contents or real byte savings.
+
+Pinned upstream sources at `42d79130d3d50c24a6515114fc035a0473c02d41` remain outside the runtime package with SHA-256 provenance. The isolated Reborn harness runs 204 Lua research checks and 8 Python-model tests, including original migration-journal/corruption/GC/scale contracts and new Reborn native-ID/loadout/segment/reset-mask/gate/ledger cases. Three synthetic backup-only Lua serialization proxies are smaller with shared versions; no native on-disk savings are measured or claimed. Research code is excluded from the ZIP/TOC and no shared storage root is added.
+
+CI runs the research suite and retains its validation JSON. Native read-only acceptance steps are in `docs/reborn/STORAGE-AUDIT-RECIPE.md`. A real migration remains a separate future task requiring actual serializer, interruption, large-save and rollback acceptance; `.7-dev` live backup/restore behavior must be retained.
 
 ## Backup management during Reborn runs (.7-dev)
 

@@ -1,0 +1,21 @@
+{
+  "repository": "https://github.com/Maidenquinn/AzerothStats",
+  "branch": "research/storage-shared-snapshots",
+  "commit": "42d79130d3d50c24a6515114fc035a0473c02d41",
+  "sha256": {
+    "AzerothStats/tests/shared_backup_research.lua": "b8de847283b2957cf6300612407b10ea5a16902f4bcde1a2ea41f4270fe4b00f",
+    "AzerothStats/tests/shared_backup_research_contract.lua": "ef131142bde16a21f0f3ec2cb677e77a0bc2ade96dc624f07c25574c5ef84c91",
+    "AzerothStats/tests/shared_backup_migration_contract.lua": "3704ae68b673b7ac4d42b4f5e1e0e45ceaf2bd15e8c6a31c481ca662ad791e7c",
+    "AzerothStats/tests/shared_backup_scale_contract.lua": "16ee68f3229343c991a55680915f0195dc7af53719fb606713f8d91fdfbb3c5e",
+    "AzerothStats/tests/shared_backup_size_benchmark.lua": "76f5e18fe1e87289e61d6162fe02297f6474ebb3c56c3a5a7c37e05b1684ad2f",
+    "AzerothStats/tests/shared_backup_journal_research.lua": "77e57891268969697bf986d52d74573552e2f3ae023c6bbc7ced521a3d98c5b3",
+    "AzerothStats/tests/shared_backup_journal_contract.lua": "f5f12072d114a13dd5c3f3e9dd8add316066ca857ed6677d3b21c35f8712a8b0",
+    "AzerothStats/tests/shared_storage_audit.lua": "95d98e204b7ddbff091dab62de2235201a1fb9f4d3ab36f8c7eb44b116905bfb",
+    "tools/research_shared_snapshots.py": "7a63cb7675287a1403b14ddab6e35c3ec64efa9c825cff46955b57971bb30672",
+    "tools/test_research_shared_snapshots.py": "b5f40896a43704aba9c87462bc687fa30200f1d74b632ba8cd1566267292ec2d",
+    "docs/storage-shared-snapshots-research.md": "c8c3b8afae4a9c8e1798564a7079870758eea0a149fc25fb42d60726e819db23",
+    "docs/storage-native-migration-acceptance.md": "c5bd9f0857b19e01edd9ff8b6f987e6f2eaf031a5077921e8dfcaf8275887c27",
+    "docs/v2.0.5-alpha1-readonly-recipe.md": "9cffa6b1b24d93afa3eeff20116073decdeab917bf26fd4cad6bb4f56f14e907",
+    "AzerothStats/SharedStorageAudit.lua": "81c9b99361f6daaf82302b078fbec51979ff30ec36b2fd5d3bc848167689daba"
+  }
+}
