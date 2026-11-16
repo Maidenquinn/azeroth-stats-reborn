@@ -2,7 +2,7 @@
 
 import json
 from build_reborn import build, ROOT
-from reborn_storage_io import runtime, dump, ROOTS
+from reborn_storage_io import runtime, dump, load, bind, ROOTS
 
 
 def state(vm):
@@ -99,6 +99,12 @@ def main():
         "A.db.settings.storageProbe='progress-during-review';assert(A.StorageReview().phase=='prepared');assert(not A.StorageReview().persisted)",
     )
     staged_bytes = native_save(vm)
+    delayed = runtime()
+    bind(delayed, load(delayed, staged_bytes))
+    test(
+        delayed,
+        "assert(A.InitDB());assert(A.StorageReview().persisted);assert(A.ApplyStorageChange(A.StorageReview().token))",
+    )
     vm = reload(vm)
     test(
         vm,

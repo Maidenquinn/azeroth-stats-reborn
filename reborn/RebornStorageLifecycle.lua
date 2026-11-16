@@ -2,9 +2,10 @@
 -- SavedVariables root in the same addon file, not an external-file guarantee.
 local A = AzerothStatsReborn
 local M = A.SharedCodec
-local loaded = AzerothStatsRebornStorageSafety
-local loadedPhase = type(loaded) == "table" and loaded.phase
-local loadedProof = type(loaded) == "table" and loaded.proof
+-- Legacy addon hosts load SavedVariables after Lua chunks but before the
+-- lifecycle's first InitDB. Capture the witness there, never at chunk scope.
+local loaded, loadedPhase, loadedProof
+local initializedSession = false
 local verifiedReload = false
 local cachedSnapshot, cachedData, cachedCount
 local function tr(en, fr)
@@ -459,6 +460,12 @@ function A.DeleteStorageSafety(token)
 end
 local init = A.InitDB
 function A.InitDB()
+    if not initializedSession then
+        initializedSession = true
+        loaded = AzerothStatsRebornStorageSafety
+        loadedPhase = type(loaded) == "table" and loaded.phase
+        loadedProof = type(loaded) == "table" and loaded.proof
+    end
     local fresh = AzerothStatsRebornDB == nil
         and AzerothStatsRebornBackup == nil
         and AzerothStatsRebornAutoBackup == nil
