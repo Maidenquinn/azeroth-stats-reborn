@@ -325,6 +325,78 @@ check(not A.EntryPlan({kind='run',key=old.id,label='Favorite'}).allowed,'favorit
 check(AzerothStatsDB==ORIGINAL,'deletion never affects original addon database')
 """
 )
+lua.execute(
+    """
+local A=AzerothStatsReborn
+AZS_RUN.ph='playing';AZS_END={};AZS_ZONE.hub=nil
+local live=A.run
+live.nativeRunId=A.NativeRunId();live.identity=select(1,A.Identity());live.result=nil
+live.closeReason=nil
+local liveId=live.id
+local valuesBefore=A.Sign(live.values)
+A.db.totals.records={damage={value=1000,id=live.id,at=10}}
+live.reportRecords={damage=1000}
+local usage={spells={test={runs=1,gains=1,changes=0,maxRank=2}},jewelry={}}
+A.db.totals.usage=A.Copy(usage);live.usage={spells={test={maxRank=2,gains=1}},jewelry={}}
+A.db.totals.deathEvidence={deaths=1,sources={Kobold={confirmed=0,probable=1}}}
+live.deaths={{confidence='unknown',t=10,at=10,hits={}}}
+check(A.ValidateDatabase(A.db),'live cleanup fixture validates')
+A.OpenDataManagement();A.ui.dataDialog.actions[5].callback()
+check(A.pendingDataPlan.allowed,'records cleanup available while playing')
+A.ui.dataDialog.confirm.callback()
+check(A.ui.dataDialog.stage=='review','live records cleanup still requires review')
+A.ui.dataDialog.confirm.callback()
+check(not next(A.db.totals.records) and live.recordsReset,'records cleanup clears and marks live observation')
+check(A.run==live and A.Sign(live.values)==valuesBefore,'category cleanup preserves live numeric combat data')
+A.Account(live)
+check(not next(A.db.totals.records),'polling does not resurrect erased current-run records')
+for _,kind in ipairs({'trends','nemesis','favorites'}) do
+ local plan=A.PrepareDataAction(kind)
+ check(plan and plan.allowed,'category cleanup available in play: '..kind)
+ check(A.ConfirmDataAction(),'category cleanup succeeds in play: '..kind)
+end
+check(live.trendsReset and not live.usage and live.nemesisReset and not live.deaths,'live reset barriers persist for trends and nemesis')
+check(not next(A.db.favorites.entries),'favorites cleared while live run remains')
+check(A.FindRun(liveId)==live,'category cleanups never delete current run')
+-- Individual records/totals use the same reviewed safety backup path on Reborn.
+A.db.totals.records.damage={value=1000,id=live.id,at=10}
+A.pendingEntryPlan=A.EntryPlan({kind='record',key='damage',label='Damage'})
+check(A.pendingEntryPlan.allowed and A.ConfirmEntryAction(),'individual record reset works during play')
+A.pendingEntryPlan=A.EntryPlan({kind='total',key='damage',label='Damage'})
+check(A.pendingEntryPlan.allowed and A.ConfirmEntryAction(),'individual total reset works during play')
+A.Account(live)
+check(not A.db.totals.sum.damage and not A.db.totals.records.damage,'targeted reset barriers prevent replay')
+local sequence=A.db.sequence
+local settings=A.db.settings;settings.testKeep='kept'
+local nativeBefore=A.Sign(AZS_RUN)
+local reset=A.PrepareDataAction('reset')
+check(reset.allowed,'full reset available during play')
+check(not A.ConfirmDataAction('WRONG') and A.FindRun(liveId),'RESET token still required')
+A.db.badCycle=A.db
+check(not A.ConfirmDataAction('RESET') and A.FindRun(liveId),'failed full-reset snapshot prevents mutation')
+A.db.badCycle=nil
+check(A.ConfirmDataAction('RESET'),'full reset succeeds during play after backup')
+check(A.db.settings==settings and settings.testKeep=='kept' and A.db.sequence==sequence,'full reset preserves preferences and monotonic IDs')
+check(not A.run and table.getn(A.db.runs)==0 and not next(A.db.totals),'full reset clears current run and totals')
+check(settings.rebornResetRunId==A.NativeRunId(),'reset persists current native run exclusion')
+A.Packet('AZSRUN','ph=playing;t=50');A.Packet('AZSEND','result=victory')
+A.Sample();A.Sample()
+check(table.getn(A.db.runs)==0 and not next(A.db.totals),'same native run cannot refill cleared database')
+check(A.Sign(AZS_RUN)==nativeBefore,'cleanup never changes native game counters')
+AzerothStatsRebornDB=assert(loadstring('return '..SNAPSHOT(A.db)))();A.db=nil
+check(A.InitDB(),'post-reset database reloads')
+A.Sample()
+check(table.getn(A.db.runs)==0 and not A.run,'native run exclusion survives reload')
+AZS_ZONE.run='r13572468';AZS_RUN={ph='playing',t=1,kills=2,lvl=1,dealt=10};AZS_END={}
+A.Sample()
+check(A.run and A.run.nativeRunId=='azs:r13572468' and A.db.sequence==sequence+1,'next native run resumes collection once')
+check(not A.db.settings.rebornResetRunId and A.db.totals.runs==1,'new run clears exclusion and starts fresh totals')
+local damage=A.db.totals.sum.damage
+A.Sample()
+check(A.db.totals.runs==1 and A.db.totals.sum.damage==damage,'post-reset new run stays idempotent')
+check(AzerothStatsDB==ORIGINAL and A.ValidateDatabase(A.db),'live cleanup remains isolated and persistable')
+"""
+)
 for path in target.glob("*.lua"):
 
     raw = path.read_text(encoding="utf8")

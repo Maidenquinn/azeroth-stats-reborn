@@ -1,4 +1,30 @@
 local A = AzerothStatsReborn
+-- Reborn launches runs immediately: local cleanup cannot require a ready screen.
+A.liveDataManagement = true
+function A.BeforeFullDataReset()
+    if A.run then
+        A.db.settings.rebornResetRunId = A.NativeRunId() or A.run.nativeRunId
+    end
+    A.RebornDiscardSegment()
+    if A.V2CombatReset then
+        A.V2CombatReset()
+    end
+end
+local sampleBeforeResetGate = A.Sample
+function A.Sample()
+    local settings = A.db and A.db.settings
+    local ignored = settings and settings.rebornResetRunId
+    if ignored then
+        local current = A.NativeRunId()
+        if not current or current == ignored then
+            return
+        end
+        settings.rebornResetRunId = nil
+        A.packetSummary, A.packetReady, A.v2Packets = nil, nil, nil
+        A.meterPackets = {}
+    end
+    return sampleBeforeResetGate()
+end
 -- All history, analysis and comparison views share the theme's illustration path.
 local classicZoneIllustration = A.ZoneIllustration
 function A.ZoneIllustration(texture, zone)
@@ -95,6 +121,7 @@ local function plain(v)
     return A.Text(v, 500)
 end
 local labels = {
+    ["Current run excluded after reset; recording resumes next run"] = "Après la remise à zéro, l’enregistrement reprendra à la prochaine partie",
     ["Deleted run contributions are removed from totals"] = "Les statistiques de cette partie sont retirées des totaux",
     ["Damage / healing"] = "Dégâts / soins",
     ["Segments"] = "Segments",

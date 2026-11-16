@@ -1,7 +1,7 @@
 -- Explicit local data removal. No native writes, file I/O, arithmetic subtraction
 -- from cumulative ledgers, or implicit reset from slash-command arguments.
 local A = AzerothStats
--- Category resets are global and require an explicit between-run boundary.
+-- Original-client category resets require a boundary; Reborn opts into live actions.
 A.dataCategories =
     { nemesis = "Nemesis", records = "Records", trends = "Trends", favorites = "Favorites" }
 local function size(value)
@@ -306,26 +306,37 @@ local function sameSnapshot(left, right, state)
     return equal
 end
 
--- A reviewed history deletion may take its mandatory safety snapshot during
--- another run. Ordinary backup/restore/reset actions keep their boundary guard.
-local function reviewedHistoryBackup(plan)
+-- Only a current reviewed removal may take a safety snapshot during a run.
+-- Reborn also opts category/full/entry cleanup into this path.
+local function reviewedRemovalBackup(plan)
+    if type(plan) == "table" and A.liveDataManagement and plan == A.pendingEntryPlan then
+        local fresh = A.EntryPlan(plan)
+        return fresh and fresh.allowed and fresh.signature == plan.signature
+    end
     if
         type(plan) ~= "table"
         or plan ~= A.pendingDataPlan
-        or (plan.kind ~= "run" and plan.kind ~= "history")
+        or not (
+            plan.kind == "run"
+            or plan.kind == "history"
+            or (A.liveDataManagement and (plan.kind == "reset" or A.dataCategories[plan.kind]))
+        )
     then
         return false
     end
     local fresh = A.DataPlan(plan.kind, plan.class, plan.id)
-    return fresh and fresh.allowed and fresh.count > 0 and fresh.signature == plan.signature
+    return fresh
+        and fresh.allowed
+        and (fresh.count > 0 or A.liveDataManagement)
+        and fresh.signature == plan.signature
 end
 
-function A.CreateDataBackup(automatic, historyPlan)
+function A.CreateDataBackup(automatic, removalPlan)
     if not A.db then
         return false, "No database loaded"
     end
-    local liveHistory = A.run and A.run.status == "active"
-    if liveHistory and not (automatic and reviewedHistoryBackup(historyPlan)) then
+    local liveSnapshot = A.run and A.run.status == "active"
+    if liveSnapshot and not (automatic and reviewedRemovalBackup(removalPlan)) then
         return false, "Backups are available between runs"
     end
     -- Read the existing catalogue without converting legacy roots first:
@@ -354,7 +365,7 @@ function A.CreateDataBackup(automatic, historyPlan)
     if err then
         return false, err
     end
-    if liveHistory then
+    if liveSnapshot then
         -- Freeze only the detached snapshot. Restoring it later must not create
         -- a phantom active run or mutate/resume the live native tracker.
         for _, run in ipairs(data.runs or {}) do
@@ -558,8 +569,11 @@ function A.DataPlan(kind, class, id)
         categoryImpact(kind, plan)
     end
     if kind == "reset" or A.dataCategories[kind] then
-        -- An explicit ready phase is required: absence of the API is not a safe boundary.
-        if A.ReadProgress().ph ~= "ready" or (A.run and A.run.status == "active") then
+        -- The original client requires an explicit ready phase; Reborn opts in above.
+        if
+            not A.liveDataManagement
+            and (A.ReadProgress().ph ~= "ready" or (A.run and A.run.status == "active"))
+        then
             plan.reason = "Reset is available between runs only"
         elseif
             A.dataCategories[kind]
@@ -626,6 +640,9 @@ function A.ConfirmDataAction(token)
     if A.dataCategories[fresh.kind] then
         clearCategory(fresh.kind)
     elseif fresh.kind == "reset" then
+        if A.BeforeFullDataReset then
+            A.BeforeFullDataReset()
+        end
         A.V2Reset()
         -- Keep schema/version, migrations, monotonic IDs and the exact settings object.
         -- Do not rebuild totals from retained runs: their older history may be pruned.

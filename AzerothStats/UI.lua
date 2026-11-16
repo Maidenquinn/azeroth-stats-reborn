@@ -4320,6 +4320,9 @@ function A.BuildUI()
                         or "A backup is created before deletion; restore between runs"
                 )
         )
+        if A.liveDataManagement and data.kind == "reset" and A.run and not data.status then
+            put(data.warning, A.T("Current run excluded after reset; recording resumes next run"))
+        end
         put(data.tokenCaption, A.T("Type RESET to confirm"))
         data.token:SetFont(A.Font(false), 14, "")
         show(data.token, review and data.kind == "reset")

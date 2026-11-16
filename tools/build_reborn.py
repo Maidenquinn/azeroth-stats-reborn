@@ -7,7 +7,7 @@ from build_reborn_run_images import build as zone_images, recipe as zone_image_r
 from security_review import tokens, FORBIDDEN
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.1.0-reborn.5-dev"
+VERSION = "0.1.0-reborn.6-dev"
 NAME = "AzerothStatsReborn"
 
 

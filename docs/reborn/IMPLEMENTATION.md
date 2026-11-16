@@ -1,6 +1,14 @@
 # Reborn implementation and acceptance status
 
-Development candidate: `0.1.0-reborn.5-dev`. No stable release is authorized by this document.
+Development candidate: `0.1.0-reborn.6-dev`. No stable release is authorized by this document.
+
+## Reborn local cleanup without a ready screen (.6-dev)
+
+Reborn automatically starts runs, so its adapter now enables category resets (records, trends, nemesis, favorites), full reset and individual record/total cleanup during play. The original-client boundary rules are preserved. Reborn destructive entry actions also take a reviewed safety snapshot; stale plans and failed snapshots cannot erase data. Confirmation and the full-reset RESET token remain required.
+
+Existing per-run reset masks prevent records/trends/nemesis/totals from being replayed from current cumulative counters. Category cleanup keeps current combat/build observations and the live tracker. A full reset clears the local current observation and persists its native run ID as excluded: polling, terminal packets and reloads cannot repopulate the erased database. Recording resumes at the next native run ID, once. The confirmation explains this behaviour in English/French. Active meter checkpoints and combat observer state are released/reset; native counters are never reset or modified.
+
+Validation uses only synthetic databases: the actual records modal's two-stage action while playing; all categories and targeted resets; safety backup failure; RESET token; unchanged native counters/preferences; persisted exclusion after reload; next-run resumption and idempotence. No player database was deleted or reset by these tests. Manual backup management/restoration retains its separate between-runs guard.
 
 ## Historical deletion during play (.5-dev)
 

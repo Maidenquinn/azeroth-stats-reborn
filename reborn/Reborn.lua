@@ -286,6 +286,12 @@ local segment
 function A.RebornSegmentState()
     return segment and { runId = segment.runId, start = segment.start } or nil
 end
+function A.RebornDiscardSegment()
+    if segment then
+        native(AZS_ReleaseMeterCheckpoint, segment.id)
+        segment = nil
+    end
+end
 function A.RebornStartSegment()
     if not A.run or A.run.status ~= "active" then
         return nil, { code = "NO_LIVE_RUN" }
